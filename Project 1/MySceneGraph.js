@@ -382,7 +382,7 @@ class MySceneGraph {
         else if (numLights > 8)
             this.onXMLMinorError("too many lights defined; WebGL imposes a limit of 8 lights");
 
-        this.log("Parsed lights");
+		this.log("Parsed lights");
         return null;
     }
 
@@ -391,9 +391,50 @@ class MySceneGraph {
      * @param {textures block element} texturesNode
      */
     parseTextures(texturesNode) {
+		
+		var children = texturesNode.children;
 
-        //For each texture in textures block, check ID and file URL
-        this.onXMLMinorError("To do: Parse textures.");
+		this.textures = [];
+		var numTextures = 0;
+
+        // Any number of textures.
+        for (var i = 0; i < children.length; i++){
+			if (children[i].nodeName != "texture") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+			}
+			// TODO: deve faltar aqui algo
+
+	        // Get id of the current texture.
+			var textureId = this.reader.getString(children[i], 'id');
+			if (textureId == null)
+				return "no ID defined for texture";
+			
+			// Checks for repeated IDs.
+			if (this.textures[textureId] != null)
+                return "ID must be unique for each texture (conflict: ID = " + textureId + ")";
+			
+			// TODO: Refactos??
+			var re = /(?:\.([^.]+))?$/;
+
+			var textureFileName = this.reader.getString(children[i], 'file');
+			var extension = re.exec(textureFileName)[1];
+
+			if(extension == null || (extension != "png" && extension != "jpg"))
+				return "unable to parse filename of the texture file for ID" + textureId;
+			
+
+			this.textures[textureId] = textureFileName;
+			
+			numTextures++;
+		}
+
+		// TODO: ver coisa estranha que length continua a 0, mas lights tbm e foi feita pelo sor
+		if (numTextures == 0)
+            return "at least one texture must be defined";
+		
+		//this.onXMLMinorError("To do: Parse textures.");
+		this.log("Parsed Textures");
         return null;
     }
 
@@ -706,7 +747,7 @@ class MySceneGraph {
         color.push(...[r, g, b, a]);
 
         return color;
-    }
+	}
 
     /*
      * Callback to be executed on any read error, showing an error on the console.
