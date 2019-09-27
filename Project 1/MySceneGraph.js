@@ -508,6 +508,7 @@ class MySceneGraph {
 
             var transfMatrix = mat4.create();
 
+			//TODO: verificacao que existe pelo menos uma transformacao??
             for (var j = 0; j < grandChildren.length; j++) {
                 switch (grandChildren[j].nodeName) {
                     case 'translate':
@@ -517,8 +518,13 @@ class MySceneGraph {
 
                         transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
                         break;
-                    case 'scale':                        
-                        this.onXMLMinorError("To do: Parse scale transformations.");
+                    case 'scale':
+						// TODO: refactor coordinates3d??
+						var scaleFactors = this.parseCoordinates3D(grandChildren[j], "scale transformation for ID " + transformationID);                  
+						if (!Array.isArray(scaleFactors))
+							return scaleFactors;
+						
+						transfMatrix = mat4.scale(transfMatrix, transfMatrix, scaleFactors);
                         break;
                     case 'rotate':
                         // angle
