@@ -269,7 +269,7 @@ class MySceneGraph {
             }
 
             // Get ID of current view
-            var viewID = this.reader.getString(children[i]);
+            var viewID = this.reader.getString(children[i], 'id');
 
             if(viewID == null)
                 return "no ID defined for view";
@@ -704,8 +704,22 @@ class MySceneGraph {
 						transfMatrix = mat4.scale(transfMatrix, transfMatrix, scaleFactors);
                         break;
                     case 'rotate':
-                        // angle
-                        this.onXMLMinorError("To do: Parse rotate transformations.");
+                        var axis = this.reader.getString(grandChildren[j], 'axis'); // TODO: confirm this is the right way to get the character
+                        if (axis == null)
+                            return "no axis defined for rotation for the transformation of ID = " + transformationID;
+                        else if (axis.length > 1 || !(axis == 'x' || axis == 'y' || axis == 'z'))
+                            return  "invalid axis of rotation for the transformation of ID = " + transformationID + ". It must be a single character from the following: 'x', 'y' or 'z'."; 
+                        
+                        var angle = this.reader.getFloat(grandChildren[j], 'angle');
+                        if (!(angle != null && !isNaN(angle)))
+                            return "unable to parse angle of the rotation for the transformation of ID = " + transformationID;
+                        
+                        angle *= DEGREE_TO_RAD; // Converts the angle to radians TODO: Necessário??
+                        var rotationVec = [];
+                        
+                        rotationVec.push(...[('x' == axis), ('y' == axis), ('z' == axis)]);
+
+                        transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle, rotationVec); //TODO: Confirm it works
                         break;
                 }
             }
