@@ -237,16 +237,15 @@ class MySceneGraph {
             if(children.length == 0)
                 this.onXMLError("no views defined"); //TODO: Add a default view if none exist
             else{
-                defView = 1 // TODO: See if it works.
-                this.onXMLMinorError("no default view defined. Used first defined view.")
+                defView = this.reader.getString(children[0], 'id'); // TODO: See if it works.
+                this.onXMLMinorError("no default view defined. Default set to first defined view.")
             }
-
         }
-
-            this.onXMLMinorError("no default view defined");
 
         this.views = [];
         var numViews = 0;
+        var grandChildren = [];
+        var nodeNames = [];
 
         // Any number views
         for(var i = 0; i < children.length; i++){
@@ -262,14 +261,101 @@ class MySceneGraph {
             }
             else if (children[i].nodeName == "perspective"){
                 attributeNames.push(...["from", "to"]);
-                //attributeTypes.push(...[]);
+                attributeTypes.push(...["position", "position"]);
             }
             else {
-                attributeNames.push(...["from"]);
+                attributeNames.push(...["from", "to", "up"]);
+                attributeTypes.push(...["position", "position", "position"]);
             }
 
+            // Get ID of current view
+            var viewID = this.reader.getString(children[i]);
+
+            if(viewID == null)
+                return "no ID defined for view";
+
+            // Checks for repeated ID's.
+            if(this.views[viewID] != null)
+                return "ID must be unique for each view (conflict: ID = " + viewID + ")";
+
+            var near = this.reader.getFloat(children[i], 'near');
+            if(!(near != null && !isNaN(near)))
+                return "unable to parse near attribute from view of ID = " + viewID;
+
+            var far = this.reader.getFloat(children[i], 'far');
+            if(!(far != null && !isNaN(far)))
+                return "unable to parse far attribute from view of ID = " + viewID;
+
+            // Add near and far floats plus type name to view info
+            global.push(...[near, far]);
+            global.push(children[i].nodeName);
+
+            grandChildren = children[i].children;
+
+            // Specifications for the current view
+
+            nodeNames = [];
+            for(var j = 0; j < grandChildren.length; j++){
+                nodeNames.push(grandChildren[j].nodeName);
+            }
+
+            for(var j = 0; j < attributeNames.length; j++){
+                var attributeIndex = nodeNames.indexOf(attributeNames[j]);
+
+                if(attributeIndex != -1){
+                    var aux = this.parseCoordinates3D(grandChildren[attributeIndex], "view " + attributeNames[j] + "for ID = " + viewID);
+                    
+                    if (!Array.isArray(aux))
+                        return aux;
+
+                    global.push(aux);
+                }
+                else if(children[i].nodeName == "ortho" && attributeNames[j] == "up"){
+                    // Set up attribute to default (0, 1, 0) since it's optional
+                    var aux = [];
+                    aux.push(...[0, 1, 0]);
+                    global.push(aux);
+                }
+                else
+                    return "view " + attributeNames[j] + " undefined for ID = " + viewID;
+            }
+
+            // Gets the additional attributes for the type of view
+            if(children[i].nodeName == "perspective"){
+                var angle = this.reader.getFloat(children[i], 'angle');
+                if (!(angle != null && !isNaN(angle)))
+                    return "unable to parse angle for the view of ID = " + viewID;
+
+                global.push(angle);
+            }
+            else {
+                var left = this.reader.getFloat(children[i], 'left');
+                if (!(left != null && !isNaN(left)))
+                    return "unable to parse left for the view of ID = " + viewID;
+
+                var right = this.reader.getFloat(children[i], 'right');
+                if (!(right != null && !isNaN(right)))
+                    return "unable to parse right for the view of ID = " + viewID;
+
+                var top = this.reader.getFloat(children[i], 'top');
+                if (!(top != null && !isNaN(top)))
+                    return "unable to parse top for the view of ID = " + viewID;
+
+                var bottom = this.reader.getFloat(children[i], 'bottom');
+                if (!(bottom != null && !isNaN(bottom)))
+                    return "unable to parse bottom for the view of ID = " + viewID;
+
+                global.push(...[left, right, top, bottom]);
+            }
         }
 
+        // Checks if the set default view actually exists. Sets it to the first defined view if it doesn't.
+        if(this.views[defView] == null){
+            this.onXMLMinorError("set default view not defined. Default set to first defined view.");
+            defView = this.reader.getString(children[0], 'id'); // TODO: See if it works.
+        }
+
+        this.log("Parsed views");
         return null;
     }
 
@@ -384,7 +470,7 @@ class MySceneGraph {
                     global.push(aux);
                 }
                 else
-                    return "light " + attributeNames[i] + " undefined for ID = " + lightId;
+                    return "light " + attributeNames[i] + " undefined for ID = " + lightId; // TODO: Aqui não devia ser j em vez de i?? (feito pelos profs)
             }
 
             // Gets the additional attributes of the spot light
@@ -411,7 +497,7 @@ class MySceneGraph {
                 else
                     return "light target undefined for ID = " + lightId;
 
-                global.push(...[angle, exponent, targetLight])
+                global.push(...[angle, exponent, targetLight]);
             }
 
             this.lights[lightId] = global;
