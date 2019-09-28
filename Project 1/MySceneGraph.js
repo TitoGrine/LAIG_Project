@@ -957,7 +957,7 @@ class MySceneGraph {
 			//TODO: refactor com parseTransformation
 			var transfMatrix = mat4.create();
 			//Parse transformations block
-			for(var j = 0; j < grandgrandChildren.length; j++){
+			for(var j = 0; j < grandgrandChildren.length; j++){ 
 				if(grandgrandChildren[j].nodeName == "transformationref"){
 					if(explicitTransf){
 						this.onXMLMinorError("explicit transformation found for component " + componentID + " ignored ref");
@@ -998,8 +998,23 @@ class MySceneGraph {
 						transfMatrix = mat4.scale(transfMatrix, transfMatrix, scaleFactors);
                         break;
                     case 'rotate':
-                        // angle
-                        this.onXMLMinorError("To do: Parse rotate transformations.");
+                        var axis = this.reader.getString(grandChildren[j], 'axis'); // TODO: confirm this is the right way to get the character
+                        if (axis == null)
+                            return "no axis defined for rotation for the transformation of the component of ID = " + componentID;
+                        else if (axis.length > 1 || !(axis == 'x' || axis == 'y' || axis == 'z'))
+                            return  "invalid axis of rotation for the transformation of the component of ID = " + componentID + ". It must be a single character from the following: 'x', 'y' or 'z'."; 
+                        
+                        var angle = this.reader.getFloat(grandChildren[j], 'angle');
+                        if (!(angle != null && !isNaN(angle)))
+                            return "unable to parse angle of the rotation for the transformation of the component of ID = " + componentID;
+                        
+                        angle *= DEGREE_TO_RAD; // Converts the angle to radians TODO: Necessário??
+                        var rotationVec = [];
+                        
+                        rotationVec.push(...[('x' == axis), ('y' == axis), ('z' == axis)]);
+
+                        transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle, rotationVec); //TODO: Confirm it works
+                        
                         break;
 				}
 			}
@@ -1009,14 +1024,39 @@ class MySceneGraph {
 			this.log("Parsed Component - transformation");
 
 			// Materials
-			this.onXMLMinorError("To do: Parse components - Materials.");
+            if(materialsIndex == -1)
+                return "tag <material> missing in the component with ID = " + componentID;
 
-            // Texture
+            var numMaterials = 0;
+            var materials = [];
+
+            grandgrandChildren = grandChildren[materialsIndex].children;
+
+            //Parse materials block
+			for(var j = 0; j < grandgrandChildren.length; j++){
+                var materialID = this.reader.getString(grandgrandChildren[j], 'id');
+
+                if(materialID == null)
+                    return "no ID defined for the material of the component with ID = " + componentID;
+
+                if(this.materials[materialID] == null)
+                    return "there is no material with ID = " + materialID + " used in component with ID = " + componentID;
+                
+                numMaterials++;
+                materials.push(materialID); // TODO: Check if it's the right way to do it
+            }
+
+            if(numMaterials == 0)
+                return "no valid materials defined for the component of ID = " + componentID;
+
+            component.materials = materials;
+
+                // Texture
 			this.onXMLMinorError("To do: Parse components - Texture.");
 			if (textureIndex == -1)
 				return "tag <texture> missing in the component with ID " + componentID;
 			
-			var textureID = this.reader.getString(grandChildren[j], 'id');
+			var textureID = this.reader.getString(grandChildren[textureIndex], 'id'); 
 			if (textureID == null)
 				return "no ID defined for texture for component " + componentID;
 			
@@ -1024,7 +1064,7 @@ class MySceneGraph {
 				return "there is no texture with ID " + textureID;
 			
 			var length_s, length_t;
-			// TODO: tem de ter length_s e length_t??
+			// TODO: tem de ter length_s e length_t?? 
 			if(this.reader.hasAttribute(grandChildren[j], "length_s") && this.reader.hasAttribute(grandChildren[j], "length_t")){
 				length_s = this.reader.getFloat(grandChildren[j], "length_s");
 				if (!(length_s != null && !isNaN(length_s)))
@@ -1037,7 +1077,50 @@ class MySceneGraph {
 			component.texture = { textureID, length_s, length_t };
 
 			// Children
-			this.onXMLMinorError("To do: Parse components - Children.");
+			if(childrenIndex == -1)
+                return "tag <children> missing in the component with ID = " + componentID;
+
+            var numChildren = 0;
+            var children = [];
+
+            grandgrandChildren = grandChildren[childrenIndex].children;
+
+            //Parse children block
+			for(var j = 0; j < grandgrandChildren.length; j++){
+                var childrenID = this.reader.getString(grandgrandChildren[j], 'id');
+
+                if(childrenID == null)
+                    return "no ID defined for the child of the component with ID = " + componentID;
+
+                switch(grandgrandChildren[j].nodeName){
+                    case 'componentref':
+                        var componentRefID = this.reader.getString(grandgrandChildren[j], 'id');
+
+                        if(this.components[componentRefID] == null)
+                            return "there is no component with ID = " + componentRefID + " that can be a child of the component with ID = " + componentID; // TODO: Check if this is true
+
+                        numChildren++; // Valid child
+
+                        component.children.push(this.components[componentRefID]);
+                        break;
+                    case 'primitiveref':
+                        var primitiveRefID = this.reader.getString(grandgrandChildren[j], 'id');
+
+                        if(this.primitives[primitiveRefID] == null)
+                            return "there is no primitive with ID = " + primitiveRefID + ". Used as a child of the component with ID = " + componentID; // TODO: Check if this is true
+
+                        numChildren++; // Valid child
+
+                        children.push(this.primitives[primitiveRefID]);
+
+                        break;
+                }
+                
+                if(numChildren == 0)
+                    return "no valid children defined for the component of ID = " + componentID;
+
+                component.children = children;
+            }
         }
     }
 
