@@ -423,7 +423,7 @@ class MySceneGraph {
         else if (numLights > 8)
             this.onXMLMinorError("too many lights defined; WebGL imposes a limit of 8 lights");
 
-        this.log("Parsed lights");
+		this.log("Parsed lights");
         return null;
     }
 
@@ -432,9 +432,49 @@ class MySceneGraph {
      * @param {textures block element} texturesNode
      */
     parseTextures(texturesNode) {
+		
+		var children = texturesNode.children;
 
-        //For each texture in textures block, check ID and file URL
-        this.onXMLMinorError("To do: Parse textures.");
+		this.textures = [];
+		var numTextures = 0;
+
+        // Any number of textures.
+        for (var i = 0; i < children.length; i++){
+			if (children[i].nodeName != "texture") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+			}
+			// TODO: deve faltar aqui algo
+
+	        // Get id of the current texture.
+			var textureId = this.reader.getString(children[i], 'id');
+			if (textureId == null)
+				return "no ID defined for texture";
+			
+			// Checks for repeated IDs.
+			if (this.textures[textureId] != null)
+                return "ID must be unique for each texture (conflict: ID = " + textureId + ")";
+			
+			// TODO: Refactos??
+			var re = /(?:\.([^.]+))?$/;
+
+			var textureFileName = this.reader.getString(children[i], 'file');
+			var extension = re.exec(textureFileName)[1];
+
+			if(extension == null || (extension != "png" && extension != "jpg"))
+				return "unable to parse filename of the texture file for ID" + textureId;
+			
+
+			this.textures[textureId] = textureFileName;
+			
+			numTextures++;
+		}
+
+		// TODO: ver coisa estranha que length continua a 0, mas lights tbm e foi feita pelo sor
+		if (numTextures == 0)
+            return "at least one texture must be defined";
+		
+		this.log("Parsed Textures");
         return null;
     }
 
@@ -508,6 +548,7 @@ class MySceneGraph {
 
             var transfMatrix = mat4.create();
 
+			//TODO: verificacao que existe pelo menos uma transformacao??
             for (var j = 0; j < grandChildren.length; j++) {
                 switch (grandChildren[j].nodeName) {
                     case 'translate':
@@ -517,8 +558,13 @@ class MySceneGraph {
 
                         transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
                         break;
-                    case 'scale':                        
-                        this.onXMLMinorError("To do: Parse scale transformations.");
+                    case 'scale':
+						// TODO: refactor coordinates3d??
+						var scaleFactors = this.parseCoordinates3D(grandChildren[j], "scale transformation for ID " + transformationID);                  
+						if (!Array.isArray(scaleFactors))
+							return scaleFactors;
+						
+						transfMatrix = mat4.scale(transfMatrix, transfMatrix, scaleFactors);
                         break;
                     case 'rotate':
                         // angle
@@ -599,10 +645,108 @@ class MySceneGraph {
                 var rect = new MyRectangle(this.scene, primitiveId, x1, x2, y1, y2);
 
                 this.primitives[primitiveId] = rect;
-            }
-            else {
-                console.warn("To do: Parse other primitives.");
-            }
+			}
+			else if (primitiveType == 'triangle') {
+				var globalCoord = [];
+				// TODO: verificar parametros entre 1, 2 e 3??
+				var aux = this.parseCoordinates3DIndex(grandChildren[0], 1, "primitive coordinates for ID = " + primitiveId);
+				if (!Array.isArray(aux))
+					return aux;
+				globalCoord.push(aux);
+
+				aux = this.parseCoordinates3DIndex(grandChildren[0], 2, "primitive coordinates for ID = " + primitiveId);
+				if (!Array.isArray(aux))
+					return aux;
+				globalCoord.push(aux);
+
+				var aux = this.parseCoordinates3DIndex(grandChildren[0], 3, "primitive coordinates for ID = " + primitiveId);
+				if (!Array.isArray(aux))
+					return aux;
+				globalCoord.push(aux);
+
+				var triangle = new MyTriangle(this.scene, primitiveId, globalCoord[0], globalCoord[3], globalCoord[6], globalCoord[1], globalCoord[4], globalCoord[7], globalCoord[2], globalCoord[5], globalCoord[8]);
+				
+				this.primitives[primitiveId] = triangle;
+			}
+			else if (primitiveType == 'cylinder') {
+				// TODO: refactor e verificações??
+				 // base
+				 var base = this.reader.getFloat(grandChildren[0], 'base');
+				 if (!(base != null && !isNaN(base)))
+					 return "unable to parse base of the primitive coordinates for ID = " + primitiveId;
+ 
+				 // top
+				 var top = this.reader.getFloat(grandChildren[0], 'top');
+				 if (!(top != null && !isNaN(top)))
+					 return "unable to parse top of the primitive coordinates for ID = " + primitiveId;
+ 
+				 // height
+				 var height = this.reader.getFloat(grandChildren[0], 'height');
+				 if (!(height != null && !isNaN(height)))
+					 return "unable to parse height of the primitive coordinates for ID = " + primitiveId;
+ 
+				 // slices
+				 var slices = this.reader.getFloat(grandChildren[0], 'slices');
+				 if (!(slices != null && !isNaN(slices)))
+					 return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
+ 
+				 // stacks
+				 var stacks = this.reader.getFloat(grandChildren[0], 'stacks');
+				 if (!(stacks != null && !isNaN(stacks)))
+					 return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;
+				
+				 var cylinder = new MyCylinder(this.scene, primitiveId, base, top, height, slices, stacks);
+ 
+				 this.primitives[primitiveId] = cylinder;
+			}
+			else if (primitiveType == 'sphere') {
+				// TODO: refactor e verificações??
+				 // radius
+				 var radius = this.reader.getFloat(grandChildren[0], 'radius');
+				 if (!(radius != null && !isNaN(radius)))
+					 return "unable to parse radius of the primitive coordinates for ID = " + primitiveId;
+ 
+				 // slices
+				 var slices = this.reader.getFloat(grandChildren[0], 'slices');
+				 if (!(slices != null && !isNaN(slices)))
+					 return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
+ 
+				 // stacks
+				 var stacks = this.reader.getFloat(grandChildren[0], 'stacks');
+				 if (!(stacks != null && !isNaN(stacks)))
+					 return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;
+				
+				 var sphere = new MySphere(this.scene, primitiveId, radius, slices, stacks);
+ 
+				 this.primitives[primitiveId] = sphere;
+			}
+			else if (primitiveType == 'torus') {
+				// TODO: refactor e verificações??
+				 // inner
+				 var inner = this.reader.getFloat(grandChildren[0], 'inner');
+				 if (!(inner != null && !isNaN(inner)))
+					 return "unable to parse inner of the primitive coordinates for ID = " + primitiveId;
+ 
+				 // outer
+				 var outer = this.reader.getFloat(grandChildren[0], 'outer');
+				 if (!(outer != null && !isNaN(outer)))
+					 return "unable to parse outer of the primitive coordinates for ID = " + primitiveId;
+ 
+				 // slices
+				 var slices = this.reader.getFloat(grandChildren[0], 'slices');
+				 if (!(slices != null && !isNaN(slices)))
+					 return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
+				
+				 // loops
+				 var loops = this.reader.getFloat(grandChildren[0], 'loops');
+				 if (!(loops != null && !isNaN(loops)))
+					 return "unable to parse loops of the primitive coordinates for ID = " + primitiveId;
+				
+
+				 var torus = new MyTorus(this.scene, primitiveId, inner, outer, slices, loops);
+ 
+				 this.primitives[primitiveId] = torus;
+			}
         }
 
         this.log("Parsed primitives");
@@ -651,14 +795,17 @@ class MySceneGraph {
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
 
-            this.onXMLMinorError("To do: Parse components.");
-            // Transformations
+			// Transformations
+			this.onXMLMinorError("To do: Parse components - Transformations.");
 
-            // Materials
+			// Materials
+			this.onXMLMinorError("To do: Parse components - Materials.");
 
             // Texture
+			this.onXMLMinorError("To do: Parse components - Texture.");
 
-            // Children
+			// Children
+			this.onXMLMinorError("To do: Parse components - Children.");
         }
     }
 
@@ -691,6 +838,36 @@ class MySceneGraph {
         return position;
     }
 
+	/**
+	 * TODO:refactor
+     * Parse the coordinates from a node with ID = id
+     * @param {block element} node
+     * @param {message to be displayed in case of error} messageError
+	 * @param {index of the coordinates} index
+     */
+    parseCoordinates3DIndex(node, index, messageError) {
+        var position = [];
+
+        // x
+        var x = this.reader.getFloat(node, 'x' + index);
+        if (!(x != null && !isNaN(x)))
+            return "unable to parse x" + index + "-coordinate of the " + messageError;
+
+        // y
+        var y = this.reader.getFloat(node, 'y' + index);
+        if (!(y != null && !isNaN(y)))
+            return "unable to parse y" + index + "-coordinate of the " + messageError;
+
+        // z
+        var z = this.reader.getFloat(node, 'z' + index);
+        if (!(z != null && !isNaN(z)))
+            return "unable to parse z" + index + "-coordinate of the " + messageError;
+
+        position.push(...[x, y, z]);
+
+        return position;
+	}
+	
     /**
      * Parse the coordinates from a node with ID = id
      * @param {block element} node
@@ -747,7 +924,7 @@ class MySceneGraph {
         color.push(...[r, g, b, a]);
 
         return color;
-    }
+	}
 
     /*
      * Callback to be executed on any read error, showing an error on the console.
