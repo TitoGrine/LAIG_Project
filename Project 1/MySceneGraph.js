@@ -347,6 +347,9 @@ class MySceneGraph {
 
                 global.push(...[left, right, top, bottom]);
             }
+
+            this.views[viewID] = global;
+            numViews++;
         }
 
         // Checks if the set default view actually exists. Sets it to the first defined view if it doesn't.
@@ -354,6 +357,9 @@ class MySceneGraph {
             this.onXMLMinorError("set default view not defined. Default set to first defined view.");
             defView = this.reader.getString(children[0], 'id'); // TODO: See if it works.
         }
+
+        if(numViews == 0)
+            return "there must be at least one view defined";
 
         this.log("Parsed views");
         return null;
@@ -576,12 +582,22 @@ class MySceneGraph {
         var grandChildren = [];
         var nodeNames = [];
 
+        var numMaterials = 0;
+
         // Any number of materials.
         for (var i = 0; i < children.length; i++) {
+
+            var global = [];
+            var attributeNames = [];
+            var attributeTypes = [];
 
             if (children[i].nodeName != "material") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
+            }
+            else {
+                attributeNames.push(...["emission", "ambient", "diffuse", "specular"]);
+                attributeTypes.push(...["color", "color", "color", "color"]);
             }
 
             // Get id of the current material.
@@ -593,11 +609,46 @@ class MySceneGraph {
             if (this.materials[materialID] != null)
                 return "ID must be unique for each light (conflict: ID = " + materialID + ")";
 
-            //Continue here
-            this.onXMLMinorError("To do: Parse materials.");
+            // Parse material shininess
+            var shininess = this.reader.getFloat(children[i], 'shininess');
+            if(!(shininess != null && !isNaN(shininess)))
+                return "unable to parse shininess for the material of ID = " + materialID;
+
+            // Add shininess to material info
+            global.push(shininess);
+
+            grandChildren = children[i].children;
+
+            //Specifications for the current material
+
+            nodeNames = [];
+            for (var j = 0; j < grandChildren.length; j++) {
+                nodeNames.push(grandChildren[j].nodeName);
+            }
+
+            for (var j = 0; j < attributeNames.length; j++) {
+                var attributeIndex = nodeNames.indexOf(attributeNames[j]);
+
+                if(attributeIndex != -1){
+                    var aux = this.parseColor(grandChildren[attributeIndex], attributeNames[j] + " values for ID" + materialID);
+
+                    if (!Array.isArray(aux))
+                        return aux;
+
+                    global.push(aux);
+                }
+                else
+                    return "material " + attributeNames[j] + " undefined for ID = " + materialID;
+            }
+
+            this.materials[materialID] = global;
+            numMaterials++;
         }
 
-        //this.log("Parsed materials");
+        if(numMaterials == 0)
+            return "there must be at least one material defined";
+
+        this.log("Parsed materials");
         return null;
     }
 
