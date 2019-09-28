@@ -227,7 +227,48 @@ class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseView(viewsNode) {
-        this.onXMLMinorError("To do: Parse views and create cameras.");
+        //this.onXMLMinorError("To do: Parse views and create cameras.");
+
+        var defView = this.reader.getString(viewsNode, 'default');
+
+        var children = viewsNode.children;
+
+        if(defView == null){
+            if(children.length == 0)
+                this.onXMLError("no views defined"); //TODO: Add a default view if none exist
+            else{
+                defView = 1 // TODO: See if it works.
+                this.onXMLMinorError("no default view defined. Used first defined view.")
+            }
+
+        }
+
+            this.onXMLMinorError("no default view defined");
+
+        this.views = [];
+        var numViews = 0;
+
+        // Any number views
+        for(var i = 0; i < children.length; i++){
+
+            // Storing view information
+            var global = [];
+            var attributeNames = [];
+            var attributeTypes = [];
+
+            // Check type of view
+            if(children[i].nodeName != "perspective" && children[i].nodeName != "ortho") {
+                this.onXMLMinorError("unkown tag <" + children[i].nodeName + ">");
+            }
+            else if (children[i].nodeName == "perspective"){
+                attributeNames.push(...["from", "to"]);
+                //attributeTypes.push(...[]);
+            }
+            else {
+                attributeNames.push(...["from"]);
+            }
+
+        }
 
         return null;
     }
