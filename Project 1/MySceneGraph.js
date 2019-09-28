@@ -749,19 +749,100 @@ class MySceneGraph {
                 nodeNames.push(grandChildren[j].nodeName);
             }
 
+			// TODO: verificar que só há estes 4??
             var transformationIndex = nodeNames.indexOf("transformation");
             var materialsIndex = nodeNames.indexOf("materials");
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
+			const component = {};
 
 			// Transformations
-			this.onXMLMinorError("To do: Parse components - Transformations.");
+			if (transformationIndex == -1)
+				return "tag <transformation> missing in the component with ID " + componentID;
+			
+			grandgrandChildren = grandChildren[transformationIndex].children;
+			var explicitTransf = false;
+			//TODO: refactor com parseTransformation
+			var transfMatrix = mat4.create();
+			//Parse transformations block
+			for(var j = 0; j < grandgrandChildren.length; j++){
+				if(grandgrandChildren[j].nodeName == "transformationref"){
+					if(explicitTransf){
+						this.onXMLMinorError("explicit transformation found for component " + componentID + " ignored ref");
+						continue;
+					}
+
+					var transformationID = this.reader.getString(grandgrandChildren[j], 'id');
+					if (transformationID == null)
+						return "no ID defined for transformation for component " + componentID;
+					
+					if(this.transformations[transformationID] == null)
+						return "there is no transformation with ID " + transformationID;
+					
+					if(grandgrandChildren.length > 1)
+						this.onXMLMinorError("there should be only one transformation ref or an explicit one. ignorig the rest for the component " + componentID);
+
+					
+					component.transformation = this.transformations[transformationID];
+					break;
+				}
+
+				// TODO: n está muito bonito aqui
+				explicitTransf = true;
+				switch (grandgrandChildren[j].nodeName) {
+                    case 'translate':
+                        var coordinates = this.parseCoordinates3D(grandgrandChildren[j], "translate transformation for the component ID " + componentID);
+                        if (!Array.isArray(coordinates))
+                            return coordinates;
+
+                        transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
+                        break;
+                    case 'scale':
+						// TODO: refactor coordinates3d??
+						var scaleFactors = this.parseCoordinates3D(grandgrandChildren[j], "scale transformation for the component ID " + componentID);                  
+						if (!Array.isArray(scaleFactors))
+							return scaleFactors;
+						
+						transfMatrix = mat4.scale(transfMatrix, transfMatrix, scaleFactors);
+                        break;
+                    case 'rotate':
+                        // angle
+                        this.onXMLMinorError("To do: Parse rotate transformations.");
+                        break;
+				}
+			}
+			// TODO: verificar também se não houve nada??
+			if(explicitTransf)
+				component.transformation = transfMatrix;
+			this.log("Parsed Component - transformation");
 
 			// Materials
 			this.onXMLMinorError("To do: Parse components - Materials.");
 
             // Texture
 			this.onXMLMinorError("To do: Parse components - Texture.");
+			if (textureIndex == -1)
+				return "tag <texture> missing in the component with ID " + componentID;
+			
+			var textureID = this.reader.getString(grandChildren[j], 'id');
+			if (textureID == null)
+				return "no ID defined for texture for component " + componentID;
+			
+			if(this.textures[textureID] == null)
+				return "there is no texture with ID " + textureID;
+			
+			var length_s, length_t;
+			// TODO: tem de ter length_s e length_t??
+			if(this.reader.hasAttribute(grandChildren[j], "length_s") && this.reader.hasAttribute(grandChildren[j], "length_t")){
+				length_s = this.reader.getFloat(grandChildren[j], "length_s");
+				if (!(length_s != null && !isNaN(length_s)))
+					return "unable to parse length_s of the component " + componentID;
+				
+				length_t = this.reader.getFloat(grandChildren[j], "length_t");
+				if (!(length_t != null && !isNaN(length_t)))
+					return "unable to parse length_t of the component " + componentID;
+			}
+			component.texture = { textureID, length_s, length_t };
 
 			// Children
 			this.onXMLMinorError("To do: Parse components - Children.");
