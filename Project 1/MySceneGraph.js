@@ -754,14 +754,17 @@ class MySceneGraph {
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
 
-            this.onXMLMinorError("To do: Parse components.");
-            // Transformations
+			// Transformations
+			this.onXMLMinorError("To do: Parse components - Transformations.");
 
-            // Materials
+			// Materials
+			this.onXMLMinorError("To do: Parse components - Materials.");
 
             // Texture
+			this.onXMLMinorError("To do: Parse components - Texture.");
 
-            // Children
+			// Children
+			this.onXMLMinorError("To do: Parse components - Children.");
         }
     }
 
