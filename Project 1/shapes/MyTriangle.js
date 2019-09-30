@@ -6,9 +6,11 @@
  * @param y - Scale of rectangle in Y
  */
 class MyTriangle extends CGFobject {
-	constructor(scene, x1, y1, z1, x2, y2, z2, x3, y3, z3) {
+	constructor(scene, id, x1, y1, z1, x2, y2, z2, x3, y3, z3) {
 		super(scene);
 
+		this.id = id;
+		
 		this.p1 = vec3.fromValues(x1, y1, z1);
     	this.p2 = vec3.fromValues(x2, y2, z2);
     	this.p3 = vec3.fromValues(x3, y3, z3);

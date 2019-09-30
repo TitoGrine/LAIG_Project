@@ -9,9 +9,10 @@
  * @param {*} loops 
  */
 class MyTorus extends CGFobject {
-	constructor(scene, inner, outer, slices, loops) {
+	constructor(scene, id, inner, outer, slices, loops) {
 		super(scene);
 
+		this.id = id;
 		this.innerRadius = inner;
 		this.outerRaidus = outer;
 		this.slices = slices;
