@@ -194,7 +194,11 @@ class MySceneGraph {
             if ((error = this.parseComponents(nodes[index])) != null)
                 return error;
         }
-        this.log("all parsed");
+		this.log("all parsed");
+
+		// TODO: prov
+		this.comp =  new Component(this.scene, this.components["demoRoot"]);
+		
     }
 
     /**
@@ -1101,8 +1105,9 @@ class MySceneGraph {
 
                         numChildren++; // Valid child
 
-                        component.children.push(this.components[componentRefID]);
-                        break;
+                        children.push(this.components[componentRefID]);
+						
+						break;
                     case 'primitiveref':
                         var primitiveRefID = this.reader.getString(grandgrandChildren[j], 'id');
 
@@ -1111,7 +1116,7 @@ class MySceneGraph {
 
                         numChildren++; // Valid child
 
-                        children.push(this.primitives[primitiveRefID]);
+                    	children.push(this.primitives[primitiveRefID]);
 
                         break;
                 }
@@ -1119,9 +1124,11 @@ class MySceneGraph {
                 if(numChildren == 0)
                     return "no valid children defined for the component of ID = " + componentID;
 
-                component.children = children;
+				component.children = children;
             }
-        }
+		
+			this.components[componentID] = component;
+		}
     }
 
 
@@ -1271,8 +1278,11 @@ class MySceneGraph {
      */
     displayScene() {
         //To do: Create display loop for transversing the scene graph
-
+		
         //To test the parsing/creation of the primitives, call the display function directly
-        this.primitives['demoRectangle'].display();
+		// let rootComp = new Component(this.scene, this.components['demoRectangle']); 
+		//TODO: provisório
+		this.comp.display();
+		// this.primitives['demoRectangle'].display();
     }
 }
