@@ -32,7 +32,11 @@ class XMLscene extends CGFscene {
         this.gl.enable(this.gl.CULL_FACE);
         this.gl.depthFunc(this.gl.LEQUAL);
 
-        this.axis = new CGFaxis(this);
+		this.axis = new CGFaxis(this);
+		
+		this.texturesStack = [];
+		this.materialsStack = [];
+		
         this.setUpdatePeriod(100);
     }
 

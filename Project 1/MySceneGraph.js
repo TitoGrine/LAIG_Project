@@ -1,5 +1,6 @@
 var DEGREE_TO_RAD = Math.PI / 180;
 
+// TODO: globals
 // Order of the groups in the XML document.
 var SCENE_INDEX = 0;
 var VIEWS_INDEX = 1;
@@ -196,8 +197,6 @@ class MySceneGraph {
         }
 		this.log("all parsed");
 
-		// TODO: prov
-		this.comp =  new Component(this.scene, this.components["demoRoot"]);
 		
     }
 
@@ -1043,11 +1042,16 @@ class MySceneGraph {
                 if(materialID == null)
                     return "no ID defined for the material of the component with ID = " + componentID;
 
-                if(this.materials[materialID] == null)
+                if(this.materials[materialID] == null && materialID != "inherit")
                     return "there is no material with ID = " + materialID + " used in component with ID = " + componentID;
-                
-                numMaterials++;
-                materials.push(materialID); // TODO: Check if it's the right way to do it
+				
+				// TODO: ver isto
+				if(this.materials[materialID] != null)
+					materials.push(this.materials[materialID]);
+				else
+					materials.push(materialID);
+				
+				numMaterials++;
             }
 
             if(numMaterials == 0)
@@ -1064,8 +1068,11 @@ class MySceneGraph {
 			if (textureID == null)
 				return "no ID defined for texture for component " + componentID;
 			
-			if(this.textures[textureID] == null)
+			if(this.textures[textureID] == null && textureID != "inherit" && textureID != "none")
 				return "there is no texture with ID " + textureID;
+			// TODO: ver isto
+			if(this.textures[textureID] != null)
+				textureID = this.textures[textureID];
 			
 			var length_s, length_t;
 			// TODO: tem de ter length_s e length_t?? 
@@ -1125,9 +1132,9 @@ class MySceneGraph {
                     return "no valid children defined for the component of ID = " + componentID;
 
 				component.children = children;
-            }
+			}
 		
-			this.components[componentID] = component;
+			this.components[componentID] = new Component(this.scene, component);
 		}
     }
 
@@ -1281,8 +1288,10 @@ class MySceneGraph {
 		
         //To test the parsing/creation of the primitives, call the display function directly
 		// let rootComp = new Component(this.scene, this.components['demoRectangle']); 
+
 		//TODO: provisório
-		this.comp.display();
+		this.components["demoRoot"].display();
+		// this.comp.display();
 		// this.primitives['demoRectangle'].display();
     }
 }
