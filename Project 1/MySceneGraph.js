@@ -29,6 +29,7 @@ class MySceneGraph {
         this.nodes = [];
 
         this.idRoot = null;                    // The id of the root element.
+		this.defView = null;
 
         this.axisCoords = [];
         this.axisCoords['x'] = [1, 0, 0];
@@ -230,25 +231,24 @@ class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseView(viewsNode) {
-        //this.onXMLMinorError("To do: Parse views and create cameras.");
 
-        var defView = this.reader.getString(viewsNode, 'default');
+		// Get default View  of the scene.
+		this.defView = this.reader.getString(viewsNode, 'default');
 
-        var children = viewsNode.children;
-
-        if(defView == null){
-            if(children.length == 0)
-                this.onXMLError("no views defined"); //TODO: Add a default view if none exist
-            else{
-                defView = this.reader.getString(children[0], 'id'); // TODO: See if it works.
-                this.onXMLMinorError("no default view defined. Default set to first defined view.")
-            }
-        }
+        var children = viewsNode.children;	
 
         this.views = [];
-        var numViews = 0;
         var grandChildren = [];
-        var nodeNames = [];
+		var nodeNames = [];
+		var firstValidViewID = null;
+		
+		// If the default argument was missing and there is no view define
+		// TODO: ver se tirar o sinal de erro e o return do == 0 ou deixar e n fazer default
+        if(this.defView == "" && children.length == 0){
+			this.views["default"] = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+			this.defView = "default";
+			this.onXMLError("no views defined");
+		}
 
         // Any number views
         for(var i = 0; i < children.length; i++){
@@ -260,8 +260,10 @@ class MySceneGraph {
 
             // Check type of view
             if(children[i].nodeName != "perspective" && children[i].nodeName != "ortho") {
-                this.onXMLMinorError("unkown tag <" + children[i].nodeName + ">");
-            }
+				this.onXMLMinorError("unkown tag <" + children[i].nodeName + ">");
+				continue;
+			}
+			// Preparing parsing of components
             else if (children[i].nodeName == "perspective"){
                 attributeNames.push(...["from", "to"]);
                 attributeTypes.push(...["position", "position"]);
@@ -272,22 +274,27 @@ class MySceneGraph {
             }
 
             // Get ID of current view
-            var viewID = this.reader.getString(children[i], 'id');
+			var viewID = this.reader.getString(children[i], 'id');
+			// Ignore view if the ID is missing
+            if(viewID == ""){
+				this.onXMLMinorError("ignored view in the position " + (i + 1) + ": ID is missing");
+				continue;
+			}
 
-            if(viewID == null)
-                return "no ID defined for view";
-
-            // Checks for repeated ID's.
+			// Checks for repeated ID's.
+			// TODO: ver se return ou ignorar
             if(this.views[viewID] != null)
                 return "ID must be unique for each view (conflict: ID = " + viewID + ")";
 
+			// Parse Near Attribute
             var near = this.reader.getFloat(children[i], 'near');
             if(!(near != null && !isNaN(near)))
-                return "unable to parse near attribute from view of ID = " + viewID;
+                return "unable to parse near attribute from view with ID = " + viewID;
 
+			// Parse far Attribute
             var far = this.reader.getFloat(children[i], 'far');
             if(!(far != null && !isNaN(far)))
-                return "unable to parse far attribute from view of ID = " + viewID;
+                return "unable to parse far attribute from view with ID = " + viewID;
 
             // Add near and far floats plus type name to view info
             global.push(...[near, far]);
@@ -297,16 +304,16 @@ class MySceneGraph {
 
             // Specifications for the current view
 
-            nodeNames = [];
+			nodeNames = [];
             for(var j = 0; j < grandChildren.length; j++){
                 nodeNames.push(grandChildren[j].nodeName);
-            }
+			}
 
             for(var j = 0; j < attributeNames.length; j++){
-                var attributeIndex = nodeNames.indexOf(attributeNames[j]);
+				var attributeIndex = nodeNames.indexOf(attributeNames[j]);
 
                 if(attributeIndex != -1){
-                    var aux = this.parseCoordinates3D(grandChildren[attributeIndex], "view " + attributeNames[j] + "for ID = " + viewID);
+                    var aux = this.parseCoordinates3D(grandChildren[attributeIndex], "attribute \"" + attributeNames[j] + "\" of the view with ID = " + viewID);
                     
                     if (!Array.isArray(aux))
                         return aux;
@@ -318,51 +325,66 @@ class MySceneGraph {
                     var aux = [];
                     aux.push(...[0, 1, 0]);
                     global.push(aux);
-                }
+				}
+				// If the attribute is missing or in the wrong order
+				// TODO: ver se ordem é importante
                 else
-                    return "view " + attributeNames[j] + " undefined for ID = " + viewID;
+                    return "attribute \"" + attributeNames[j] + "\" undefined for view with ID = " + viewID;
             }
 
-            // Gets the additional attributes for the type of view
+            // Gets the additional attributes for respective type of view
             if(children[i].nodeName == "perspective"){
                 var angle = this.reader.getFloat(children[i], 'angle');
                 if (!(angle != null && !isNaN(angle)))
-                    return "unable to parse angle for the view of ID = " + viewID;
+                    return "unable to parse angle attribute from view with ID = " + viewID;
 
-                global.push(angle);
-            }
+				global.push(angle);
+				
+				// Initialize camera
+				this.views[viewID] = new CGFcamera(global[5] * DEGREE_TO_RAD, global[0], global[1], vec3.fromValues(...global[3]), vec3.fromValues(...global[4]));
+			}
             else {
                 var left = this.reader.getFloat(children[i], 'left');
                 if (!(left != null && !isNaN(left)))
-                    return "unable to parse left for the view of ID = " + viewID;
+                    return "unable to parse left attribute from view with ID = " + viewID;
 
                 var right = this.reader.getFloat(children[i], 'right');
                 if (!(right != null && !isNaN(right)))
-                    return "unable to parse right for the view of ID = " + viewID;
+                    return "unable to parse right attribute from view with ID = " + viewID;
 
                 var top = this.reader.getFloat(children[i], 'top');
                 if (!(top != null && !isNaN(top)))
-                    return "unable to parse top for the view of ID = " + viewID;
+                    return "unable to parse top attribute from view with ID = " + viewID;
 
                 var bottom = this.reader.getFloat(children[i], 'bottom');
                 if (!(bottom != null && !isNaN(bottom)))
-                    return "unable to parse bottom for the view of ID = " + viewID;
+                    return "unable to parse bottom attribute from view with ID = " + viewID;
 
-                global.push(...[left, right, top, bottom]);
-            }
+				global.push(...[left, right, top, bottom]);
 
-            this.views[viewID] = global;
-            numViews++;
-        }
+				// Initialize camera
+				this.views[viewID] = new CGFcameraOrtho(global[6], global[7], global[8], global[9], global[0], global[1], vec3.fromValues(...global[3]), vec3.fromValues(...global[4]), vec3.fromValues(...global[5]));
+			}
 
-        // Checks if the set default view actually exists. Sets it to the first defined view if it doesn't.
-        if(this.views[defView] == null){
-            this.onXMLMinorError("set default view not defined. Default set to first defined view.");
-            defView = this.reader.getString(children[0], 'id'); // TODO: See if it works.
-        }
+			if(firstValidViewID == null)
+				firstValidViewID = viewID;
+			
+			// If there was no default view defined, it is assumed it is the first valid view
+			if(this.defView == ""){
+				this.defView = firstValidViewID;
+				this.onXMLMinorError("no default view defined. Default set to first valid defined view: " + this.defView);
+			}
+		}
 
-        if(numViews == 0)
-            return "there must be at least one view defined";
+		// TODO: ver acima do for loop para saber se pôr default ou não
+		if(firstValidViewID == null)
+			return "there must be at least one view defined";
+		
+        // Checks if the set default view actually exists. Sets it to the first valid defined view if it doesn't.
+        if(this.views[this.defView] == null){
+            this.onXMLMinorError("default view \"" + this.defView + "\" not defined. Default set to first valid view: " + firstValidViewID);
+            this.defView = firstValidViewID;
+		}
 
         this.log("Parsed views");
         return null;
@@ -942,9 +964,6 @@ class MySceneGraph {
             // Checks for repeated IDs.
             if (this.components[componentID] != null)
                 return "ID must be unique for each component (conflict: ID = " + componentID + ")";
-			
-			if(i == 0)
-				this.idRoot = componentID;
 
 			grandChildren = children[i].children;
 

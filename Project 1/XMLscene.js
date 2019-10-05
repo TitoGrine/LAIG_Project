@@ -37,7 +37,7 @@ class XMLscene extends CGFscene {
 		this.texturesStack = [];
 		this.materialsStack = [];
 		
-        this.setUpdatePeriod(100);
+        this.setUpdatePeriod(50);
     }
 
     /**
@@ -101,8 +101,11 @@ class XMLscene extends CGFscene {
 
         this.setGlobalAmbientLight(this.graph.ambient[0], this.graph.ambient[1], this.graph.ambient[2], this.graph.ambient[3]);
 
-        this.initLights();
+		this.initLights();
 
+		this.camera = this.graph.views[this.graph.defView];
+		this.interface.setActiveCamera(this.camera);
+		
         this.sceneInited = true;
     }
 

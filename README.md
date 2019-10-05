@@ -10,3 +10,7 @@
 #### Testing:
  - [ ] XML parser
  - [ ] Texture mapping in primitives 
+
+#### Questions:
+ - [ ] TODOs
+ - [ ] How to access first element of an array with string keys
