@@ -9,8 +9,8 @@ class Component extends CGFobject {
 		super(scene);
 
 		this.component = component;
-		this.currMaterial = 0;
-		this.currTexture = 0;
+		this.currMaterial = null;
+		this.currTexture = null;
 
 		this.currMatIndex = 0;		
 	}
@@ -42,9 +42,6 @@ class Component extends CGFobject {
 		this.scene.pushMatrix();
 		this.pushMaterial();
 		this.pushTexture();
-
-
-		
 
 		// Aplicar Transformações
 		this.scene.multMatrix(this.component.transformation);

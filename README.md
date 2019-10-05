@@ -5,6 +5,7 @@
  - [ ] Scene traversal with tranformations and display
  - [ ] Ensure inheritance
  - [ ] Apply lighting, materials and textures
+ - [ ] Apply length S and length T to objects
 
 #### Testing:
  - [ ] XML parser

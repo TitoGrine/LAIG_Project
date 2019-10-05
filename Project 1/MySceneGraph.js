@@ -942,8 +942,11 @@ class MySceneGraph {
             // Checks for repeated IDs.
             if (this.components[componentID] != null)
                 return "ID must be unique for each component (conflict: ID = " + componentID + ")";
+			
+			if(i == 0)
+				this.idRoot = componentID;
 
-            grandChildren = children[i].children;
+			grandChildren = children[i].children;
 
             nodeNames = [];
             for (var j = 0; j < grandChildren.length; j++) {
@@ -1286,6 +1289,10 @@ class MySceneGraph {
         console.log("   " + message);
     }
 
+	nextMaterial(){
+		this.components[this.idRoot].nextMaterial();
+	}
+
     /**
      * Displays the scene, processing each node, starting in the root node.
      */
@@ -1296,7 +1303,7 @@ class MySceneGraph {
 		// let rootComp = new Component(this.scene, this.components['demoRectangle']); 
 
 		//TODO: provisório
-		this.components["demoRoot"].display();
+		this.components[this.idRoot].display();
 		// this.comp.display();
 		// this.primitives['demoRectangle'].display();
     }
