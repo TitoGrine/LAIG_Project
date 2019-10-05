@@ -1,9 +1,10 @@
 var DEGREE_TO_RAD = Math.PI / 180;
 
+// TODO: globals
 // Order of the groups in the XML document.
 var SCENE_INDEX = 0;
 var VIEWS_INDEX = 1;
-var AMBIENT_INDEX = 2;
+var GLOBALS_INDEX = 2;
 var LIGHTS_INDEX = 3;
 var TEXTURES_INDEX = 4;
 var MATERIALS_INDEX = 5;
@@ -112,15 +113,15 @@ class MySceneGraph {
                 return error;
         }
 
-        // <ambient>
-        if ((index = nodeNames.indexOf("ambient")) == -1)
-            return "tag <ambient> missing";
+        // <globals>
+        if ((index = nodeNames.indexOf("globals")) == -1)
+            return "tag <globals> missing";
         else {
-            if (index != AMBIENT_INDEX)
-                this.onXMLMinorError("tag <ambient> out of order");
+            if (index != GLOBALS_INDEX)
+                this.onXMLMinorError("tag <globals> out of order");
 
-            //Parse ambient block
-            if ((error = this.parseAmbient(nodes[index])) != null)
+            //Parse globals block
+            if ((error = this.parseGlobals(nodes[index])) != null)
                 return error;
         }
 
@@ -196,8 +197,6 @@ class MySceneGraph {
         }
 		this.log("all parsed");
 
-		// TODO: prov
-		this.comp =  new Component(this.scene, this.components["demoRoot"]);
 		
     }
 
@@ -370,12 +369,12 @@ class MySceneGraph {
     }
 
     /**
-     * Parses the <ambient> node.
-     * @param {ambient block element} ambientsNode
+     * Parses the <globals> node.
+     * @param {globals block element} gloablsNode
      */
-    parseAmbient(ambientsNode) {
+    parseGlobals(gloablsNode) {
 
-        var children = ambientsNode.children;
+        var children = gloablsNode.children;
 
         this.ambient = [];
         this.background = [];
@@ -560,8 +559,8 @@ class MySceneGraph {
 			if(extension == null || (extension != "png" && extension != "jpg"))
 				return "unable to parse filename of the texture file for ID" + textureId;
 			
-
-			this.textures[textureId] = textureFileName;
+			var provTexture = new CGFtexture(this.scene, textureFileName);
+			this.textures[textureId] = provTexture;
 			
 			numTextures++;
 		}
@@ -591,7 +590,7 @@ class MySceneGraph {
         // Any number of materials.
         for (var i = 0; i < children.length; i++) {
 
-            var global = [];
+			var global = [];
             var attributeNames = [];
             var attributeTypes = [];
 
@@ -619,8 +618,7 @@ class MySceneGraph {
                 return "unable to parse shininess for the material of ID = " + materialID;
 
             // Add shininess to material info
-            global.push(shininess);
-
+			global.push(shininess);
             grandChildren = children[i].children;
 
             //Specifications for the current material
@@ -643,9 +641,16 @@ class MySceneGraph {
                 }
                 else
                     return "material " + attributeNames[j] + " undefined for ID = " + materialID;
-            }
+			}
 
-            this.materials[materialID] = global;
+			var provMaterial = new CGFappearance(this.scene);
+			provMaterial.setShininess(global[0]);
+			provMaterial.setEmission(...global[1]);
+			provMaterial.setAmbient(...global[2]);
+			provMaterial.setDiffuse(...global[3]);
+			provMaterial.setSpecular(...global[4]);
+
+            this.materials[materialID] = provMaterial;
             numMaterials++;
         }
 
@@ -937,8 +942,11 @@ class MySceneGraph {
             // Checks for repeated IDs.
             if (this.components[componentID] != null)
                 return "ID must be unique for each component (conflict: ID = " + componentID + ")";
+			
+			if(i == 0)
+				this.idRoot = componentID;
 
-            grandChildren = children[i].children;
+			grandChildren = children[i].children;
 
             nodeNames = [];
             for (var j = 0; j < grandChildren.length; j++) {
@@ -1043,11 +1051,16 @@ class MySceneGraph {
                 if(materialID == null)
                     return "no ID defined for the material of the component with ID = " + componentID;
 
-                if(this.materials[materialID] == null)
+                if(this.materials[materialID] == null && materialID != "inherit")
                     return "there is no material with ID = " + materialID + " used in component with ID = " + componentID;
-                
-                numMaterials++;
-                materials.push(materialID); // TODO: Check if it's the right way to do it
+				
+				// TODO: ver isto
+				if(this.materials[materialID] != null)
+					materials.push(this.materials[materialID]);
+				else
+					materials.push(materialID);
+				
+				numMaterials++;
             }
 
             if(numMaterials == 0)
@@ -1064,8 +1077,11 @@ class MySceneGraph {
 			if (textureID == null)
 				return "no ID defined for texture for component " + componentID;
 			
-			if(this.textures[textureID] == null)
+			if(this.textures[textureID] == null && textureID != "inherit" && textureID != "none")
 				return "there is no texture with ID " + textureID;
+			// TODO: ver isto
+			if(this.textures[textureID] != null)
+				textureID = this.textures[textureID];
 			
 			var length_s, length_t;
 			// TODO: tem de ter length_s e length_t?? 
@@ -1125,9 +1141,9 @@ class MySceneGraph {
                     return "no valid children defined for the component of ID = " + componentID;
 
 				component.children = children;
-            }
+			}
 		
-			this.components[componentID] = component;
+			this.components[componentID] = new Component(this.scene, component);
 		}
     }
 
@@ -1273,16 +1289,14 @@ class MySceneGraph {
         console.log("   " + message);
     }
 
+	nextMaterial(){
+		this.components[this.idRoot].nextMaterial();
+	}
+
     /**
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        //To do: Create display loop for transversing the scene graph
-		
-        //To test the parsing/creation of the primitives, call the display function directly
-		// let rootComp = new Component(this.scene, this.components['demoRectangle']); 
-		//TODO: provisório
-		this.comp.display();
-		// this.primitives['demoRectangle'].display();
+		this.components[this.idRoot].display();
     }
 }

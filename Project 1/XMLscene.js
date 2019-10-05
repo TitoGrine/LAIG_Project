@@ -32,7 +32,11 @@ class XMLscene extends CGFscene {
         this.gl.enable(this.gl.CULL_FACE);
         this.gl.depthFunc(this.gl.LEQUAL);
 
-        this.axis = new CGFaxis(this);
+		this.axis = new CGFaxis(this);
+		
+		this.texturesStack = [];
+		this.materialsStack = [];
+		
         this.setUpdatePeriod(100);
     }
 
@@ -102,6 +106,27 @@ class XMLscene extends CGFscene {
         this.sceneInited = true;
     }
 
+
+	checkKeys()  {
+		var text="Keys pressed: ";
+		var keysPressed=false;
+		
+		// Check for key codes e.g. in ​https://keycode.info/
+		if (this.gui.isKeyPressed("KeyM")){
+			text+=" M ";
+			keysPressed=true;
+			this.graph.nextMaterial();
+		}
+		
+		if (keysPressed)
+			console.log(text);
+
+	}
+
+	update(t){
+		this.checkKeys();
+	}
+	
     /**
      * Displays the scene.
      */
