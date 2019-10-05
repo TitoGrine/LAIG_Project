@@ -349,7 +349,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inheri" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="torus1" />
             </children>
@@ -364,7 +364,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inheri" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="torus1" />
             </children>
@@ -378,7 +378,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inheri" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="sphere1" />
             </children>
@@ -393,7 +393,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inheri" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="sphere1" />
             </children>
@@ -408,7 +408,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inheri" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="sphere1" />
             </children>
@@ -465,7 +465,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inheri" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="cone1" />
             </children>
@@ -478,7 +478,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inheri" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="torus2" />
             </children>
@@ -491,7 +491,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inheri" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="torus3" />
             </children>
