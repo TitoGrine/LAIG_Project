@@ -559,8 +559,8 @@ class MySceneGraph {
 			if(extension == null || (extension != "png" && extension != "jpg"))
 				return "unable to parse filename of the texture file for ID" + textureId;
 			
-
-			this.textures[textureId] = textureFileName;
+			var provTexture = new CGFtexture(this.scene, textureFileName);
+			this.textures[textureId] = provTexture;
 			
 			numTextures++;
 		}
@@ -590,7 +590,7 @@ class MySceneGraph {
         // Any number of materials.
         for (var i = 0; i < children.length; i++) {
 
-            var global = [];
+			var global = [];
             var attributeNames = [];
             var attributeTypes = [];
 
@@ -618,8 +618,7 @@ class MySceneGraph {
                 return "unable to parse shininess for the material of ID = " + materialID;
 
             // Add shininess to material info
-            global.push(shininess);
-
+			global.push(shininess);
             grandChildren = children[i].children;
 
             //Specifications for the current material
@@ -642,9 +641,16 @@ class MySceneGraph {
                 }
                 else
                     return "material " + attributeNames[j] + " undefined for ID = " + materialID;
-            }
+			}
 
-            this.materials[materialID] = global;
+			var provMaterial = new CGFappearance(this.scene);
+			provMaterial.setShininess(global[0]);
+			provMaterial.setEmission(...global[1]);
+			provMaterial.setAmbient(...global[2]);
+			provMaterial.setDiffuse(...global[3]);
+			provMaterial.setSpecular(...global[4]);
+
+            this.materials[materialID] = provMaterial;
             numMaterials++;
         }
 

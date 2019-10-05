@@ -9,6 +9,8 @@ class Component extends CGFobject {
 		super(scene);
 
 		this.component = component;
+		this.currMaterial = 0;
+		this.currTexture = 0;
 
 		this.currMatIndex = 0;		
 	}
@@ -19,7 +21,9 @@ class Component extends CGFobject {
 		else if(this.component.texture.textureID == "none")
 			this.scene.texturesStack.push(null);
 		else
-			this.scene.texturesStack.push(this.component.textureID);
+			this.scene.texturesStack.push(this.component.texture.textureID);
+
+		this.currTexture = this.scene.texturesStack[this.scene.texturesStack.length - 1];
 	}
 
 	pushMaterial(){
@@ -27,6 +31,7 @@ class Component extends CGFobject {
 			this.scene.materialsStack.push(this.scene.materialsStack[this.scene.materialsStack.length - 1]);
 		else
 			this.scene.materialsStack.push(this.component.materials[this.currMatIndex]);
+		this.currMaterial = this.scene.materialsStack[this.scene.materialsStack.length - 1];
 	}
 
 	nextMaterial(){
@@ -43,8 +48,11 @@ class Component extends CGFobject {
 
 		// Aplicar Transformações
 		this.scene.multMatrix(this.component.transformation);
-		// Aplicar Material
+
 		// Aplicar Texture
+		this.currMaterial.setTexture(this.currTexture);
+		// Aplicar Material
+		this.currMaterial.apply();
 		
 		// Loop  childs
 		for(let i = 0; i < this.component.children.length; i++)
