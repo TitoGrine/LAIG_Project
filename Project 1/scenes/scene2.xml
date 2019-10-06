@@ -543,6 +543,5 @@
                 <componentref id="sculpture" />
             </children>
         </component>
-        </component>
     </components>
 </lxs>
