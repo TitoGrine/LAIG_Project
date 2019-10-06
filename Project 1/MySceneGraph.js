@@ -1,6 +1,5 @@
 var DEGREE_TO_RAD = Math.PI / 180;
 
-// TODO: globals
 // Order of the groups in the XML document.
 var SCENE_INDEX = 0;
 var VIEWS_INDEX = 1;
@@ -1130,7 +1129,7 @@ class MySceneGraph {
 				if (!(length_t != null && !isNaN(length_t) && length_t > 0))
 					return "unable to parse length_t of the component " + componentID;
 			}
-			
+
 			component.texture = { textureID, length_s, length_t };
 
 			// Children
@@ -1144,10 +1143,14 @@ class MySceneGraph {
 
             //Parse children block
 			for(var j = 0; j < grandgrandChildren.length; j++){
+	            // Get id of the current child.
                 var childrenID = this.reader.getString(grandgrandChildren[j], 'id');
+				// Ignore child if the ID is missing
+				if(childrenID == ""){
+					this.onXMLMinorError("no ID defined for child in the position " + (j + 1) + " for component " + componentID);
+					continue;
 
-                if(childrenID == null)
-                    return "no ID defined for the child of the component with ID = " + componentID;
+				}
 
                 switch(grandgrandChildren[j].nodeName){
                     case 'componentref':
@@ -1164,6 +1167,7 @@ class MySceneGraph {
                     case 'primitiveref':
                         var primitiveRefID = this.reader.getString(grandgrandChildren[j], 'id');
 
+						// TODO: ver se return ou ignorar
                         if(this.primitives[primitiveRefID] == null)
                             return "there is no primitive with ID = " + primitiveRefID + ". Used as a child of the component with ID = " + componentID; // TODO: Check if this is true
 
@@ -1173,13 +1177,12 @@ class MySceneGraph {
 
                         break;
                 }
-                
-                if(numChildren == 0)
-                    return "no valid children defined for the component of ID = " + componentID;
-
-				component.children = childrenComp;
 			}
+			if(numChildren == 0)
+                return "no valid children defined for the component of ID = " + componentID;
+			component.children = childrenComp;
 
+			// Save Component
 			this.components[componentID] = new Component(this.scene, component);
 		}
     }
