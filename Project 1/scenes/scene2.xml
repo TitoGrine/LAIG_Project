@@ -26,16 +26,16 @@
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
             <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
         </omni>
-<!--
+
         <spot id="stageLight" enabled="1" angle="45" exponent="1.0">
             <location x="15" y="10" z="15" w="1.0"/>
             <target x="15" y="0" z="15" />
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="0.0" g="0.0" b="0.0" a="1.0" />
-            <specular r="1.0" g="1.0" b="0.0" a="1.0" />
-            <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
+            <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
+            <specular r="1.0" g="0.0" b="0.0" a="1.0" />
+            <attenuation constant="0.0" linear="1.0" quadratic="0.0" />
         </spot>
--->
+
     </lights>
 
     <textures>
@@ -151,6 +151,14 @@
         <primitive id="sphere1">
             <sphere radius="1.0" slices="50" stacks="50" />
         </primitive>
+        <primitive id="sphere2">
+            <sphere radius="0.2" slices="50" stacks="50" />
+        </primitive>
+
+
+        <primitive id="cylinder1">
+            <cylinder base="0.2" top="0.2" height="1.75" slices="50" stacks="50" />
+        </primitive>
 
 
         <primitive id="cone1">
@@ -239,6 +247,34 @@
             <texture id="inherit" />
             <children>
                 <primitiveref id="sphere1" />
+            </children>
+        </component>
+
+        <component id="tail_tip">
+            <transformation>
+                <translate x="0.0" y="8.5" z="-4.45" />
+                <rotate axis="x" angle="60" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="sphere2" />
+            </children>
+        </component>
+
+        <component id="tail_end">
+            <transformation>
+                <translate x="0.0" y="8.5" z="-4.45" />
+                <rotate axis="x" angle="60" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="cylinder1" />
             </children>
         </component>
 
@@ -331,6 +367,8 @@
                 <componentref id="torso" />
                 <componentref id="neck" />
                 <componentref id="tail" />
+                <componentref id="tail_end" />
+                <componentref id="tail_tip" />
                 <componentref id="snout" />
                 <componentref id="ears" />
                 <componentref id="nose" />
