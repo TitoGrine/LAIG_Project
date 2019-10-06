@@ -327,7 +327,6 @@ class MySceneGraph {
                     global.push(aux);
 				}
 				// If the attribute is missing or in the wrong order
-				// TODO: ver se ordem é importante
                 else
                     return "attribute \"" + attributeNames[j] + "\" undefined for view with ID = " + viewID;
             }
@@ -407,19 +406,19 @@ class MySceneGraph {
             nodeNames.push(children[i].nodeName);
 
         var ambientIndex = nodeNames.indexOf("ambient");
-        var backgroundIndex = nodeNames.indexOf("background");
+		var backgroundIndex = nodeNames.indexOf("background");
 
+		// Parse the ambient attribute
         var color = this.parseColor(children[ambientIndex], "ambient");
         if (!Array.isArray(color))
             return color;
-        else
-            this.ambient = color;
+        this.ambient = color;
 
+		// Parse the background attribute
         color = this.parseColor(children[backgroundIndex], "background");
         if (!Array.isArray(color))
             return color;
-        else
-            this.background = color;
+        this.background = color;
 
         this.log("Parsed ambient");
 
@@ -453,16 +452,20 @@ class MySceneGraph {
                 continue;
             }
             else {
-                attributeNames.push(...["location", "ambient", "diffuse", "specular"]);
-                attributeTypes.push(...["position", "color", "color", "color"]);
+                attributeNames.push(...["location", "ambient", "diffuse", "specular", "attenuation"]);
+                attributeTypes.push(...["position", "color", "color", "color", "other"]);
             }
 
             // Get id of the current light.
-            var lightId = this.reader.getString(children[i], 'id');
-            if (lightId == null)
-                return "no ID defined for light";
+			var lightId = this.reader.getString(children[i], 'id');
+			// Ignore light if the ID is missing
+            if(lightId == ""){
+				this.onXMLMinorError("ignored light in the position " + (i + 1) + ": ID is missing");
+				continue;
+			}
 
-            // Checks for repeated IDs.
+			// Checks for repeated IDs.
+			// TODO: ver se return ou ignorar
             if (this.lights[lightId] != null)
                 return "ID must be unique for each light (conflict: ID = " + lightId + ")";
 
@@ -490,20 +493,22 @@ class MySceneGraph {
                 var attributeIndex = nodeNames.indexOf(attributeNames[j]);
 
                 if (attributeIndex != -1) {
-                    if (attributeTypes[j] == "position")
-                        var aux = this.parseCoordinates4D(grandChildren[attributeIndex], "light position for ID" + lightId);
-                    else
-                        var aux = this.parseColor(grandChildren[attributeIndex], attributeNames[j] + " illumination for ID" + lightId);
+					var aux = null;
+					if (attributeTypes[j] == "position")
+                        aux = this.parseCoordinates4D(grandChildren[attributeIndex], "attribute \"" + attributeNames[j] + "\" of the light with ID = " + lightId);
+                    else if(attributeTypes[j] == "color")
+						aux = this.parseColor(grandChildren[attributeIndex], "attribute \"" + attributeNames[j] + "\" of the light with ID = " + lightId);
+					else
+						aux = this.parseAttenuation(grandChildren[attributeIndex], "attribute \"" + attributeNames[j] + "\" of the light with ID = " + lightId);
 
                     if (!Array.isArray(aux))
                         return aux;
 
                     global.push(aux);
-                }
-                else
-                    return "light " + attributeNames[i] + " undefined for ID = " + lightId; // TODO: Aqui não devia ser j em vez de i?? (feito pelos profs)
-            }
-
+				}
+				else
+					return "attribute \"" + attributeNames[j] + "\" undefined for light with ID = " + lightId;
+			}
             // Gets the additional attributes of the spot light
             if (children[i].nodeName == "spot") {
                 var angle = this.reader.getFloat(children[i], 'angle');
@@ -519,7 +524,7 @@ class MySceneGraph {
                 // Retrieves the light target.
                 var targetLight = [];
                 if (targetIndex != -1) {
-                    var aux = this.parseCoordinates3D(grandChildren[targetIndex], "target light for ID " + lightId);
+                    var aux = this.parseCoordinates3D(grandChildren[targetIndex],  "attribute \"target\" of the light with ID = " + lightId);
                     if (!Array.isArray(aux))
                         return aux;
 
@@ -561,33 +566,41 @@ class MySceneGraph {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
 			}
-			// TODO: deve faltar aqui algo
 
 	        // Get id of the current texture.
 			var textureId = this.reader.getString(children[i], 'id');
-			if (textureId == null)
-				return "no ID defined for texture";
+			// Ignore view if the ID is missing
+            if(textureId == ""){
+				this.onXMLMinorError("ignored texture in the position " + (i + 1) + ": ID is missing");
+				continue;
+			}
 			
 			// Checks for repeated IDs.
+			// TODO: ver se return ou ignorar
 			if (this.textures[textureId] != null)
                 return "ID must be unique for each texture (conflict: ID = " + textureId + ")";
 			
-			// TODO: Refactos??
+			// Regular Expression to get wathever is after the last dot
 			var re = /(?:\.([^.]+))?$/;
 
+			// Parsing file extension
 			var textureFileName = this.reader.getString(children[i], 'file');
 			var extension = re.exec(textureFileName)[1];
 
-			if(extension == null || (extension != "png" && extension != "jpg"))
-				return "unable to parse filename of the texture file for ID" + textureId;
+			// TODO: ver se return ou ignorar
+			if(extension == null || (extension != "png" && extension != "jpg")){
+				this.onXMLMinorError("bad file extension \"" + extension + "\". ignored texture with ID = " + textureId);
+				continue;
+				// return "unable to parse filename of the texture file with ID = " + textureId;
+			}
 			
+			// Create a new Texture and save it
 			var provTexture = new CGFtexture(this.scene, textureFileName);
 			this.textures[textureId] = provTexture;
 			
 			numTextures++;
 		}
 
-		// TODO: ver coisa estranha que length continua a 0, mas lights tbm e foi feita pelo sor
 		if (numTextures == 0)
             return "at least one texture must be defined";
 		
@@ -619,25 +632,30 @@ class MySceneGraph {
             if (children[i].nodeName != "material") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
-            }
+			}
+			// Preparing parsing of components
             else {
                 attributeNames.push(...["emission", "ambient", "diffuse", "specular"]);
                 attributeTypes.push(...["color", "color", "color", "color"]);
             }
 
             // Get id of the current material.
-            var materialID = this.reader.getString(children[i], 'id');
-            if (materialID == null)
-                return "no ID defined for material";
+			var materialID = this.reader.getString(children[i], 'id');
+			// Ignore material if the ID is missing
+            if(materialID == ""){
+				this.onXMLMinorError("ignored material in the position " + (i + 1) + ": ID is missing");
+				continue;
+			}
 
-            // Checks for repeated IDs.
+			// Checks for repeated IDs.
+			// TODO: ver se return ou ignorar
             if (this.materials[materialID] != null)
                 return "ID must be unique for each light (conflict: ID = " + materialID + ")";
 
             // Parse material shininess
             var shininess = this.reader.getFloat(children[i], 'shininess');
             if(!(shininess != null && !isNaN(shininess)))
-                return "unable to parse shininess for the material of ID = " + materialID;
+                return "unable to parse shininess for the material with ID = " + materialID;
 
             // Add shininess to material info
 			global.push(shininess);
@@ -645,16 +663,16 @@ class MySceneGraph {
 
             //Specifications for the current material
 
-            nodeNames = [];
+			nodeNames = [];
             for (var j = 0; j < grandChildren.length; j++) {
                 nodeNames.push(grandChildren[j].nodeName);
             }
-
+			
             for (var j = 0; j < attributeNames.length; j++) {
                 var attributeIndex = nodeNames.indexOf(attributeNames[j]);
 
                 if(attributeIndex != -1){
-                    var aux = this.parseColor(grandChildren[attributeIndex], attributeNames[j] + " values for ID" + materialID);
+                    var aux = this.parseColor(grandChildren[attributeIndex], "attribute \"" + attributeNames[j] + "\" of the material with ID = " + materialID);
 
                     if (!Array.isArray(aux))
                         return aux;
@@ -664,7 +682,8 @@ class MySceneGraph {
                 else
                     return "material " + attributeNames[j] + " undefined for ID = " + materialID;
 			}
-
+			
+			// Create a new Appearance with the parsed material and saving it
 			var provMaterial = new CGFappearance(this.scene);
 			provMaterial.setShininess(global[0]);
 			provMaterial.setEmission(...global[1]);
@@ -690,7 +709,8 @@ class MySceneGraph {
     parseTransformations(transformationsNode) {
         var children = transformationsNode.children;
 
-        this.transformations = [];
+		this.transformations = [];
+		var numTransf = 0;
 
         var grandChildren = [];
 
@@ -703,22 +723,34 @@ class MySceneGraph {
             }
 
             // Get id of the current transformation.
-            var transformationID = this.reader.getString(children[i], 'id');
-            if (transformationID == null)
-                return "no ID defined for transformation";
+			var transformationID = this.reader.getString(children[i], 'id');
+			// Ignore transformation if the ID is missing
+            if(transformationID == ""){
+				this.onXMLMinorError("ignored transformation in the position " + (i + 1) + ": ID is missing");
+				continue;
+			}
 
-            // Checks for repeated IDs.
+			// Checks for repeated IDs.
+			// TODO: ver se return ou ignorar
             if (this.transformations[transformationID] != null)
                 return "ID must be unique for each transformation (conflict: ID = " + transformationID + ")";
 
-            grandChildren = children[i].children;
+			grandChildren = children[i].children;
+			
+			// Verify if there is at least one transformation in each block
+			if(grandChildren.length == 0){
+				this.onXMLMinorError("transformation " + transformationID + " was ignored because it has none transformation blocks (minimum 1)");
+				continue;
+			}
+			
             // Specifications for the current transformation.
 
             var transfMatrix = mat4.create();
 
-			//TODO: verificacao que existe pelo menos uma transformacao??
             for (var j = 0; j < grandChildren.length; j++) {
                 switch (grandChildren[j].nodeName) {
+					// TODO: ver se return ou ignorar
+					// Parse translate block
                     case 'translate':
                         var coordinates = this.parseCoordinates3D(grandChildren[j], "translate transformation for ID " + transformationID);
                         if (!Array.isArray(coordinates))
@@ -726,17 +758,18 @@ class MySceneGraph {
 
                         transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
                         break;
-                    case 'scale':
-						// TODO: refactor coordinates3d??
+				   // Parse scale block
+					case 'scale':
 						var scaleFactors = this.parseCoordinates3D(grandChildren[j], "scale transformation for ID " + transformationID);                  
 						if (!Array.isArray(scaleFactors))
 							return scaleFactors;
 						
 						transfMatrix = mat4.scale(transfMatrix, transfMatrix, scaleFactors);
                         break;
-                    case 'rotate':
+					// Parse rotate block
+					case 'rotate':
                         var axis = this.reader.getString(grandChildren[j], 'axis'); // TODO: confirm this is the right way to get the character
-                        if (axis == null)
+						if (axis == "")
                             return "no axis defined for rotation for the transformation of ID = " + transformationID;
                         else if (axis.length > 1 || !(axis == 'x' || axis == 'y' || axis == 'z'))
                             return  "invalid axis of rotation for the transformation of ID = " + transformationID + ". It must be a single character from the following: 'x', 'y' or 'z'."; 
@@ -744,19 +777,26 @@ class MySceneGraph {
                         var angle = this.reader.getFloat(grandChildren[j], 'angle');
                         if (!(angle != null && !isNaN(angle)))
                             return "unable to parse angle of the rotation for the transformation of ID = " + transformationID;
-                        
-                        angle *= DEGREE_TO_RAD; // Converts the angle to radians TODO: Necessário??
+						
+						// Converts the angle to radians
+                        angle *= DEGREE_TO_RAD; 
                         var rotationVec = [];
                         
                         rotationVec.push(...[('x' == axis), ('y' == axis), ('z' == axis)]);
 
-                        transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle, rotationVec); //TODO: Confirm it works
+                        transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle, rotationVec);
                         break;
                 }
-            }
-            this.transformations[transformationID] = transfMatrix;
+			}
+			
+			// Save transformation matrix
+			this.transformations[transformationID] = transfMatrix;
+			numTransf++;
         }
 
+		if (numTransf == 0)
+			return "at least one transformation must be defined";
+			
         this.log("Parsed transformations");
         return null;
     }
@@ -948,7 +988,7 @@ class MySceneGraph {
         var grandgrandChildren = [];
         var nodeNames = [];
 
-        // Any number of components.
+		// Any number of components.
         for (var i = 0; i < children.length; i++) {
 
             if (children[i].nodeName != "component") {
@@ -959,8 +999,8 @@ class MySceneGraph {
             // Get id of the current component.
             var componentID = this.reader.getString(children[i], 'id');
             if (componentID == null)
-                return "no ID defined for componentID";
-
+				return "no ID defined for componentID";
+				
             // Checks for repeated IDs.
             if (this.components[componentID] != null)
                 return "ID must be unique for each component (conflict: ID = " + componentID + ")";
@@ -1029,13 +1069,13 @@ class MySceneGraph {
 						transfMatrix = mat4.scale(transfMatrix, transfMatrix, scaleFactors);
                         break;
                     case 'rotate':
-                        var axis = this.reader.getString(grandChildren[j], 'axis'); // TODO: confirm this is the right way to get the character
+                        var axis = this.reader.getString(grandgrandChildren[j], 'axis'); // TODO: confirm this is the right way to get the character
                         if (axis == null)
                             return "no axis defined for rotation for the transformation of the component of ID = " + componentID;
                         else if (axis.length > 1 || !(axis == 'x' || axis == 'y' || axis == 'z'))
                             return  "invalid axis of rotation for the transformation of the component of ID = " + componentID + ". It must be a single character from the following: 'x', 'y' or 'z'."; 
                         
-                        var angle = this.reader.getFloat(grandChildren[j], 'angle');
+                        var angle = this.reader.getFloat(grandgrandChildren[j], 'angle');
                         if (!(angle != null && !isNaN(angle)))
                             return "unable to parse angle of the rotation for the transformation of the component of ID = " + componentID;
                         
@@ -1052,7 +1092,6 @@ class MySceneGraph {
 			// TODO: verificar também se não houve nada??
 			if(explicitTransf)
 				component.transformation = transfMatrix;
-			this.log("Parsed Component - transformation");
 
 			// Materials
             if(materialsIndex == -1)
@@ -1088,7 +1127,6 @@ class MySceneGraph {
             component.materials = materials;
 
                 // Texture
-			this.onXMLMinorError("To do: Parse components - Texture.");
 			if (textureIndex == -1)
 				return "tag <texture> missing in the component with ID " + componentID;
 			
@@ -1120,7 +1158,7 @@ class MySceneGraph {
                 return "tag <children> missing in the component with ID = " + componentID;
 
             var numChildren = 0;
-            var children = [];
+            var childrenComp = [];
 
             grandgrandChildren = grandChildren[childrenIndex].children;
 
@@ -1140,7 +1178,7 @@ class MySceneGraph {
 
                         numChildren++; // Valid child
 
-                        children.push(this.components[componentRefID]);
+                        childrenComp.push(this.components[componentRefID]);
 						
 						break;
                     case 'primitiveref':
@@ -1151,7 +1189,7 @@ class MySceneGraph {
 
                         numChildren++; // Valid child
 
-                    	children.push(this.primitives[primitiveRefID]);
+                    	childrenComp.push(this.primitives[primitiveRefID]);
 
                         break;
                 }
@@ -1159,9 +1197,9 @@ class MySceneGraph {
                 if(numChildren == 0)
                     return "no valid children defined for the component of ID = " + componentID;
 
-				component.children = children;
+				component.children = childrenComp;
 			}
-		
+
 			this.components[componentID] = new Component(this.scene, component);
 		}
     }
@@ -1281,6 +1319,35 @@ class MySceneGraph {
         color.push(...[r, g, b, a]);
 
         return color;
+	}
+
+	/**
+     * Parse the attenuation components from a node
+     * @param {block element} node
+     * @param {message to be displayed in case of error} messageError
+     */
+    parseAttenuation(node, messageError) {
+        var attenuation = [];
+
+        // constant
+        var constant = this.reader.getFloat(node, 'constant');
+        if (!(constant != null && !isNaN(constant) && constant == 0 || constant == 1))
+            return "unable to parse constant component of the " + messageError;
+
+        // linear
+        var linear = this.reader.getFloat(node, 'linear');
+        if (!(linear != null && !isNaN(linear) && linear == 0 || linear == 1))
+            return "unable to parse linear component of the " + messageError;
+
+        // quadratic
+        var quadratic = this.reader.getFloat(node, 'quadratic');
+        if (!(quadratic != null && !isNaN(quadratic) && quadratic == 0 || quadratic == 1))
+            return "unable to parse quadratic component of the " + messageError;
+
+		//TODO: ver se são mutuamente exclusivas
+		attenuation.push(...[constant, linear, quadratic]);
+
+        return attenuation;
 	}
 
     /*
