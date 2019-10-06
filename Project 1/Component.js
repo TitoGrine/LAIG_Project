@@ -36,6 +36,10 @@ class Component extends CGFobject {
 
 	nextMaterial(){
 		this.currMatIndex = (this.currMatIndex + 1) % this.component.materials.length;
+		// Loop  childs
+		for(let i = 0; i < this.component.children.length; i++)
+			if(this.component.children[i] instanceof Component)
+				this.component.children[i].nextMaterial();
 	}
 	
 	display(){
