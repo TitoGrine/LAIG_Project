@@ -38,7 +38,7 @@
     </lights>
 
     <textures>
-        <texture id="defaultTexture" file="scenes/images/defaultwal_texture.jpg"/>
+        <texture id="defaultTexture" file="scenes/images/default_texture.jpg"/>
         <texture id="wallTexture" file="scenes/images/wall_texture.jpg"/>
         <texture id="lightwoodTexture" file="scenes/images/lightwood_texture.jpg"/>
         <texture id="darkwoodTexture" file="scenes/images/darkwood_texture.jpg"/>
