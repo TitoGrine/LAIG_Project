@@ -34,16 +34,16 @@ class MySphere extends CGFobject {
 
                 this.normals.push(Math.cos(theta * i - Math.PI/2.0) * Math.cos(phi * j), Math.cos(theta * i - Math.PI/2.0) * Math.sin(phi * j), Math.sin(theta * i - Math.PI/2.0));
 
-                this.texCoords.push((phi * j) / (2 * Math.PI), 1 - (theta * i) / Math.PI); // Not sure it works 
-			}
+                this.texCoords.push(1 - (phi * j) / (2 * Math.PI), (theta * i) / Math.PI);                
+            }
 		}
 		
 
 		for(var j = 0; j < this.slices; j++){	
 			for(var i = 0; i < 2 * this.stacks; i++){
 
-                this.indices.push((2 * this.stacks + 1) * (j + 1) + i, (2 * this.stacks + 1) * j + (i + 1), (2 * this.stacks + 1) * j + i);
-                this.indices.push((2 * this.stacks + 1) * j + (i + 1), (2 * this.stacks + 1) * (j + 1) + i, (2 * this.stacks + 1) * (j + 1) + (i + 1));
+                this.indices.push((2 * this.stacks + 1) * j + i, (2 * this.stacks + 1) * (j + 1) + i, (2 * this.stacks + 1) * j + (i + 1));
+                this.indices.push((2 * this.stacks + 1) * (j + 1) + i, (2 * this.stacks + 1) * (j + 1) + (i + 1), (2 * this.stacks + 1) * j + (i + 1));
 			}
 		}
 
