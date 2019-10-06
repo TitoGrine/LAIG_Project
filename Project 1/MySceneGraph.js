@@ -745,7 +745,9 @@ class MySceneGraph {
 			
             // Specifications for the current transformation.
 
-            var transfMatrix = mat4.create();
+			var transfMatrix = mat4.create();
+			
+			var validTransf = false;
 
             for (var j = 0; j < grandChildren.length; j++) {
                 switch (grandChildren[j].nodeName) {
@@ -756,7 +758,8 @@ class MySceneGraph {
                         if (!Array.isArray(coordinates))
                             return coordinates;
 
-                        transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
+						transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
+						validTransf = true;
                         break;
 				   // Parse scale block
 					case 'scale':
@@ -765,6 +768,7 @@ class MySceneGraph {
 							return scaleFactors;
 						
 						transfMatrix = mat4.scale(transfMatrix, transfMatrix, scaleFactors);
+						validTransf = true;
                         break;
 					// Parse rotate block
 					case 'rotate':
@@ -784,11 +788,22 @@ class MySceneGraph {
                         
                         rotationVec.push(...[('x' == axis), ('y' == axis), ('z' == axis)]);
 
-                        transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle, rotationVec);
-                        break;
+						transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle, rotationVec);
+						validTransf = true;
+						break;
+					// Other node Name
+					default:
+						this.onXMLMinorError("unable to parse \"" + grandChildren[j].nodeName + "\" for the transformation of ID = " + transformationID);
+						break;
                 }
 			}
 			
+			// If there is none valid transformation inside
+			if(!validTransf){
+				this.onXMLMinorError("Transformation " + transformationID + " ignored. It doesn't contain valid transformations");
+				continue;
+			}
+
 			// Save transformation matrix
 			this.transformations[transformationID] = transfMatrix;
 			numTransf++;
@@ -903,12 +918,12 @@ class MySceneGraph {
 				// TODO: refactor??
 				 // base
 				 var base = this.reader.getFloat(grandChildren[0], 'base');
-				 if (!(base != null && !isNaN(base) && base > 0))
+				 if (!(base != null && !isNaN(base) && base >= 0))
 					 return "unable to parse base of the primitive coordinates for ID = " + primitiveId;
  
 				 // top
 				 var top = this.reader.getFloat(grandChildren[0], 'top');
-				 if (!(top != null && !isNaN(top) && top > 0))
+				 if (!(top != null && !isNaN(top) && top >= 0))
 					 return "unable to parse top of the primitive coordinates for ID = " + primitiveId;
  
 				 // height
@@ -955,28 +970,28 @@ class MySceneGraph {
 				this.primitives[primitiveId] = sphere;
 			}
 			else if (primitiveType == 'torus') {
-				// TODO: refactor e verificações??
+				// TODO: refactor??
 				// inner
 				var inner = this.reader.getFloat(grandChildren[0], 'inner');
-				if (!(inner != null && !isNaN(inner)))
+				if (!(inner != null && !isNaN(inner) && inner > 0))
 					return "unable to parse inner of the primitive coordinates for ID = " + primitiveId;
  
 				// outer
 				var outer = this.reader.getFloat(grandChildren[0], 'outer');
-				if (!(outer != null && !isNaN(outer)))
+				if (!(outer != null && !isNaN(outer) && outer >= inner))
 					return "unable to parse outer of the primitive coordinates for ID = " + primitiveId;
  
 				// slices
 				var slices = this.reader.getFloat(grandChildren[0], 'slices');
-				if (!(slices != null && Number.isInteger(slices)))
+				if (!(slices != null && Number.isInteger(slices) && slices > 2))
 					return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
 				
 				// loops
 				var loops = this.reader.getFloat(grandChildren[0], 'loops');
-				if (!(loops != null && Number.isInteger(loops)))
+				if (!(loops != null && Number.isInteger(loops) && loops > 1))
 					return "unable to parse loops of the primitive coordinates for ID = " + primitiveId;
 				
-
+				// Initialize and save Torus
 				var torus = new MyTorus(this.scene, primitiveId, inner, outer, slices, loops);
  
 				this.primitives[primitiveId] = torus;
@@ -1009,11 +1024,15 @@ class MySceneGraph {
             }
 
             // Get id of the current component.
-            var componentID = this.reader.getString(children[i], 'id');
-            if (componentID == null)
-				return "no ID defined for componentID";
+			var componentID = this.reader.getString(children[i], 'id');
+			// Ignore component if the ID is missing
+            if(componentID == ""){
+				this.onXMLMinorError("ignored component in the position " + (i + 1) + ": ID is missing");
+				continue;
+			}
 				
-            // Checks for repeated IDs.
+			// Checks for repeated IDs.
+			// TODO: ver se return ou ignorar
             if (this.components[componentID] != null)
                 return "ID must be unique for each component (conflict: ID = " + componentID + ")";
 
@@ -1036,74 +1055,11 @@ class MySceneGraph {
 				return "tag <transformation> missing in the component with ID " + componentID;
 			
 			grandgrandChildren = grandChildren[transformationIndex].children;
-			var explicitTransf = false;
-			//TODO: refactor com parseTransformation
-			var transfMatrix = mat4.create();
-			//Parse transformations block
-			for(var j = 0; j < grandgrandChildren.length; j++){ 
-				if(grandgrandChildren[j].nodeName == "transformationref"){
-					if(explicitTransf){
-						this.onXMLMinorError("explicit transformation found for component " + componentID + " ignored ref");
-						continue;
-					}
-
-					var transformationID = this.reader.getString(grandgrandChildren[j], 'id');
-					if (transformationID == null)
-						return "no ID defined for transformation for component " + componentID;
-					
-					if(this.transformations[transformationID] == null)
-						return "there is no transformation with ID " + transformationID;
-					
-					if(grandgrandChildren.length > 1)
-						this.onXMLMinorError("there should be only one transformation ref or an explicit one. ignorig the rest for the component " + componentID);
-
-					
-					component.transformation = this.transformations[transformationID];
-					break;
-				}
-
-				// TODO: n está muito bonito aqui
-				explicitTransf = true;
-				switch (grandgrandChildren[j].nodeName) {
-                    case 'translate':
-                        var coordinates = this.parseCoordinates3D(grandgrandChildren[j], "translate transformation for the component ID " + componentID);
-                        if (!Array.isArray(coordinates))
-                            return coordinates;
-
-                        transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
-                        break;
-                    case 'scale':
-						// TODO: refactor coordinates3d??
-						var scaleFactors = this.parseCoordinates3D(grandgrandChildren[j], "scale transformation for the component ID " + componentID);                  
-						if (!Array.isArray(scaleFactors))
-							return scaleFactors;
-						
-						transfMatrix = mat4.scale(transfMatrix, transfMatrix, scaleFactors);
-                        break;
-                    case 'rotate':
-                        var axis = this.reader.getString(grandgrandChildren[j], 'axis'); // TODO: confirm this is the right way to get the character
-                        if (axis == null)
-                            return "no axis defined for rotation for the transformation of the component of ID = " + componentID;
-                        else if (axis.length > 1 || !(axis == 'x' || axis == 'y' || axis == 'z'))
-                            return  "invalid axis of rotation for the transformation of the component of ID = " + componentID + ". It must be a single character from the following: 'x', 'y' or 'z'."; 
-                        
-                        var angle = this.reader.getFloat(grandgrandChildren[j], 'angle');
-                        if (!(angle != null && !isNaN(angle)))
-                            return "unable to parse angle of the rotation for the transformation of the component of ID = " + componentID;
-                        
-                        angle *= DEGREE_TO_RAD; // Converts the angle to radians TODO: Necessário??
-                        var rotationVec = [];
-                        
-                        rotationVec.push(...[('x' == axis), ('y' == axis), ('z' == axis)]);
-
-                        transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle, rotationVec); //TODO: Confirm it works
-                        
-                        break;
-				}
-			}
-			// TODO: verificar também se não houve nada??
-			if(explicitTransf)
-				component.transformation = transfMatrix;
+			// TODO: ver se vale a pena unificar aqui a parseTransformation (switch block)
+			// Parsing Transformation block
+			var aux = this.parseComponentTransformation(grandgrandChildren, component, componentID);
+			if(aux != null)
+				return aux;
 
 			// Materials
             if(materialsIndex == -1)
@@ -1114,55 +1070,67 @@ class MySceneGraph {
 
             grandgrandChildren = grandChildren[materialsIndex].children;
 
-            //Parse materials block
+            //Parse Materials block
 			for(var j = 0; j < grandgrandChildren.length; j++){
+				// Get id of the current material.
                 var materialID = this.reader.getString(grandgrandChildren[j], 'id');
-
-                if(materialID == null)
-                    return "no ID defined for the material of the component with ID = " + componentID;
-
-                if(this.materials[materialID] == null && materialID != "inherit")
-                    return "there is no material with ID = " + materialID + " used in component with ID = " + componentID;
+				// Ignore material if the ID is missing
+				if(materialID == ""){
+					this.onXMLMinorError("ignored material in the position " + (i + 1) + ": ID is missing of the component with ID = " + componentID);
+					continue;
+				}
 				
-				// TODO: ver isto
+				// Ignore material if the ID is not valid
+				if(this.materials[materialID] == null && materialID != "inherit"){
+					this.onXMLMinorError("there is no material with ID = " + materialID + " used in component with ID = " + componentID);
+					continue;
+				}
+				
+				// Save material in the mateirals array
 				if(this.materials[materialID] != null)
 					materials.push(this.materials[materialID]);
+				// If it is inherit save ID
 				else
 					materials.push(materialID);
 				
 				numMaterials++;
             }
 
+			// Check if there was at least one valid Material
             if(numMaterials == 0)
                 return "no valid materials defined for the component of ID = " + componentID;
 
-            component.materials = materials;
-
-                // Texture
+			component.materials = materials;
+			
+            // Texture
 			if (textureIndex == -1)
 				return "tag <texture> missing in the component with ID " + componentID;
 			
+			// Get id of the current texture
 			var textureID = this.reader.getString(grandChildren[textureIndex], 'id'); 
-			if (textureID == null)
+			if (textureID == "")
 				return "no ID defined for texture for component " + componentID;
 			
 			if(this.textures[textureID] == null && textureID != "inherit" && textureID != "none")
 				return "there is no texture with ID " + textureID;
-			// TODO: ver isto
+
+			// If ID is not inherit nor none, save texture initialized before
 			if(this.textures[textureID] != null)
 				textureID = this.textures[textureID];
 			
+			// Parse texture parameters
 			var length_s, length_t;
 			// TODO: tem de ter length_s e length_t?? 
 			if(this.reader.hasAttribute(grandChildren[j], "length_s") && this.reader.hasAttribute(grandChildren[j], "length_t")){
 				length_s = this.reader.getFloat(grandChildren[j], "length_s");
-				if (!(length_s != null && !isNaN(length_s)))
+				if (!(length_s != null && !isNaN(length_s) && length_s > 0))
 					return "unable to parse length_s of the component " + componentID;
 				
 				length_t = this.reader.getFloat(grandChildren[j], "length_t");
-				if (!(length_t != null && !isNaN(length_t)))
+				if (!(length_t != null && !isNaN(length_t) && length_t > 0))
 					return "unable to parse length_t of the component " + componentID;
 			}
+			
 			component.texture = { textureID, length_s, length_t };
 
 			// Children
@@ -1227,7 +1195,6 @@ class MySceneGraph {
     }
 
 	/**
-	 * TODO:refactor
      * Parse the coordinates from a node with ID = id
      * @param {block element} node
      * @param {message to be displayed in case of error} messageError
@@ -1341,6 +1308,113 @@ class MySceneGraph {
 		attenuation.push(...[constant, linear, quadratic]);
 
         return attenuation;
+	}
+
+	/**
+     * Parse the tranformation component block from a node
+     * @param {block element} node
+	 * @param {component to be initialized} component
+     * @param {message to be displayed in case of error} messageError
+     */
+    parseComponentTransformation(node, component, messageError) {
+		var transfMatrix = mat4.create();
+
+		var explicitTransf = false;
+
+		// Verify if there is at least one transformation ref or explicit
+		if(node.length == 0)
+			return "there is no transformation defined for the component " + messageError;
+
+		var validTransf = false;
+        for(var j = 0; j < node.length; j++){ 
+			if(node[j].nodeName == "transformationref"){
+				// If explicit transformation already begun to be defined, ignore all transformation refs
+				if(explicitTransf){
+					this.onXMLMinorError("explicit transformation found for component " + messageError + " ignored ref");
+					continue;
+				}
+
+	            // Get ID of current transformation reference
+				var transformationID = this.reader.getString(node[j], 'id');
+				// Ignore transformation if the ID is missing
+				if(transformationID == ""){
+					this.onXMLMinorError("no ID defined for transformation for component " + messageError);
+					continue;
+				}
+							
+				// TODO: ver se return ou ignorar
+				// Check if the transformation exists
+				if(this.transformations[transformationID] == null)
+					return "there is no transformation with ID " + transformationID;
+				
+				// Ignore the rest of the transformations
+				if(node.length > 1)
+					this.onXMLMinorError("there should be only one transformation ref or an explicit one. ignorig the rest for the component " + messageError);
+
+				// Save Transformation in the component
+				component.transformation = this.transformations[transformationID];
+				validTransf = true;
+				break;
+			}
+
+			explicitTransf = true;
+			switch (node[j].nodeName) {
+				// Parse translate block
+				case 'translate':
+					var coordinates = this.parseCoordinates3D(node[j], "translate transformation for the component ID " + messageError);
+					if (!Array.isArray(coordinates))
+						return coordinates;
+
+					transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
+					validTransf = true;
+					break;
+			   // Parse scale block
+				case 'scale':
+					// TODO: refactor coordinates3d??
+					var scaleFactors = this.parseCoordinates3D(node[j], "scale transformation for the component ID " + messageError);                  
+					if (!Array.isArray(scaleFactors))
+						return scaleFactors;
+					
+					transfMatrix = mat4.scale(transfMatrix, transfMatrix, scaleFactors);
+					validTransf = true;
+					break;
+				// Parse rotate block
+				case 'rotate':
+					var axis = this.reader.getString(node[j], 'axis'); // TODO: confirm this is the right way to get the character
+					if (axis == "")
+						return "no axis defined for rotation for the transformation of the component of ID = " + messageError;
+					else if (axis.length > 1 || !(axis == 'x' || axis == 'y' || axis == 'z'))
+						return  "invalid axis of rotation for the transformation of the component of ID = " + messageError + ". It must be a single character from the following: 'x', 'y' or 'z'."; 
+					
+					var angle = this.reader.getFloat(node[j], 'angle');
+					if (!(angle != null && !isNaN(angle)))
+						return "unable to parse angle of the rotation for the transformation of the component of ID = " + messageError;
+					
+					// Converts the angle to radians
+					angle *= DEGREE_TO_RAD; 
+					var rotationVec = [];
+					
+					rotationVec.push(...[('x' == axis), ('y' == axis), ('z' == axis)]);
+
+					transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle, rotationVec);
+					validTransf = true;
+					break;
+				// Other node Name
+				default:
+					explicitTransf = false;
+					this.onXMLMinorError("unable to parse \"" + node[j].nodeName + "\" for the transformation of the component of ID = " + messageError);
+					break;
+			}
+		}
+
+		// If there is none valid transformation inside
+		if(!validTransf)
+			return "Component " + messageError + " doesn't contain valid transformations";
+
+		// Save Eplicit Transformation
+		if(explicitTransf)
+			component.transformation = transfMatrix;
+		return null;
 	}
 
     /*
