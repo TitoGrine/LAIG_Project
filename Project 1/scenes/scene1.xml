@@ -86,6 +86,10 @@
     </materials>
 
     <transformations>
+        <transformation id="neutral">
+            <translate x="0.0" y="0.0" z="0.0" />
+        </transformation>
+
         <transformation id="wall1_transf">
             <rotate axis="y" angle="90" />
             <translate x="-20.0" y="0.0" z="0.0" />
@@ -156,6 +160,7 @@
     <components>
         <component id="root">
             <transformation>
+                <transformationref id="neutral" />
             </transformation>
             <materials>
                 <material id="defaultMaterial" />
@@ -170,6 +175,7 @@
 
         <component id="room">
             <transformation>
+                <transformationref id="neutral" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -197,6 +203,7 @@
 
         <component id="wall2">
             <transformation>
+                <transformationref id="neutral" />
             </transformation>
             <materials>
                 <material id="wallMaterial" />
