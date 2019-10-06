@@ -1032,8 +1032,8 @@ class MySceneGraph {
 				
 			// Checks for repeated IDs.
 			// TODO: ver se return ou ignorar
-            if (this.components[componentID] != null)
-                return "ID must be unique for each component (conflict: ID = " + componentID + ")";
+            if (this.components[componentID] != null && this.components[componentID].isLoaded())
+				return "ID must be unique for each component (conflict: ID = " + componentID + ")";
 
 			grandChildren = children[i].children;
 
@@ -1156,8 +1156,11 @@ class MySceneGraph {
                     case 'componentref':
                         var componentRefID = this.reader.getString(grandgrandChildren[j], 'id');
 
-                        if(this.components[componentRefID] == null)
-                            return "there is no component with ID = " + componentRefID + " that can be a child of the component with ID = " + componentID; // TODO: Check if this is true
+                        if(this.components[componentRefID] == null){
+							this.components[componentRefID] = new Component(this.scene, null, false);
+                            // return "there is no component with ID = " + componentRefID + " that can be a child of the component with ID = " + componentID; // TODO: Check if this is true
+
+						}
 
                         numChildren++; // Valid child
 
@@ -1183,9 +1186,22 @@ class MySceneGraph {
 			component.children = childrenComp;
 
 			// Save Component
-			this.components[componentID] = new Component(this.scene, component);
+			// TODO: se calhar dá para inicializar logo new component e aqui é só faer load para todos
+			if(this.components[componentID] == null)
+				this.components[componentID] = new Component(this.scene, component, true);
+			else
+				this.components[componentID].loadComponent(component);
 		}
-    }
+
+		return this.verifyLoadedComponents(this.components);
+	}
+	
+	verifyLoadedComponents(components){
+		for(var key in this.components)
+			if(!this.components[key].isLoaded())
+				return "Component with ID " + key + " is not initialized"; 
+		return null;
+	}
 
 
     /**

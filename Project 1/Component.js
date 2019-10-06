@@ -5,14 +5,27 @@
  * 
  */
 class Component extends CGFobject {
-	constructor(scene, component) {
+	constructor(scene, component, loaded) {
 		super(scene);
 
 		this.component = component;
 		this.currMaterial = null;
 		this.currTexture = null;
 
+		this.loaded = loaded;
+
 		this.currMatIndex = 0;		
+	}
+
+	isLoaded(){
+		return this.loaded; 
+	}
+
+	loadComponent(component){
+		if(!this.loaded){
+			this.loaded = true;
+			this.component = component;
+		}
 	}
 
 	pushTexture(){

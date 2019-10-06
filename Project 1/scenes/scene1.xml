@@ -329,7 +329,7 @@
 
         <component id="sculpture">
             <transformation>
-                <transformationref id="ballon_transf" />
+                <transformationref id="balloon_transf" />
             </transformation>
             <materials>
                 <material id="ballonMaterial1" />
@@ -430,7 +430,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inheri" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="sphere1" />
             </children>
@@ -445,7 +445,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inheri" />
+            <texture id="inherit" />
             <children>
                 <primitiveref id="torus1" />
             </children>
