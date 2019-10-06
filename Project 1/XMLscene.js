@@ -37,7 +37,7 @@ class XMLscene extends CGFscene {
 		this.texturesStack = [];
 		this.materialsStack = [];
 		
-        this.setUpdatePeriod(50);
+        this.setUpdatePeriod(100);
     }
 
     /**
