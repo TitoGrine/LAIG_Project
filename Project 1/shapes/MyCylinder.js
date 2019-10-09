@@ -53,13 +53,8 @@ class MyCylinder extends CGFobject {
 		this.primitiveType = this.scene.gl.TRIANGLES;
         this.initGLBuffers();
     }
-    /**
-	 * @method updateTexCoords
-	 * Updates the list of texture coordinates of the cylinder
-	 * @param {Array} coords - Array of texture coordinates
-	 */
-	updateTexCoords(coords) {
-		this.texCoords = [...coords];
-		this.updateTexCoordsGLBuffers();
-	}
+
+	updateTexCoords(lengthS, lengthT) {
+		// this.updateTexCoordsGLBuffers();
+    }
 }

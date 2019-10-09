@@ -74,14 +74,8 @@ class MyTorus extends CGFobject {
 		this.initGLBuffers();
 	}
 
-	/**
-	 * @method updateTexCoords
-	 * Updates the list of texture coordinates of the rectangle
-	 * @param {Array} coords - Array of texture coordinates
-	 */
-	updateTexCoords(coords) {
-		this.texCoords = [...coords];
-		this.updateTexCoordsGLBuffers();
-	}
+	updateTexCoords(lengthS, lengthT) {
+		// this.updateTexCoordsGLBuffers();
+    }
 }
 

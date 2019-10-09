@@ -689,6 +689,7 @@ class MySceneGraph {
 			provMaterial.setAmbient(...global[2]);
 			provMaterial.setDiffuse(...global[3]);
 			provMaterial.setSpecular(...global[4]);
+			provMaterial.setTextureWrap('REPEAT', 'REPEAT');
 
             this.materials[materialID] = provMaterial;
             numMaterials++;
@@ -1120,12 +1121,12 @@ class MySceneGraph {
 			// Parse texture parameters
 			var length_s, length_t;
 			// TODO: tem de ter length_s e length_t?? 
-			if(this.reader.hasAttribute(grandChildren[j], "length_s") && this.reader.hasAttribute(grandChildren[j], "length_t")){
-				length_s = this.reader.getFloat(grandChildren[j], "length_s");
+			if(this.reader.hasAttribute(grandChildren[textureIndex], "length_s") && this.reader.hasAttribute(grandChildren[textureIndex], "length_t")){
+				length_s = this.reader.getFloat(grandChildren[textureIndex], "length_s");
 				if (!(length_s != null && !isNaN(length_s) && length_s > 0))
 					return "unable to parse length_s of the component " + componentID;
 				
-				length_t = this.reader.getFloat(grandChildren[j], "length_t");
+				length_t = this.reader.getFloat(grandChildren[textureIndex], "length_t");
 				if (!(length_t != null && !isNaN(length_t) && length_t > 0))
 					return "unable to parse length_t of the component " + componentID;
 			}
@@ -1193,10 +1194,10 @@ class MySceneGraph {
 				this.components[componentID].loadComponent(component);
 		}
 
-		return this.verifyLoadedComponents(this.components);
+		return this.verifyLoadedComponents();
 	}
 	
-	verifyLoadedComponents(components){
+	verifyLoadedComponents(){
 		for(var key in this.components)
 			if(!this.components[key].isLoaded())
 				return "Component with ID " + key + " is not initialized"; 

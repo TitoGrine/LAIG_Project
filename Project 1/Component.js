@@ -69,8 +69,12 @@ class Component extends CGFobject {
 		this.currMaterial.apply();
 		
 		// Loop  childs
-		for(let i = 0; i < this.component.children.length; i++)
+		for(let i = 0; i < this.component.children.length; i++){
+			// TODO: ver se inherit herdam length_s/t qd n presentes
+			if(!(this.component.children[i] instanceof Component))
+				this.component.children[i].updateTexCoords(this.component.texture.length_s || 1, this.component.texture.length_t || 1);
 			this.component.children[i].display();
+		}
 
 		this.scene.texturesStack.pop();
 		this.scene.materialsStack.pop();
