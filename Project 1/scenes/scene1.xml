@@ -21,20 +21,21 @@
     <lights>
         <omni id="globalLight" enabled="1">
             <location x="9.8" y="11.9" z="10" w="1.0" />
-            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.0" g="0.0" b="0.0" a="0.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="0.1" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
             <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
         </omni>
 
         <spot id="stageLight" enabled="1" angle="45" exponent="1.0">
-            <location x="15" y="20" z="15" w="1.0"/>
+            <location x="15" y="10" z="15" w="1.0"/>
             <target x="15" y="0" z="15" />
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="0.0" g="0.0" b="0.0" a="1.0" />
-            <specular r="1.0" g="1.0" b="0.0" a="1.0" />
-            <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
+            <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
+            <specular r="1.0" g="0.0" b="0.0" a="1.0" />
+            <attenuation constant="0.0" linear="1.0" quadratic="0.0" />
         </spot>
+
     </lights>
 
     <textures>
@@ -71,13 +72,13 @@
             <diffuse r="1.0" g="0.85" b="0.0" a="0.5" />
             <specular r="1.0" g="0.85" b="0.0" a="1.0" />
         </material>
-        <material id="ballonMaterial1" shininess="10.0"> <!-- Metalic Light Blue -->
+        <material id="balloonMaterial1" shininess="10.0"> <!-- Metalic Light Blue -->
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="0.0" g="0.65" b="0.81" a="0.1" />
             <diffuse r="0.0" g="0.65" b="0.81" a="0.1" />
             <specular r="0.0" g="0.65" b="0.81" a="1.0" />
         </material>
-        <material id="ballonMaterial2" shininess="10.0"> <!-- Strong Pink -->
+        <material id="balloonMaterial2" shininess="10.0"> <!-- Strong Pink -->
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="0.81" g="0.0" b="0.57" a="0.1" />
             <diffuse r="0.81" g="0.0" b="0.57" a="0.1" />
@@ -149,6 +150,14 @@
 
         <primitive id="sphere1">
             <sphere radius="1.0" slices="50" stacks="50" />
+        </primitive>
+        <primitive id="sphere2">
+            <sphere radius="0.2" slices="50" stacks="50" />
+        </primitive>
+
+
+        <primitive id="cylinder1">
+            <cylinder base="0.2" top="0.2" height="1.75" slices="50" stacks="50" />
         </primitive>
 
 
@@ -321,7 +330,7 @@
             <materials>
                 <material id="goldMaterial" />
             </materials>
-            <texture id="goldTexture" length_s="1.0" length_t="1.0"/>
+            <texture id="goldTexture" length_s="2.0" length_t="1.0"/>
             <children>
                 <primitiveref id="rectangle6" />
             </children>
@@ -332,8 +341,8 @@
                 <transformationref id="balloon_transf" />
             </transformation>
             <materials>
-                <material id="ballonMaterial1" />
-                <material id="ballonMaterial2" />
+                <material id="balloonMaterial1" />
+                <material id="balloonMaterial2" />
             </materials>
             <texture id="balloonTexture"/>
             <children>
@@ -342,6 +351,8 @@
                 <componentref id="torso" />
                 <componentref id="neck" />
                 <componentref id="tail" />
+                <componentref id="tail_end" />
+                <componentref id="tail_tip" />
                 <componentref id="snout" />
                 <componentref id="ears" />
                 <componentref id="nose" />
@@ -419,6 +430,34 @@
             <texture id="inherit" />
             <children>
                 <primitiveref id="sphere1" />
+            </children>
+        </component>
+
+        <component id="tail_end">
+            <transformation>
+                <translate x="0.0" y="8.5" z="-4.45" />
+                <rotate axis="x" angle="60" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="cylinder1" />
+            </children>
+        </component>
+
+        <component id="tail_tip">
+            <transformation>
+                <translate x="0.0" y="8.5" z="-4.45" />
+                <rotate axis="x" angle="60" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="sphere2" />
             </children>
         </component>
 
