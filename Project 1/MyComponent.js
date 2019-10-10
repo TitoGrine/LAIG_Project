@@ -4,7 +4,7 @@
  * @param {Reference to MyScene object} scene 
  * 
  */
-class Component extends CGFobject {
+class MyComponent extends CGFobject {
 	constructor(scene, component, loaded) {
 		super(scene);
 
@@ -29,12 +29,13 @@ class Component extends CGFobject {
 	}
 
 	pushTexture(){
+		// 0: id/ texture; 1: length_s
 		if(this.component.texture.textureID == "inherit")
 			this.scene.texturesStack.push(this.scene.texturesStack[this.scene.texturesStack.length - 1]);
 		else if(this.component.texture.textureID == "none")
 			this.scene.texturesStack.push(null);
 		else
-			this.scene.texturesStack.push(this.component.texture.textureID);
+			this.scene.texturesStack.push(this.component.texture);
 
 		this.currTexture = this.scene.texturesStack[this.scene.texturesStack.length - 1];
 	}
@@ -51,7 +52,7 @@ class Component extends CGFobject {
 		this.currMatIndex = (this.currMatIndex + 1) % this.component.materials.length;
 		// Loop  childs
 		for(let i = 0; i < this.component.children.length; i++)
-			if(this.component.children[i] instanceof Component)
+			if(this.component.children[i] instanceof MyComponent)
 				this.component.children[i].nextMaterial();
 	}
 	
@@ -64,15 +65,15 @@ class Component extends CGFobject {
 		this.scene.multMatrix(this.component.transformation);
 
 		// Aplicar Texture
-		this.currMaterial.setTexture(this.currTexture);
+		this.currMaterial.setTexture(this.currTexture.textureID);
 		// Aplicar Material
 		this.currMaterial.apply();
 		
 		// Loop  childs
 		for(let i = 0; i < this.component.children.length; i++){
 			// TODO: ver se inherit herdam length_s/t qd n presentes
-			if(!(this.component.children[i] instanceof Component))
-				this.component.children[i].updateTexCoords(this.component.texture.length_s || 1, this.component.texture.length_t || 1);
+			if(!(this.component.children[i] instanceof MyComponent))
+				this.component.children[i].updateTexCoords(this.currTexture.length_s || 1, this.currTexture.length_t || 1);
 			this.component.children[i].display();
 		}
 

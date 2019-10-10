@@ -21,8 +21,8 @@
     <lights>
         <omni id="globalLight" enabled="1">
             <location x="9.8" y="11.9" z="10" w="1.0" />
-            <ambient r="0.0" g="0.0" b="0.0" a="0.0" />
-            <diffuse r="1.0" g="1.0" b="1.0" a="0.1" />
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
             <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
         </omni>
@@ -360,7 +360,7 @@
                 <material id="balloonMaterial1" />
                 <material id="balloonMaterial2" />
             </materials>
-            <texture id="balloonTexture"/>
+            <texture id="balloonTexture" length_t="1.0" length_s="1.0" />
             <children>
                 <componentref id="anterior_legs" />
                 <componentref id="posterior_legs" />
@@ -464,7 +464,7 @@
             <materials>
                 <material id="woodMaterial" />
             </materials>
-            <texture id="darkwoodTexture"/>
+            <texture id="darkwoodTexture" length_t="1.0" length_s="1.0"/>
             <children>
                 <componentref id="top" />
                 <componentref id="side1" />
@@ -536,7 +536,7 @@
             <materials>
                 <material id="defaultMaterial" />
             </materials>
-            <texture id="defaultTexture"/>
+            <texture id="defaultTexture" length_t="1.0" length_s="1.0"/>
             <children>
                 <componentref id="room" />
                 <componentref id="stand" />

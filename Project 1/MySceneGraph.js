@@ -1,3 +1,5 @@
+//TODO: ter em atenção à herança de texturas !!! (parametros S e T obrigatórios??)
+
 var DEGREE_TO_RAD = Math.PI / 180;
 
 // Order of the groups in the XML document.
@@ -1120,8 +1122,9 @@ class MySceneGraph {
 			
 			// Parse texture parameters
 			var length_s, length_t;
-			// TODO: tem de ter length_s e length_t?? 
-			if(this.reader.hasAttribute(grandChildren[textureIndex], "length_s") && this.reader.hasAttribute(grandChildren[textureIndex], "length_t")){
+			if(textureID == "inherit" || textureID == "none" && this.reader.hasAttribute(grandChildren[textureIndex], "length_s") && this.reader.hasAttribute(grandChildren[textureIndex], "length_t"))
+				this.onXMLMinorError("length_s and length_t ignored in " + textureID + " texture in component with ID = " + componentID);
+			else{
 				length_s = this.reader.getFloat(grandChildren[textureIndex], "length_s");
 				if (!(length_s != null && !isNaN(length_s) && length_s > 0))
 					return "unable to parse length_s of the component " + componentID;
@@ -1158,7 +1161,7 @@ class MySceneGraph {
                         var componentRefID = this.reader.getString(grandgrandChildren[j], 'id');
 
                         if(this.components[componentRefID] == null){
-							this.components[componentRefID] = new Component(this.scene, null, false);
+							this.components[componentRefID] = new MyComponent(this.scene, null, false);
                             // return "there is no component with ID = " + componentRefID + " that can be a child of the component with ID = " + componentID; // TODO: Check if this is true
 
 						}
@@ -1189,7 +1192,7 @@ class MySceneGraph {
 			// Save Component
 			// TODO: se calhar dá para inicializar logo new component e aqui é só faer load para todos
 			if(this.components[componentID] == null)
-				this.components[componentID] = new Component(this.scene, component, true);
+				this.components[componentID] = new MyComponent(this.scene, component, true);
 			else
 				this.components[componentID].loadComponent(component);
 		}
