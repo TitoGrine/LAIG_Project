@@ -30,7 +30,7 @@ class MySceneGraph {
         this.nodes = [];
 
         this.idRoot = null;                    // The id of the root element.
-		this.defView = null;
+		this.defView = this.curView = null;
 
         this.axisCoords = [];
         this.axisCoords['x'] = [1, 0, 0];
@@ -234,7 +234,7 @@ class MySceneGraph {
     parseView(viewsNode) {
 
 		// Get default View  of the scene.
-		this.defView = this.reader.getString(viewsNode, 'default');
+		this.curView = this.defView = this.reader.getString(viewsNode, 'default');
 
         var children = viewsNode.children;	
 
@@ -1327,7 +1327,12 @@ class MySceneGraph {
         if (!(quadratic != null && !isNaN(quadratic) && quadratic == 0 || quadratic == 1))
             return "unable to parse quadratic component of the " + messageError;
 
-		//TODO: ver se são mutuamente exclusivas
+		// Check if the parameters are mutually exclusive
+		if(!((constant == 1 && linear == 0 && quadratic == 0)
+		|| (constant == 0 && linear == 1 && quadratic == 0)
+		|| (constant == 0 && linear == 0 && quadratic == 1)))
+			return "unable to parse attenuation component of the " + messageError + " (parameters must be mutually exclusive)";
+
 		attenuation.push(...[constant, linear, quadratic]);
 
         return attenuation;

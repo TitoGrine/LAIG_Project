@@ -36,7 +36,9 @@ class XMLscene extends CGFscene {
 		
 		this.texturesStack = [];
 		this.materialsStack = [];
-		
+
+		this.displayAxis = false;
+
         this.setUpdatePeriod(100);
     }
 
@@ -105,6 +107,8 @@ class XMLscene extends CGFscene {
 
 		this.camera = this.graph.views[this.graph.defView];
 		this.interface.setActiveCamera(this.camera);
+		this.interface.addLightsGUI();
+		this.interface.addCamerasGUI();
 		
         this.sceneInited = true;
     }
@@ -130,6 +134,14 @@ class XMLscene extends CGFscene {
 		this.checkKeys();
 	}
 	
+	turnOffLight(index, val){
+		if(val)
+			this.lights[index].enable();
+		else
+			this.lights[index].disable();
+		this.lights[index].update();	
+	}
+
     /**
      * Displays the scene.
      */
@@ -147,8 +159,10 @@ class XMLscene extends CGFscene {
         // Apply transformations corresponding to the camera position relative to the origin
         this.applyViewMatrix();
 
-        this.pushMatrix();
-        this.axis.display();
+		this.pushMatrix();
+
+		if(this.displayAxis)
+        	this.axis.display();
 
         for (var i = 0; i < this.lights.length; i++) {
             this.lights[i].setVisible(true);
