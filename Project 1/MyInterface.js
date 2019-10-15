@@ -52,12 +52,11 @@ class MyInterface extends CGFinterface {
 	
 	addLightsGUI(){
 		//Lights
+		var keyNames = Object.keys(this.scene.graph.lights);
 		var lightsFolder = this.gui.addFolder('Lights');
-		let i = 0;
-		for(var key in this.scene.graph.lights){
-			lightsFolder.add(this.scene.graph.lights[key], '0').name(key).onChange((val) => this.scene.turnOffLight(i, val));
-			i++;
-		}
+		
+		for(let i = 0; i < keyNames.length; i++)
+			lightsFolder.add(this.scene.lights[i], 'enabled').name(keyNames[i]);
 	}
 
 	addCamerasGUI(){
