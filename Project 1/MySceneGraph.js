@@ -1,3 +1,5 @@
+//TODO: ter em atenção à herança de texturas !!! (parametros S e T obrigatórios??)
+
 var DEGREE_TO_RAD = Math.PI / 180;
 
 // Order of the groups in the XML document.
@@ -28,7 +30,7 @@ class MySceneGraph {
         this.nodes = [];
 
         this.idRoot = null;                    // The id of the root element.
-		this.defView = null;
+		this.defView = this.curView = null;
 
         this.axisCoords = [];
         this.axisCoords['x'] = [1, 0, 0];
@@ -232,7 +234,7 @@ class MySceneGraph {
     parseView(viewsNode) {
 
 		// Get default View  of the scene.
-		this.defView = this.reader.getString(viewsNode, 'default');
+		this.curView = this.defView = this.reader.getString(viewsNode, 'default');
 
         var children = viewsNode.children;	
 
@@ -474,7 +476,7 @@ class MySceneGraph {
             if (!(aux != null && !isNaN(aux) && (aux == true || aux == false)))
                 this.onXMLMinorError("unable to parse value component of the 'enable light' field for ID = " + lightId + "; assuming 'value = 1'");
 
-            enableLight = aux || 1;
+            enableLight = aux;
 
             //Add enabled boolean and type name to light info
             global.push(enableLight);
@@ -535,7 +537,8 @@ class MySceneGraph {
                 global.push(...[angle, exponent, targetLight]);
             }
 
-            this.lights[lightId] = global;
+			this.lights[lightId] = global;
+			
             numLights++;
         }
 
@@ -875,12 +878,12 @@ class MySceneGraph {
 
                 // x2
                 var x2 = this.reader.getFloat(grandChildren[0], 'x2');
-                if (!(x2 != null && !isNaN(x2) && x2 > x1))
+                if (!(x2 != null && !isNaN(x2)))
                     return "unable to parse x2 of the primitive coordinates for ID = " + primitiveId;
 
                 // y2
                 var y2 = this.reader.getFloat(grandChildren[0], 'y2');
-                if (!(y2 != null && !isNaN(y2) && y2 > y1))
+                if (!(y2 != null && !isNaN(y2)))
                     return "unable to parse y2 of the primitive coordinates for ID = " + primitiveId;
 
 				// Initialize and save Rectangle
@@ -1120,8 +1123,9 @@ class MySceneGraph {
 			
 			// Parse texture parameters
 			var length_s, length_t;
-			// TODO: tem de ter length_s e length_t?? 
-			if(this.reader.hasAttribute(grandChildren[textureIndex], "length_s") && this.reader.hasAttribute(grandChildren[textureIndex], "length_t")){
+			if(textureID == "inherit" || textureID == "none" && this.reader.hasAttribute(grandChildren[textureIndex], "length_s") && this.reader.hasAttribute(grandChildren[textureIndex], "length_t"))
+				this.onXMLMinorError("length_s and length_t ignored in " + textureID + " texture in component with ID = " + componentID);
+			else{
 				length_s = this.reader.getFloat(grandChildren[textureIndex], "length_s");
 				if (!(length_s != null && !isNaN(length_s) && length_s > 0))
 					return "unable to parse length_s of the component " + componentID;
@@ -1158,7 +1162,7 @@ class MySceneGraph {
                         var componentRefID = this.reader.getString(grandgrandChildren[j], 'id');
 
                         if(this.components[componentRefID] == null){
-							this.components[componentRefID] = new Component(this.scene, null, false);
+							this.components[componentRefID] = new MyComponent(this.scene, null, false);
                             // return "there is no component with ID = " + componentRefID + " that can be a child of the component with ID = " + componentID; // TODO: Check if this is true
 
 						}
@@ -1189,7 +1193,7 @@ class MySceneGraph {
 			// Save Component
 			// TODO: se calhar dá para inicializar logo new component e aqui é só faer load para todos
 			if(this.components[componentID] == null)
-				this.components[componentID] = new Component(this.scene, component, true);
+				this.components[componentID] = new MyComponent(this.scene, component, true);
 			else
 				this.components[componentID].loadComponent(component);
 		}
@@ -1324,7 +1328,12 @@ class MySceneGraph {
         if (!(quadratic != null && !isNaN(quadratic) && quadratic == 0 || quadratic == 1))
             return "unable to parse quadratic component of the " + messageError;
 
-		//TODO: ver se são mutuamente exclusivas
+		// Check if the parameters are mutually exclusive
+		if(!((constant == 1 && linear == 0 && quadratic == 0)
+		|| (constant == 0 && linear == 1 && quadratic == 0)
+		|| (constant == 0 && linear == 0 && quadratic == 1)))
+			return "unable to parse attenuation component of the " + messageError + " (parameters must be mutually exclusive)";
+
 		attenuation.push(...[constant, linear, quadratic]);
 
         return attenuation;

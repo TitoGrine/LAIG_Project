@@ -1,9 +1,14 @@
+<!-- TODO: ver lengths nos inherit (dá para ver na consola) -->
 <lxs>
     <scene root="root" axis_length="5"/>
 
     <views default="defaultCamera">
         <perspective id="defaultCamera" near="0.2" far="600" angle="45">
             <from x="30" y="15" z="30" />
+            <to x="0" y="-2" z="0" />
+        </perspective>
+		 <perspective id="default2Camera" near="0.2" far="600" angle="45">
+            <from x="30" y="45" z="30" />
             <to x="0" y="-2" z="0" />
         </perspective>
 
@@ -21,8 +26,8 @@
     <lights>
         <omni id="globalLight" enabled="1">
             <location x="9.8" y="11.9" z="10" w="1.0" />
-            <ambient r="0.0" g="0.0" b="0.0" a="0.0" />
-            <diffuse r="1.0" g="1.0" b="1.0" a="0.1" />
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
             <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
         </omni>
@@ -33,7 +38,7 @@
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
             <specular r="1.0" g="0.0" b="0.0" a="1.0" />
-            <attenuation constant="0.0" linear="1.0" quadratic="0.0" />
+            <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
         </spot>
 
     </lights>
@@ -174,7 +179,7 @@
             <materials>
                 <material id="defaultMaterial" />
             </materials>
-            <texture id="defaultTexture"/>
+            <texture id="defaultTexture" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="room" />
                 <componentref id="stand" />
@@ -243,7 +248,8 @@
             <materials>
                 <material id="woodMaterial" />
             </materials>
-            <texture id="darkwoodTexture"/>
+			<!-- TODO: ver tamanhos de texturas -->
+            <texture id="darkwoodTexture" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="top" />
                 <componentref id="side1" />
@@ -344,7 +350,8 @@
                 <material id="balloonMaterial1" />
                 <material id="balloonMaterial2" />
             </materials>
-            <texture id="balloonTexture"/>
+			<!-- TODO: ver tamanhos de texturas -->
+            <texture id="balloonTexture" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="anterior_legs" />
                 <componentref id="posterior_legs" />

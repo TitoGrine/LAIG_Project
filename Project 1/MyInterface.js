@@ -20,7 +20,9 @@ class MyInterface extends CGFinterface {
 
         this.gui = new dat.GUI();
 
-        // add a group of controls (and open/expand by defult)
+		// add a group of controls (and open/expand by defult)
+		this.gui.add(this.scene, 'displayAxis').name('Axis');   
+		this.gui.add(this.scene, 'displayLights').name('Lights Visible').onChange(this.scene.turnOffLights.bind(this.scene));
 
         this.initKeys();
 
@@ -46,5 +48,23 @@ class MyInterface extends CGFinterface {
 
     isKeyPressed(keyCode) {
         return this.activeKeys[keyCode] || false;
-    }
+	}
+	
+	addLightsGUI(){
+		//Lights
+		var keyNames = Object.keys(this.scene.graph.lights);
+		var lightsFolder = this.gui.addFolder('Lights');
+
+		for(let i = 0; i < keyNames.length; i++)
+			lightsFolder.add(this.scene.lights[i], 'enabled').name(keyNames[i]);
+		
+	}
+
+	addCamerasGUI(){
+		// Camera
+		this.gui.add(this.scene.graph, 'curView', Object.keys(this.scene.graph.views)).name('View Points').onChange((val) => {
+			this.scene.camera = this.scene.graph.views[val];
+			this.setActiveCamera(this.scene.camera);	
+		});
+	}
 }
