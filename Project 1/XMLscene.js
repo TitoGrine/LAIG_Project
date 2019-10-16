@@ -38,6 +38,7 @@ class XMLscene extends CGFscene {
 		this.materialsStack = [];
 
 		this.displayAxis = false;
+		this.displayLights = true;
 
         this.setUpdatePeriod(100);
     }
@@ -133,16 +134,13 @@ class XMLscene extends CGFscene {
 
 	}
 
-	update(t){
+	update(){
 		this.checkKeys();
 	}
-	
-	turnOffLight(index, val){
-		if(val)
-			this.lights[index].enable();
-		else
-			this.lights[index].disable();
-		this.lights[index].update();	
+
+	turnOffLights(){
+		for(let i = 0; i < this.lights.length; i++)
+			this.lights[i].setVisible(this.displayLights);
 	}
 
     /**
@@ -167,9 +165,8 @@ class XMLscene extends CGFscene {
 		if(this.displayAxis)
         	this.axis.display();
 
-        for (var i = 0; i < this.lights.length; i++) {
+        for (var i = 0; i < this.lights.length; i++)
             this.lights[i].update();
-        }
 
         if (this.sceneInited) {
             // Draw axis
