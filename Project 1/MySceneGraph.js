@@ -1464,6 +1464,9 @@ class MySceneGraph {
         console.log("   " + message);
     }
 
+	/**
+	 * Calls next material when M key is pressed
+	 */
 	nextMaterial(){
 		this.components[this.idRoot].nextMaterial();
 	}
