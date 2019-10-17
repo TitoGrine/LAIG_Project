@@ -187,8 +187,9 @@ class MySceneGraph {
         }
 
         // <components>
-        if ((index = nodeNames.indexOf("components")) == -1)
-            return "tag <components> missing";
+        if ((index = nodeNames.indexOf("components")) == -1){
+            console.log( nodeNames.indexOf("primitives"));
+            return "tag <components> missing";}
         else {
             if (index != COMPONENTS_INDEX)
                 this.onXMLMinorError("tag <components> out of order");
@@ -590,7 +591,7 @@ class MySceneGraph {
 			var extension = re.exec(textureFileName)[1];
 
 			// TODO: ver se return ou ignorar
-			if(extension == null || (extension != "png" && extension != "jpg")){
+			if(extension == null || (extension != "png" && extension != "jpg" && extension != "jpeg")){
 				this.onXMLMinorError("bad file extension \"" + extension + "\". ignored texture with ID = " + textureId);
 				continue;
 				// return "unable to parse filename of the texture file with ID = " + textureId;
