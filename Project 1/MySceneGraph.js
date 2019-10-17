@@ -353,17 +353,19 @@ class MySceneGraph {
                 if (!(right != null && !isNaN(right)))
                     return "unable to parse right attribute from view with ID = " + viewID;
 
-                var top = this.reader.getFloat(children[i], 'top');
-                if (!(top != null && !isNaN(top)))
-                    return "unable to parse top attribute from view with ID = " + viewID;
-
                 var bottom = this.reader.getFloat(children[i], 'bottom');
                 if (!(bottom != null && !isNaN(bottom)))
                     return "unable to parse bottom attribute from view with ID = " + viewID;
 
-				global.push(...[left, right, top, bottom]);
+                var top = this.reader.getFloat(children[i], 'top');
+                if (!(top != null && !isNaN(top)))
+                    return "unable to parse top attribute from view with ID = " + viewID;
+
+				global.push(...[left, right, bottom, top]);
 
 				// Initialize camera
+				console.log(global);
+				console.log("CGFcameraOrtho( left, right, bottom, top, near, far, position, target, up )");
 				this.views[viewID] = new CGFcameraOrtho(global[6], global[7], global[8], global[9], global[0], global[1], vec3.fromValues(...global[3]), vec3.fromValues(...global[4]), vec3.fromValues(...global[5]));
 			}
 
