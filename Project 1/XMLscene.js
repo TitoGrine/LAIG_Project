@@ -21,7 +21,18 @@ class XMLscene extends CGFscene {
     init(application) {
         super.init(application);
 
-        this.sceneInited = false;
+		this.sceneInited = false;
+		
+		// TODO: apagar
+		this.near = 0.1;
+		this.far = 500;
+		this.posX = 15;
+		this.posY = 15;
+		this.posZ = 15;
+		this.targetX = 0;
+		this.targetY = 0;
+		this.targetZ = 0;
+		// fim
 
         this.initCameras();
 
@@ -47,7 +58,7 @@ class XMLscene extends CGFscene {
      * Initializes the scene cameras.
      */
     initCameras() {
-        this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+        this.camera = new CGFcamera(0.4, this.near, this.far, vec3.fromValues(this.posX, this.posY, this.posY), vec3.fromValues(this.targetX, this.targetY, this.targetZ));
     }
     /**
      * Initializes the scene lights with the values read from the XML file.
@@ -109,13 +120,19 @@ class XMLscene extends CGFscene {
 
 		this.initLights();
 
-		this.camera = this.graph.views[this.graph.defView];
+		//this.camera = this.graph.views[this.graph.defView];
 		this.interface.setActiveCamera(this.camera);
 		this.interface.addLightsGUI();
 		this.interface.addCamerasGUI();
 		
         this.sceneInited = true;
-    }
+	}
+	
+	// TODO: apagar
+	updateCamera(){
+		this.camera = new CGFcamera(0.4, this.near, this.far, vec3.fromValues(this.posX, this.posY, this.posZ), vec3.fromValues(this.targetX, this.targetY, this.targetZ));
+		// this.interface.setActiveCamera(this.camera);
+	}
 
 
 	checkKeys()  {

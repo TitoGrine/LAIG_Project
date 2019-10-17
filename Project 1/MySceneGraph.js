@@ -315,7 +315,7 @@ class MySceneGraph {
 				var attributeIndex = nodeNames.indexOf(attributeNames[j]);
 
                 if(attributeIndex != -1){
-                    var aux = this.parseCoordinates3D(grandChildren[attributeIndex], "attribute \"" + attributeNames[j] + "\" of the view with ID = " + viewID);
+                    var aux = this.parseCoordinates3DIndex(grandChildren[attributeIndex], "", "attribute \"" + attributeNames[j] + "\" of the view with ID = " + viewID);
                     
                     if (!Array.isArray(aux))
                         return aux;
@@ -526,7 +526,7 @@ class MySceneGraph {
                 // Retrieves the light target.
                 var targetLight = [];
                 if (targetIndex != -1) {
-                    var aux = this.parseCoordinates3D(grandChildren[targetIndex],  "attribute \"target\" of the light with ID = " + lightId);
+                    var aux = this.parseCoordinates3DIndex(grandChildren[targetIndex], "",  "attribute \"target\" of the light with ID = " + lightId);
                     if (!Array.isArray(aux))
                         return aux;
 
@@ -758,7 +758,7 @@ class MySceneGraph {
 					// TODO: ver se return ou ignorar
 					// Parse translate block
                     case 'translate':
-                        var coordinates = this.parseCoordinates3D(grandChildren[j], "translate transformation for ID " + transformationID);
+                        var coordinates = this.parseCoordinates3DIndex(grandChildren[j], "", "translate transformation for ID " + transformationID);
                         if (!Array.isArray(coordinates))
                             return coordinates;
 
@@ -767,7 +767,7 @@ class MySceneGraph {
                         break;
 				   // Parse scale block
 					case 'scale':
-						var scaleFactors = this.parseCoordinates3D(grandChildren[j], "scale transformation for ID " + transformationID);                  
+						var scaleFactors = this.parseCoordinates3DIndex(grandChildren[j], "", "scale transformation for ID " + transformationID);                  
 						if (!Array.isArray(scaleFactors))
 							return scaleFactors;
 						
@@ -1124,9 +1124,8 @@ class MySceneGraph {
 			
 			// Parse texture parameters
 			var length_s, length_t;
-			if(textureID == "inherit" || textureID == "none" && this.reader.hasAttribute(grandChildren[textureIndex], "length_s") && this.reader.hasAttribute(grandChildren[textureIndex], "length_t"))
-				this.onXMLMinorError("length_s and length_t ignored in " + textureID + " texture in component with ID = " + componentID);
-			else{
+
+			if(!(textureID == 'inherit' || textureID == 'none')){
 				length_s = this.reader.getFloat(grandChildren[textureIndex], "length_s");
 				if (!(length_s != null && !isNaN(length_s) && length_s > 0))
 					return "unable to parse length_s of the component " + componentID;
@@ -1134,6 +1133,9 @@ class MySceneGraph {
 				length_t = this.reader.getFloat(grandChildren[textureIndex], "length_t");
 				if (!(length_t != null && !isNaN(length_t) && length_t > 0))
 					return "unable to parse length_t of the component " + componentID;
+			}
+			else if(this.reader.hasAttribute(grandChildren[textureIndex], "length_s") || this.reader.hasAttribute(grandChildren[textureIndex], "length_t")){
+					this.onXMLMinorError("length_s and length_t ignored in " + textureID + " texture in component with ID = " + componentID);
 			}
 
 			component.texture = { textureID, length_s, length_t };
@@ -1209,16 +1211,6 @@ class MySceneGraph {
 		return null;
 	}
 
-
-    /**
-     * Parse the coordinates from a node with ID = id
-     * @param {block element} node
-     * @param {message to be displayed in case of error} messageError
-     */
-    parseCoordinates3D(node, messageError) {
-        return this.parseCoordinates3DIndex(node, "", messageError);
-    }
-
 	/**
      * Parse the coordinates from a node with ID = id
      * @param {block element} node
@@ -1257,7 +1249,7 @@ class MySceneGraph {
         var position = [];
 
         //Get x, y, z
-        position = this.parseCoordinates3D(node, messageError);
+        position = this.parseCoordinates3DIndex(node, "", messageError);
 
         if (!Array.isArray(position))
             return position;
@@ -1391,7 +1383,7 @@ class MySceneGraph {
 			switch (node[j].nodeName) {
 				// Parse translate block
 				case 'translate':
-					var coordinates = this.parseCoordinates3D(node[j], "translate transformation for the component ID " + messageError);
+					var coordinates = this.parseCoordinates3DIndex(node[j], "", "translate transformation for the component ID " + messageError);
 					if (!Array.isArray(coordinates))
 						return coordinates;
 
@@ -1401,7 +1393,7 @@ class MySceneGraph {
 			   // Parse scale block
 				case 'scale':
 					// TODO: refactor coordinates3d??
-					var scaleFactors = this.parseCoordinates3D(node[j], "scale transformation for the component ID " + messageError);                  
+					var scaleFactors = this.parseCoordinates3DIndex(node[j], "", "scale transformation for the component ID " + messageError);                  
 					if (!Array.isArray(scaleFactors))
 						return scaleFactors;
 					
@@ -1472,6 +1464,9 @@ class MySceneGraph {
         console.log("   " + message);
     }
 
+	/**
+	 * Calls next material when M key is pressed
+	 */
 	nextMaterial(){
 		this.components[this.idRoot].nextMaterial();
 	}

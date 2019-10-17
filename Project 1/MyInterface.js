@@ -24,7 +24,20 @@ class MyInterface extends CGFinterface {
 		this.gui.add(this.scene, 'displayAxis').name('Axis');   
 		this.gui.add(this.scene, 'displayLights').name('Lights Visible').onChange(this.scene.turnOffLights.bind(this.scene));
 
-        this.initKeys();
+		this.initKeys();
+		
+
+		// TODO: prov apagar
+		var cameraNormal = this.gui.addFolder('Normal Camera');
+		cameraNormal.add(this.scene, 'near', -3.0, 3.0).step(0.1).name('Near').onChange(this.scene.updateCamera.bind(this.scene));
+		cameraNormal.add(this.scene, 'far', 0, 900).step(25).name('Far').onChange(this.scene.updateCamera.bind(this.scene));
+		cameraNormal.add(this.scene, 'posX', -20, 175).step(1).name('Pos X').onChange(this.scene.updateCamera.bind(this.scene));
+		cameraNormal.add(this.scene, 'posY', -20, 175).step(1).name('Pos Y').onChange(this.scene.updateCamera.bind(this.scene));
+		cameraNormal.add(this.scene, 'posZ', -20, 175).step(1).name('Pos Z').onChange(this.scene.updateCamera.bind(this.scene));
+		cameraNormal.add(this.scene, 'targetX', -40.0, 40.0).step(1).name('Target X').onChange(this.scene.updateCamera.bind(this.scene));
+		cameraNormal.add(this.scene, 'targetY', -40.0, 40.0).step(1).name('Target Y').onChange(this.scene.updateCamera.bind(this.scene));
+		cameraNormal.add(this.scene, 'targetZ', -40.0, 40.0).step(1).name('Target Z').onChange(this.scene.updateCamera.bind(this.scene));
+		//fim
 
         return true;
     }
