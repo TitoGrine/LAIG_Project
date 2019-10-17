@@ -24,6 +24,10 @@ class XMLscene extends CGFscene {
 		this.sceneInited = false;
 		
 		// TODO: apagar
+		this.ortho = true;
+		this.testCamera = true;
+
+
 		this.near = 0.1;
 		this.far = 500;
 		this.posX = 15;
@@ -32,7 +36,6 @@ class XMLscene extends CGFscene {
 		this.targetX = 15;
 		this.targetY = 0;
 		this.targetZ = 20;
-		this.ortho = true;
 		if(this.ortho){
 			this.upX = 0;
 			this.upY = 1;
@@ -131,7 +134,8 @@ class XMLscene extends CGFscene {
 		this.initLights();
 
 		// TODO: descomentar isto
-		//this.camera = this.graph.views[this.graph.defView];
+		if(!this.testCamera)
+			this.camera = this.graph.views[this.graph.defView];
 		this.interface.setActiveCamera(this.camera);
 		this.interface.addLightsGUI();
 		this.interface.addCamerasGUI();

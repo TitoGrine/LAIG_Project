@@ -28,24 +28,26 @@ class MyInterface extends CGFinterface {
 		
 
 		// TODO: prov apagar
-		var cameraNormal = this.gui.addFolder('Camera');
-		cameraNormal.add(this.scene, 'near', -3.0, 3.0).step(0.1).name('Near').onChange(this.scene.updateCamera.bind(this.scene));
-		cameraNormal.add(this.scene, 'far', 0, 900).step(25).name('Far').onChange(this.scene.updateCamera.bind(this.scene));
-		cameraNormal.add(this.scene, 'posX', -50, 175).step(1).name('Pos X').onChange(this.scene.updateCamera.bind(this.scene));
-		cameraNormal.add(this.scene, 'posY', -10, 750).step(1).name('Pos Y').onChange(this.scene.updateCamera.bind(this.scene));
-		cameraNormal.add(this.scene, 'posZ', -20, 175).step(1).name('Pos Z').onChange(this.scene.updateCamera.bind(this.scene));
-		cameraNormal.add(this.scene, 'targetX', -40.0, 40.0).step(1).name('Target X').onChange(this.scene.updateCamera.bind(this.scene));
-		cameraNormal.add(this.scene, 'targetY', -40.0, 40.0).step(1).name('Target Y').onChange(this.scene.updateCamera.bind(this.scene));
-		cameraNormal.add(this.scene, 'targetZ', -40.0, 40.0).step(1).name('Target Z').onChange(this.scene.updateCamera.bind(this.scene));
-		if(this.scene.ortho){
-			cameraNormal.add(this.scene, 'upX', -1, 1).step(1).name('Up X').onChange(this.scene.updateCamera.bind(this.scene));
-			cameraNormal.add(this.scene, 'upY', -1, 1).step(1).name('Up Y').onChange(this.scene.updateCamera.bind(this.scene));
-			cameraNormal.add(this.scene, 'upZ', -1, 1).step(1).name('Up Z').onChange(this.scene.updateCamera.bind(this.scene));
-			
-			cameraNormal.add(this.scene, 'left', -150, 20).step(1).name('Left').onChange(this.scene.updateCamera.bind(this.scene));
-			cameraNormal.add(this.scene, 'right', 21, 150).step(1).name('Right').onChange(this.scene.updateCamera.bind(this.scene));
-			cameraNormal.add(this.scene, 'bottom', -70, 20).step(1).name('Bottom').onChange(this.scene.updateCamera.bind(this.scene));
-			cameraNormal.add(this.scene, 'top', 21, 70).step(1).name('Top').onChange(this.scene.updateCamera.bind(this.scene));
+		if(this.scene.testCamera){
+			var cameraNormal = this.gui.addFolder('Camera');
+			cameraNormal.add(this.scene, 'near', -3.0, 3.0).step(0.1).name('Near').onChange(this.scene.updateCamera.bind(this.scene));
+			cameraNormal.add(this.scene, 'far', 0, 900).step(25).name('Far').onChange(this.scene.updateCamera.bind(this.scene));
+			cameraNormal.add(this.scene, 'posX', -50, 175).step(1).name('Pos X').onChange(this.scene.updateCamera.bind(this.scene));
+			cameraNormal.add(this.scene, 'posY', -10, 750).step(1).name('Pos Y').onChange(this.scene.updateCamera.bind(this.scene));
+			cameraNormal.add(this.scene, 'posZ', -20, 175).step(1).name('Pos Z').onChange(this.scene.updateCamera.bind(this.scene));
+			cameraNormal.add(this.scene, 'targetX', -40.0, 40.0).step(1).name('Target X').onChange(this.scene.updateCamera.bind(this.scene));
+			cameraNormal.add(this.scene, 'targetY', -40.0, 40.0).step(1).name('Target Y').onChange(this.scene.updateCamera.bind(this.scene));
+			cameraNormal.add(this.scene, 'targetZ', -40.0, 40.0).step(1).name('Target Z').onChange(this.scene.updateCamera.bind(this.scene));
+			if(this.scene.ortho){
+				cameraNormal.add(this.scene, 'upX', -1, 1).step(1).name('Up X').onChange(this.scene.updateCamera.bind(this.scene));
+				cameraNormal.add(this.scene, 'upY', -1, 1).step(1).name('Up Y').onChange(this.scene.updateCamera.bind(this.scene));
+				cameraNormal.add(this.scene, 'upZ', -1, 1).step(1).name('Up Z').onChange(this.scene.updateCamera.bind(this.scene));
+				
+				cameraNormal.add(this.scene, 'left', -150, 20).step(1).name('Left').onChange(this.scene.updateCamera.bind(this.scene));
+				cameraNormal.add(this.scene, 'right', 21, 150).step(1).name('Right').onChange(this.scene.updateCamera.bind(this.scene));
+				cameraNormal.add(this.scene, 'bottom', -70, 20).step(1).name('Bottom').onChange(this.scene.updateCamera.bind(this.scene));
+				cameraNormal.add(this.scene, 'top', 21, 70).step(1).name('Top').onChange(this.scene.updateCamera.bind(this.scene));
+			}
 		}
 		//fim
 
