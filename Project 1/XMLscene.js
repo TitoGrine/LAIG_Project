@@ -27,11 +27,21 @@ class XMLscene extends CGFscene {
 		this.near = 0.1;
 		this.far = 500;
 		this.posX = 15;
-		this.posY = 15;
-		this.posZ = 15;
-		this.targetX = 0;
+		this.posY = 400;
+		this.posZ = 50;
+		this.targetX = 15;
 		this.targetY = 0;
-		this.targetZ = 0;
+		this.targetZ = 20;
+		this.ortho = true;
+		if(this.ortho){
+			this.upX = 0;
+			this.upY = 1;
+			this.upZ = 0;
+			this.left = -60;
+			this.right = 70;
+			this.top = 50;
+			this.bottom = -40;
+		}
 		// fim
 
         this.initCameras();
@@ -120,6 +130,7 @@ class XMLscene extends CGFscene {
 
 		this.initLights();
 
+		// TODO: descomentar isto
 		//this.camera = this.graph.views[this.graph.defView];
 		this.interface.setActiveCamera(this.camera);
 		this.interface.addLightsGUI();
@@ -128,10 +139,12 @@ class XMLscene extends CGFscene {
         this.sceneInited = true;
 	}
 	
-	// TODO: apagar
+	// TODO: apagar (choose one to test)
 	updateCamera(){
-		this.camera = new CGFcamera(0.4, this.near, this.far, vec3.fromValues(this.posX, this.posY, this.posZ), vec3.fromValues(this.targetX, this.targetY, this.targetZ));
-		// this.interface.setActiveCamera(this.camera);
+		if(!this.ortho)
+			this.camera = new CGFcamera(0.4, this.near, this.far, vec3.fromValues(this.posX, this.posY, this.posZ), vec3.fromValues(this.targetX, this.targetY, this.targetZ));
+		else
+			this.camera = new CGFcameraOrtho(this.left, this.right, this.bottom, this.top, this.near, this.far, vec3.fromValues(this.posX, this.posY, this.posZ), vec3.fromValues(this.targetX, this.targetY, this.targetZ), vec3.fromValues(this.upX, this.upY, this.upZ) );
 	}
 
 
