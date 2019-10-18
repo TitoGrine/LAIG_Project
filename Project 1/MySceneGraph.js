@@ -536,7 +536,6 @@ class MySceneGraph {
                 }
                 else
                     return "light target undefined for ID = " + lightId;
-
                 global.push(...[angle, exponent, targetLight]);
             }
 

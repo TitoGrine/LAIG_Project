@@ -65,7 +65,7 @@
 
 		<spot id="illusionLightR" enabled="1" angle="45" exponent="100.0">
             <location x="95" y="22" z="-10" w="1.0"/>
-			<target  x="60" y="0" z="-20"/>
+			<target  x="155" y="12" z="-30"/>
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
             <specular r="1.0" g="0.0" b="0.0" a="1.0" />
@@ -74,7 +74,7 @@
 
 		<spot id="illusionLightG" enabled="1" angle="45" exponent="100.0">
             <location x="105" y="22" z="-10" w="1.0"/>
-			<target  x="0" y="-10" z="-10"/>
+			<target  x="105" y="12" z="-20"/>
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="0.0" g="1.0" b="0.0" a="1.0" />
             <specular r="0.0" g="1.0" b="0.0" a="1.0" />
@@ -83,7 +83,7 @@
 
 		<spot id="illusionLightB" enabled="1" angle="45" exponent="100.0">
             <location x="115" y="22" z="-10" w="1.0"/>
-			<target  x="-60" y="0" z="-20"/>
+			<target  x="55" y="12" z="-30"/>
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="0.0" g="0.0" b="1.0" a="1.0" />
             <specular r="0.0" g="0.0" b="1.0" a="1.0" />
@@ -123,6 +123,7 @@
         <texture id="nadir_plack" file="scenes/images/nadir_plack.jpg"/>
         <texture id="bacon_plack" file="scenes/images/bacon_plack.jpg"/>
         <texture id="vieira_plack" file="scenes/images/vieira_plack.jpg"/>
+		<texture id="triangle_illusion" file="scenes/images/triangle_illusion.jpg"/>
     </textures>
 
     <materials>
@@ -3706,7 +3707,11 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="triangle_illusion" length_s="4.7" length_t="5.2"/>
+			 <!-- <primitive id="illusion_triangle">
+            <triangle   x1="2.3" y1="5.0" z1="2.3"
+                        x2="2.3" y2="5.0" z2="-2.3"
+                        x3="2.3" y3="10.0" z3="0.0" /> -->
             <children>
                 <primitiveref id="illusion_triangle" />
             </children>
