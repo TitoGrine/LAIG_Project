@@ -2,7 +2,7 @@
 <lxs>
     <scene root="root" axis_length="5"/>
 
-    <views default="Ilusao">
+    <views default="Ilusao - Circulo">
         <perspective id="defaultCamera" near="0.2" far="600" angle="45">
             <from x="30" y="50" z="30" />
             <to x="30" y="0" z="0" />
@@ -65,7 +65,7 @@
 
 		<spot id="illusionLightR" enabled="1" angle="45" exponent="100.0">
             <location x="95" y="22" z="-10" w="1.0"/>
-			<target  x="155" y="12" z="-30"/>
+			<target  x="190" y="20" z="-30"/>
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
             <specular r="1.0" g="0.0" b="0.0" a="1.0" />
@@ -74,7 +74,7 @@
 
 		<spot id="illusionLightG" enabled="1" angle="45" exponent="100.0">
             <location x="105" y="22" z="-10" w="1.0"/>
-			<target  x="105" y="12" z="-20"/>
+			<target  x="105" y="20" z="-20"/>
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="0.0" g="1.0" b="0.0" a="1.0" />
             <specular r="0.0" g="1.0" b="0.0" a="1.0" />
@@ -83,7 +83,7 @@
 
 		<spot id="illusionLightB" enabled="1" angle="45" exponent="100.0">
             <location x="115" y="22" z="-10" w="1.0"/>
-			<target  x="55" y="12" z="-30"/>
+			<target  x="25" y="20" z="-30"/>
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="0.0" g="0.0" b="1.0" a="1.0" />
             <specular r="0.0" g="0.0" b="1.0" a="1.0" />
@@ -124,6 +124,7 @@
         <texture id="bacon_plack" file="scenes/images/bacon_plack.jpg"/>
         <texture id="vieira_plack" file="scenes/images/vieira_plack.jpg"/>
 		<texture id="triangle_illusion" file="scenes/images/triangle_illusion.jpg"/>
+		<texture id="torus_illusion" file="scenes/images/illusion_torus3.png"/>
     </textures>
 
     <materials>
@@ -187,12 +188,31 @@
             <diffuse r="0.81" g="0.0" b="0.57" a="0.1" />
             <specular r="0.81" g="0.0" b="0.57" a="1.0" />
         </material>
-        <material id="balloonMaterial3" shininess="10.0"> <!-- Strong Pink -->
+        <material id="balloonMaterial3" shininess="10.0"> <!-- Yellow Pink -->
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="0.80" g="1.0" b="0.0" a="0.1" />
             <diffuse r="0.80" g="1.0" b="0.0" a="0.1" />
             <specular r="0.80" g="1.0" b="0.0" a="1.0" />
         </material>
+		<material id="illusionMaterialRG" shininess="10.0"> <!-- Yellow -->
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="1.0" b="0.0" a="0.1" />
+            <diffuse r="1.0" g="1.0" b="0.0" a="0.1" />
+            <specular r="1.0" g="1.0" b="0.0" a="1.0" />
+        </material>
+		<material id="illusionMaterialGB" shininess="10.0"> <!-- Cyan -->
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.0" g="1.0" b="1.0" a="0.1" />
+            <diffuse r="0.0" g="1.0" b="1.0" a="0.1" />
+            <specular r="0.0" g="1.0" b="1.0" a="1.0" />
+        </material>
+		<material id="illusionMaterialRB" shininess="10.0"> <!-- Magenta -->
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="0.0" b="1.0" a="0.1" />
+            <diffuse r="1.0" g="0.0" b="1.0" a="0.1" />
+            <specular r="1.0" g="0.0" b="1.0" a="1.0" />
+        </material>
+		
     </materials>
 
     <transformations>
@@ -3666,6 +3686,9 @@
             </transformation>
             <materials>
                 <material id="inherit" />
+				<material id="illusionMaterialRG" />
+				<material id="illusionMaterialGB" />
+				<material id="illusionMaterialRB" />
             </materials>
             <texture id="inherit"/>
             <children>
@@ -3680,9 +3703,9 @@
                 <rotate axis="y" angle="-90" />
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="inherit" />		
             </materials>
-            <texture id="inherit"/>
+            <texture id="torus_illusion" length_s="1.0" length_t="1.0"/>
             <children>
                 <primitiveref id="illusion_circle" />
             </children>
