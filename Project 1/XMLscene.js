@@ -29,11 +29,11 @@ class XMLscene extends CGFscene {
 
 		this.near = 0.1;
 		this.far = 500;
-		this.posX = 175;
-		this.posY = 2;
-		this.posZ = -20;
-		this.targetX = 105;
-		this.targetY = 2;
+		this.posX = -30;
+		this.posY = 60;
+		this.posZ = 70;
+		this.targetX = -30;
+		this.targetY = 5;
 		this.targetZ = -20;
 		if(this.ortho){
 			this.upX = 0;

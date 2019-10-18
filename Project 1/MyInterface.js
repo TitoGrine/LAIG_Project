@@ -32,12 +32,12 @@ class MyInterface extends CGFinterface {
 			var cameraNormal = this.gui.addFolder('Camera');
 			cameraNormal.add(this.scene, 'near', -3.0, 3.0).step(0.1).name('Near').onChange(this.scene.updateCamera.bind(this.scene));
 			cameraNormal.add(this.scene, 'far', 0, 900).step(25).name('Far').onChange(this.scene.updateCamera.bind(this.scene));
-			cameraNormal.add(this.scene, 'posX', -50, 175).step(1).name('Pos X').onChange(this.scene.updateCamera.bind(this.scene));
-			cameraNormal.add(this.scene, 'posY', -50, 750).step(1).name('Pos Y').onChange(this.scene.updateCamera.bind(this.scene));
-			cameraNormal.add(this.scene, 'posZ', -50, 175).step(1).name('Pos Z').onChange(this.scene.updateCamera.bind(this.scene));
-			cameraNormal.add(this.scene, 'targetX', -40.0, 150.0).step(1).name('Target X').onChange(this.scene.updateCamera.bind(this.scene));
-			cameraNormal.add(this.scene, 'targetY', -40.0, 150.0).step(1).name('Target Y').onChange(this.scene.updateCamera.bind(this.scene));
-			cameraNormal.add(this.scene, 'targetZ', -40.0, 150.0).step(1).name('Target Z').onChange(this.scene.updateCamera.bind(this.scene));
+			cameraNormal.add(this.scene, 'posX', -60, 175).step(1).name('Pos X').onChange(this.scene.updateCamera.bind(this.scene));
+			cameraNormal.add(this.scene, 'posY', -60, 750).step(1).name('Pos Y').onChange(this.scene.updateCamera.bind(this.scene));
+			cameraNormal.add(this.scene, 'posZ', -60, 175).step(1).name('Pos Z').onChange(this.scene.updateCamera.bind(this.scene));
+			cameraNormal.add(this.scene, 'targetX', -60.0, 150.0).step(1).name('Target X').onChange(this.scene.updateCamera.bind(this.scene));
+			cameraNormal.add(this.scene, 'targetY', -60.0, 150.0).step(1).name('Target Y').onChange(this.scene.updateCamera.bind(this.scene));
+			cameraNormal.add(this.scene, 'targetZ', -60.0, 150.0).step(1).name('Target Z').onChange(this.scene.updateCamera.bind(this.scene));
 			if(this.scene.ortho){
 				cameraNormal.add(this.scene, 'upX', -1, 1).step(1).name('Up X').onChange(this.scene.updateCamera.bind(this.scene));
 				cameraNormal.add(this.scene, 'upY', -1, 1).step(1).name('Up Y').onChange(this.scene.updateCamera.bind(this.scene));
