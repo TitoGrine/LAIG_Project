@@ -27,15 +27,14 @@ class XMLscene extends CGFscene {
 		this.ortho = true;
 		this.testCamera = false;
 
-
 		this.near = 0.1;
 		this.far = 500;
-		this.posX = 15;
-		this.posY = 400;
-		this.posZ = 50;
-		this.targetX = 15;
-		this.targetY = 0;
-		this.targetZ = 20;
+		this.posX = 175;
+		this.posY = 2;
+		this.posZ = -20;
+		this.targetX = 105;
+		this.targetY = 2;
+		this.targetZ = -20;
 		if(this.ortho){
 			this.upX = 0;
 			this.upY = 1;

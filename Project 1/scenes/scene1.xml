@@ -2,16 +2,33 @@
 <lxs>
     <scene root="root" axis_length="5"/>
 
-    <views default="defaultCamera">
+    <views default="Ilusao">
         <perspective id="defaultCamera" near="0.2" far="600" angle="45">
             <from x="30" y="50" z="30" />
             <to x="30" y="0" z="0" />
         </perspective>
 
-        <ortho id="Camera" near="0.1" far="600" left="0" right="60" top="50" bottom="0">
-            <from  x="30" y="5" z="0"/>
-            <to  x="30" y="5" z="60"/>
+        <ortho id="Ilusao - Retangulo F" near="0.1" far="600" left="-25" right="25" top="30" bottom="-5">
+            <to  x="105" y="2" z="-20"/>
+			<from  x="105" y="2" z="-10"/>
         </ortho>
+		<ortho id="Ilusao - Retangulo B" near="0.1" far="600" left="-25" right="25" top="30" bottom="-5">
+            <to  x="105" y="2" z="-20"/>
+			<from  x="105" y="2" z="-30"/>
+        </ortho>
+		<ortho id="Ilusao - Triangulo" near="0.1" far="600" left="-25" right="25" top="30" bottom="-5">
+            <to  x="105" y="2" z="-20"/>
+			<from  x="115" y="2" z="-20"/>
+        </ortho>
+		<ortho id="Ilusao - Circulo" near="0.1" far="600" left="-25" right="25" top="30" bottom="-5">
+            <to  x="105" y="2" z="-20"/>
+			<from  x="95" y="2" z="-20"/>
+        </ortho>
+
+		<perspective id="Ilusao" near="0.2" far="600" angle="45">
+            <to  x="105" y="2" z="-20"/>
+			<from  x="105" y="55" z="-10"/>
+        </perspective>
     </views>
 
     <globals>
@@ -20,7 +37,7 @@
     </globals>
 
     <lights>
-        <omni id="globalLight" enabled="1">
+        <omni id="globalLight" enabled="0">
             <location x="9.8" y="11.9" z="10" w="1.0" />
             <ambient r="0.0" g="0.0" b="0.0" a="0.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="0.1" />
@@ -28,13 +45,49 @@
             <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
         </omni>
 
-        <spot id="stageLight" enabled="1" angle="45" exponent="1.0">
+        <spot id="stageLight" enabled="0" angle="45" exponent="1.0">
             <location x="15" y="10" z="15" w="1.0"/>
             <target x="15" y="0" z="15" />
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
             <specular r="1.0" g="0.0" b="0.0" a="1.0" />
-            <attenuation constant="0.0" linear="1.0" quadratic="0.0" />
+            <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
+        </spot>
+
+ 		<spot id="stageLight2" enabled="0" angle="45" exponent="1.0">
+            <location x="30" y="10" z="12.5" w="1.0"/>
+            <target x="30" y="0" z="12.5" />
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="0.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="0.0" a="1.0" />
+            <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
+        </spot>
+
+		<spot id="illusionLightR" enabled="1" angle="45" exponent="100.0">
+            <location x="95" y="22" z="-10" w="1.0"/>
+			<target  x="60" y="0" z="-20"/>
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
+            <specular r="1.0" g="0.0" b="0.0" a="1.0" />
+            <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
+        </spot>
+
+		<spot id="illusionLightG" enabled="1" angle="45" exponent="100.0">
+            <location x="105" y="22" z="-10" w="1.0"/>
+			<target  x="0" y="-10" z="-10"/>
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.0" g="1.0" b="0.0" a="1.0" />
+            <specular r="0.0" g="1.0" b="0.0" a="1.0" />
+            <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
+        </spot>
+
+		<spot id="illusionLightB" enabled="1" angle="45" exponent="100.0">
+            <location x="115" y="22" z="-10" w="1.0"/>
+			<target  x="-60" y="0" z="-20"/>
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.0" g="0.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
+            <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
         </spot>
 
     </lights>
@@ -56,6 +109,7 @@
         <texture id="lichtenstein_painting" file="scenes/images/lichtenstein_painting.jpg"/>
         <texture id="basquiat_painting" file="scenes/images/basquiat_painting.jpg"/>
         <texture id="nadir_painting" file="scenes/images/nadir_painting.jpg"/>
+		<texture id="nadir_painting2" file="scenes/images/nadir_painting2.jpg"/>
         <texture id="bacon_painting" file="scenes/images/bacon_painting.jpg"/>
         <texture id="vieira_painting" file="scenes/images/vieira_painting.jpg"/>
         <texture id="newman_plack" file="scenes/images/newman_plack.jpg"/>
@@ -929,8 +983,8 @@
         <primitive id="sphere2">
             <sphere radius="0.2" slices="50" stacks="50" />
         </primitive>
-         <primitive id="illusion_sphere">
-            <sphere radius="1.5" slices="50" stacks="50" />
+        <primitive id="illusion_circle">
+		    <torus inner="0.4" outer="0.8" slices="50" loops="2" />
         </primitive>
 
 
@@ -944,7 +998,7 @@
             <cylinder base="0.5" top="0.5" height="5.0" slices="50" stacks="50" />
         </primitive>
         <primitive id="illusion_cylinder">
-            <cylinder base="1.5" top="1.5" height="3.0" slices="50" stacks="50" />
+            <cylinder base="1.2" top="1.2" height="3.0" slices="50" stacks="50" />
         </primitive>
 
 
@@ -3614,21 +3668,22 @@
             </materials>
             <texture id="inherit"/>
             <children>
-                <componentref id="illusion_sphere" />
+                <componentref id="illusion_circle" />
                 <componentref id="illusion_cylinder" />
                 <componentref id="illusion_triangle" />
             </children>
         </component>
-        <component id="illusion_sphere">
+        <component id="illusion_circle">
             <transformation>
-                <translate x="0.0" y="6.5" z="0.0" />
+                <translate x="-1.5" y="6.5" z="0.0" />
+                <rotate axis="y" angle="-90" />
             </transformation>
             <materials>
                 <material id="inherit" />
             </materials>
             <texture id="inherit"/>
             <children>
-                <primitiveref id="illusion_sphere" />
+                <primitiveref id="illusion_circle" />
             </children>
         </component>
         <component id="illusion_cylinder">
@@ -3646,7 +3701,7 @@
         </component>
         <component id="illusion_triangle">
             <transformation>
-                <transformationref id="neutral" />
+                <translate x="-0.8" y="0.0" z="0.0" />
             </transformation>
             <materials>
                 <material id="inherit" />
