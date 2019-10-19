@@ -2625,7 +2625,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="haring_painting" length_t="1.0/25.0" length_s="1.0/15.0"/>
+            <texture id="haring_painting" length_t="1.0" length_s="1.0"/>
             <children>
                 <componentref id="canvas_front" />
                 <componentref id="canvas_side1" />
@@ -2641,7 +2641,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="banksy_painting" length_t="1.0/20.0" length_s="1.0/15.0"/>
+            <texture id="banksy_painting" length_t="1.0" length_s="1.0"/>
             <children>
                 <componentref id="canvas_front" />
                 <componentref id="canvas_side1" />
@@ -2657,7 +2657,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="lichtenstein_painting" length_t="1.0/20.0" length_s="1.0/15.0"/>
+            <texture id="lichtenstein_painting" length_t="1.0" length_s="1.0"/>
             <children>
                 <componentref id="canvas_front" />
                 <componentref id="canvas_side1" />
@@ -2673,7 +2673,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="basquiat_painting" length_t="1.0/20.0" length_s="1.0/15.0"/>
+            <texture id="basquiat_painting" length_t="1.0" length_s="1.0"/>
             <children>
                 <componentref id="canvas_front" />
                 <componentref id="canvas_side1" />
@@ -2689,7 +2689,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="nadir_painting" length_t="1.0/20.0" length_s="1.0/15.0"/>
+            <texture id="nadir_painting" length_t="1.0" length_s="1.0"/>
             <children>
                 <componentref id="canvas_front" />
                 <componentref id="canvas_side1" />
@@ -2705,7 +2705,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="bacon_painting" length_t="1.0/30.0" length_s="1.0/15.0"/>
+            <texture id="bacon_painting" length_t="1.0" length_s="1.0"/>
             <children>
                 <componentref id="canvas_front" />
                 <componentref id="canvas_side1" />
@@ -2721,7 +2721,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="vieira_painting" length_t="1.0/30.0" length_s="1.0/15.0"/>
+            <texture id="vieira_painting" length_t="1.0" length_s="1.0"/>
             <children>
                 <componentref id="canvas_front" />
                 <componentref id="canvas_side1" />
