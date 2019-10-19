@@ -1163,13 +1163,14 @@ class MySceneGraph {
 
                 switch(grandgrandChildren[j].nodeName){
                     case 'componentref':
-                        var componentRefID = this.reader.getString(grandgrandChildren[j], 'id');
+						var componentRefID = this.reader.getString(grandgrandChildren[j], 'id');
 
-                        if(this.components[componentRefID] == null){
+						if(componentRefID == componentID)
+		                	return "Component with ID = " + componentID + " is its own child";
+
+
+                        if(this.components[componentRefID] == null)
 							this.components[componentRefID] = new MyComponent(this.scene, null, false);
-                            // return "there is no component with ID = " + componentRefID + " that can be a child of the component with ID = " + componentID; // TODO: Check if this is true
-
-						}
 
                         numChildren++; // Valid child
 
@@ -1206,6 +1207,10 @@ class MySceneGraph {
 	}
 	
 	verifyLoadedComponents(){
+		if(this.components.size == 0)
+			return "There was no component defined";
+		if(this.components[this.idRoot] == null)
+			return "Root component with ID " + this.idRoot + " was not defined";
 		for(var key in this.components)
 			if(!this.components[key].isLoaded())
 				return "Component with ID " + key + " is not initialized"; 
