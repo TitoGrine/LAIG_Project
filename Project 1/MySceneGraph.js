@@ -364,8 +364,6 @@ class MySceneGraph {
 				global.push(...[left, right, bottom, top]);
 
 				// Initialize camera
-				console.log(global);
-				console.log("CGFcameraOrtho( left, right, bottom, top, near, far, position, target, up )");
 				this.views[viewID] = new CGFcameraOrtho(global[6], global[7], global[8], global[9], global[0], global[1], vec3.fromValues(...global[3]), vec3.fromValues(...global[4]), vec3.fromValues(...global[5]));
 			}
 
@@ -1040,7 +1038,7 @@ class MySceneGraph {
 			// TODO: ver se return ou ignorar
             if (this.components[componentID] != null && this.components[componentID].isLoaded())
 				return "ID must be unique for each component (conflict: ID = " + componentID + ")";
-
+			
 			grandChildren = children[i].children;
 
             nodeNames = [];
@@ -1054,6 +1052,8 @@ class MySceneGraph {
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
 			const component = {};
+			component.ID = componentID;
+
 
 			// Transformations
 			if (transformationIndex == -1)
@@ -1170,7 +1170,7 @@ class MySceneGraph {
 
 
                         if(this.components[componentRefID] == null)
-							this.components[componentRefID] = new MyComponent(this.scene, null, false);
+							this.components[componentRefID] = new MyComponent(this.scene, componentRefID, null, false);
 
                         numChildren++; // Valid child
 
@@ -1194,26 +1194,59 @@ class MySceneGraph {
 			if(numChildren == 0)
                 return "no valid children defined for the component of ID = " + componentID;
 			component.children = childrenComp;
-
 			// Save Component
 			// TODO: se calhar dá para inicializar logo new component e aqui é só faer load para todos
 			if(this.components[componentID] == null)
-				this.components[componentID] = new MyComponent(this.scene, component, true);
+				this.components[componentID] = new MyComponent(this.scene, component.ID, component, true);
 			else
 				this.components[componentID].loadComponent(component);
 		}
 
-		return this.verifyLoadedComponents();
+		return this.verifyComponents();
 	}
-	
-	verifyLoadedComponents(){
+	/**
+	 * Verifies cycles and if the component is loaded
+	 * 
+	 * @param {Component to be tested} component 
+	 */
+	cycleUtil(component){
+		// Verify if component was initialized or only referenced
+		if(!component.isLoaded()){
+			this.onXMLError("Component with ID " + component.getID() + " was not initialized");
+			return true;
+		}
+
+		// Verify if component was already visited (is part of a cycle)
+		if (component.isVisited()){
+			this.onXMLError("Cycle detected in Component with ID " + component.getID());
+			return true;
+		}
+
+		// Set visited to that
+		component.setVisited(true);
+
+		// Test children integrity
+		for(var key in component.getChildren()){
+			if(component.getChildren()[key] instanceof MyComponent && this.cycleUtil(component.getChildren()[key]))
+				return true;
+		}
+
+		component.setVisited(false);
+		return false;
+	}
+
+	/**
+	 * Verifies Components integrity
+	 */
+	verifyComponents(){
 		if(this.components.size == 0)
 			return "There was no component defined";
 		if(this.components[this.idRoot] == null)
 			return "Root component with ID " + this.idRoot + " was not defined";
-		for(var key in this.components)
-			if(!this.components[key].isLoaded())
-				return "Component with ID " + key + " is not initialized"; 
+
+		if(this.cycleUtil(this.components[this.idRoot]))
+			return "Invalid graph"; 
+
 		return null;
 	}
 

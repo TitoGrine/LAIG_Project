@@ -5,16 +5,35 @@
  * 
  */
 class MyComponent extends CGFobject {
-	constructor(scene, component, loaded) {
+	constructor(scene, id, component, loaded) {
 		super(scene);
+
+		this.id = id;
 
 		this.component = component;
 		this.currMaterial = null;
 		this.currTexture = null;
 
 		this.loaded = loaded;
+		this.visited = false;
 
-		this.currMatIndex = 0;		
+		this.currMatIndex = 0;	
+	}
+
+	getID(){
+		return this.id;
+	}
+
+	getChildren(){
+		return this.component.children;
+	}
+
+	isVisited(){
+		return this.visited;
+	}
+
+	setVisited(visited){
+		this.visited = visited;
 	}
 
 	isLoaded(){
@@ -24,6 +43,7 @@ class MyComponent extends CGFobject {
 	loadComponent(component){
 		if(!this.loaded){
 			this.loaded = true;
+			this.id = component.ID;
 			this.component = component;
 		}
 	}
