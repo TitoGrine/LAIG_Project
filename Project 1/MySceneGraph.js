@@ -1,5 +1,3 @@
-//TODO: ter em atenção à herança de texturas !!! (parametros S e T obrigatórios??)
-
 var DEGREE_TO_RAD = Math.PI / 180;
 
 // Order of the groups in the XML document.
@@ -1060,7 +1058,7 @@ class MySceneGraph {
 				return "tag <transformation> missing in the component with ID " + componentID;
 			
 			grandgrandChildren = grandChildren[transformationIndex].children;
-			// TODO: ver se vale a pena unificar aqui a parseTransformation (switch block)
+
 			// Parsing Transformation block
 			var aux = this.parseComponentTransformation(grandgrandChildren, component, componentID);
 			if(aux != null)
@@ -1195,7 +1193,6 @@ class MySceneGraph {
                 return "no valid children defined for the component of ID = " + componentID;
 			component.children = childrenComp;
 			// Save Component
-			// TODO: se calhar dá para inicializar logo new component e aqui é só faer load para todos
 			if(this.components[componentID] == null)
 				this.components[componentID] = new MyComponent(this.scene, component.ID, component, true);
 			else

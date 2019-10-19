@@ -1,4 +1,3 @@
-<!-- TODO: ver lengths nos inherit (dá para ver na consola) -->
 <lxs>
     <scene root="root" axis_length="5"/>
 

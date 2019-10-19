@@ -67,7 +67,7 @@ class XMLscene extends CGFscene {
     }
 
     /**
-     * Initializes the scene cameras.
+     * Initializes the scene default camera.
      */
     initCameras() {
         this.camera = new CGFcamera(0.4, this.near, this.far, vec3.fromValues(this.posX, this.posY, this.posY), vec3.fromValues(this.targetX, this.targetY, this.targetZ));
@@ -138,7 +138,7 @@ class XMLscene extends CGFscene {
 
 		this.initLights();
 
-		// TODO: descomentar isto
+		// TODO: apagar if
 		if(!this.testCamera)
 			this.camera = this.graph.views[this.graph.defView];
 		this.interface.setActiveCamera(this.camera);
