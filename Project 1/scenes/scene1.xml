@@ -16,6 +16,10 @@
             <from x="30" y="5" z="120" />
             <to x="30" y="20" z="10" />
         </perspective>
+		<perspective id="Sculpture - Broken Obelisk" near="0.1" far="600" angle="85">
+            <from x="30" y="24" z="40" />
+            <to x="30" y="18" z="11" />
+        </perspective>
         <perspective id="Sculpture - Moondog" near="0.1" far="600" angle="27">
             <from x="5" y="9" z="60" />
             <to x="50" y="8" z="40" />
@@ -24,9 +28,9 @@
             <from x="40" y="10" z="50" />
             <to x="13" y="2" z="40" />
         </perspective>
-        <perspective id="Sculpure - Balloon Dog" near="0.1" far="600" angle="15">
-            <from x="-6" y="20" z="60" />
-            <to x="-41" y="9" z="-39" />
+        <perspective id="Sculpure - Balloon Dog" near="0.1" far="600" angle="65">
+            <from x="-20" y="12" z="10" />
+            <to x="-30" y="10" z="-20" />
         </perspective>
 
         <perspective id="Sculpure - Ilusao" near="0.2" far="600" angle="45">
@@ -50,6 +54,10 @@
 			<from  x="95" y="2" z="-20"/>
         </ortho>
 		
+		<perspective id="PopArt Room" near="0.1" far="600" angle="50">
+            <from x="-9" y="12" z="7" />
+            <to x="-10" y="12" z="7" />
+        </perspective>
 
 		<ortho id="PopArt Room - Keith Haring" near="0.1" far="600" left="-30" right="5" top="20" bottom="-5">
             <from  x="-50" y="5" z="0"/>
@@ -60,6 +68,12 @@
             <from  x="-31" y="5" z="0"/>
 			<to  x="-40" y="5" z="150"/>
         </ortho>
+
+
+		<perspective id="20th Century Artists Room" near="0.1" far="600" angle="40">
+            <from x="70" y="10" z="15" />
+            <to x="90" y="11" z="15" />
+        </perspective>
 
         <ortho id="20th Century Artists Room - Francis Bacon" near="0.1" far="600" left="-32" right="5" top="20" bottom="-5">
             <from  x="95" y="5" z="10"/>

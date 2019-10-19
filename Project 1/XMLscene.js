@@ -24,7 +24,7 @@ class XMLscene extends CGFscene {
 		this.sceneInited = false;
 		
 		// TODO: apagar
-		this.ortho = true;
+		this.ortho = false;
 		this.testCamera = false;
 
 		this.near = 0.1;
