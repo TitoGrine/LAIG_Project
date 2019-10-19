@@ -2,6 +2,7 @@
  * MyRectangle
  * @constructor
  * @param scene - Reference to MyScene object
+ * @param id - Rectangle ID
  * @param x - Scale of rectangle in X
  * @param y - Scale of rectangle in Y
  */
@@ -61,7 +62,8 @@ class MyRectangle extends CGFobject {
 	/**
 	 * @method updateTexCoords
 	 * Updates the list of texture coordinates of the rectangle
-	 * @param {Array} coords - Array of texture coordinates
+	 * @param {Width of the texture} lengthS 
+	 * @param {Height of the texture} lengthT 
 	 */
 	updateTexCoords(lengthS, lengthT) {
 		var width = Math.abs(this.x2 - this.x1);

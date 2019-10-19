@@ -72,7 +72,8 @@ class XMLscene extends CGFscene {
     initCameras() {
         this.camera = new CGFcamera(0.4, this.near, this.far, vec3.fromValues(this.posX, this.posY, this.posY), vec3.fromValues(this.targetX, this.targetY, this.targetZ));
     }
-    /**
+	
+	/**
      * Initializes the scene lights with the values read from the XML file.
      */
     initLights() {
@@ -114,13 +115,18 @@ class XMLscene extends CGFscene {
         }
     }
 
+	/**
+	 * Defines and sets Default Appearance
+	 */
     setDefaultAppearance() {
         this.setAmbient(0.2, 0.4, 0.8, 1.0);
         this.setDiffuse(0.2, 0.4, 0.8, 1.0);
         this.setSpecular(0.2, 0.4, 0.8, 1.0);
         this.setShininess(10.0);
-    }
-    /** Handler called when the graph is finally loaded. 
+	}
+	
+    /** 
+	 * Handler called when the graph is finally loaded. 
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
     onGraphLoaded() {
@@ -141,6 +147,48 @@ class XMLscene extends CGFscene {
 		
         this.sceneInited = true;
 	}
+
+	/**
+	 * Push method for the Textures Stack
+	 * Returns the current texture
+	 * @param {Texture struct to put in the Stack} texture 
+	 */
+	pushTexture(texture){
+		if(texture.textureID == "inherit")
+			this.texturesStack.push(this.texturesStack[this.texturesStack.length - 1]);
+		else if(texture.textureID == "none")
+			this.texturesStack.push(null);
+		else
+			this.texturesStack.push(texture);
+		return this.texturesStack[this.texturesStack.length - 1];
+	}
+
+	/**
+	 * Pop method for the Textures Stack
+	 */
+	popTexture(){
+		this.texturesStack.pop();
+	}
+
+	/**
+	 * Push method for the Materials Stack
+	 * Returns the current Material
+	 * @param {Current Material Struct to put in the Stack} material 
+	 */
+	pushMaterial(material){
+		if(material == "inherit")
+			this.materialsStack.push(this.materialsStack[this.materialsStack.length - 1]);
+		else
+			this.materialsStack.push(material);
+		return	this.materialsStack[this.materialsStack.length - 1];
+	}
+
+	/**
+	 * Pop method for the Materials Stack
+	 */
+	popMaterial(){
+		this.materialsStack.pop();
+	}
 	
 	// TODO: apagar (choose one to test)
 	updateCamera(){
@@ -150,27 +198,25 @@ class XMLscene extends CGFscene {
 			this.camera = new CGFcameraOrtho(this.left, this.right, this.bottom, this.top, this.near, this.far, vec3.fromValues(this.posX, this.posY, this.posZ), vec3.fromValues(this.targetX, this.targetY, this.targetZ), vec3.fromValues(this.upX, this.upY, this.upZ) );
 	}
 
-
+	/**
+	 * Check if the M key is pressed and calls NextMaterial in that case
+	 */
 	checkKeys()  {
-		var text="Keys pressed: ";
-		var keysPressed=false;
-		
 		// Check for key codes e.g. in ​https://keycode.info/
-		if (this.gui.isKeyPressed("KeyM")){
-			text+=" M ";
-			keysPressed=true;
+		if (this.gui.isKeyPressed("KeyM"))
 			this.graph.nextMaterial();
-		}
-		
-		if (keysPressed)
-			console.log(text);
-
 	}
 
+	/**
+	 * Checks periodically if the M key is pressed
+	 */
 	update(){
 		this.checkKeys();
 	}
 
+	/**
+	 * Enables/disables Lights Visibility
+	 */
 	turnOffLights(){
 		for(let i = 0; i < this.lights.length; i++)
 			this.lights[i].setVisible(this.displayLights);
@@ -198,6 +244,7 @@ class XMLscene extends CGFscene {
 		if(this.displayAxis)
         	this.axis.display();
 
+		// Update lights
         for (var i = 0; i < this.lights.length; i++)
             this.lights[i].update();
 

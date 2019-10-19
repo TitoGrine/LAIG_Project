@@ -1204,6 +1204,7 @@ class MySceneGraph {
 
 		return this.verifyComponents();
 	}
+	
 	/**
 	 * Verifies cycles and if the component is loaded
 	 * 
