@@ -588,7 +588,7 @@ class MySceneGraph {
 			var extension = re.exec(textureFileName)[1];
 
 			// TODO: ver se return ou ignorar
-			if(extension == null || (extension != "png" && extension != "jpg" && extension != "jpeg")){
+			if(extension == null || (extension != "png" && extension != "jpg")){
 				this.onXMLMinorError("bad file extension \"" + extension + "\". ignored texture with ID = " + textureId);
 				continue;
 				// return "unable to parse filename of the texture file with ID = " + textureId;
@@ -826,7 +826,8 @@ class MySceneGraph {
 
         this.primitives = [];
 
-        var grandChildren = [];
+		var grandChildren = [];
+		var numPrimitives = 0;
 
         // Any number of primitives.
         for (var i = 0; i < children.length; i++) {
@@ -887,7 +888,7 @@ class MySceneGraph {
 				// Initialize and save Rectangle
                 var rect = new MyRectangle(this.scene, primitiveId, x1, x2, y1, y2);
 
-                this.primitives[primitiveId] = rect;
+				this.primitives[primitiveId] = rect;
 			}
 			else if (primitiveType == 'triangle') {
 				var globalCoord = [];
@@ -997,7 +998,16 @@ class MySceneGraph {
  
 				this.primitives[primitiveId] = torus;
 			}
-        }
+			// Does not reach this point
+			else{
+				this.onXMLMinorError("ignored primitive with ID = " + primitiveId + ". \"" + primitiveType + "\" is not a valid primitive type");
+				continue;
+			}
+			numPrimitives++;
+		}
+		
+		if (numPrimitives == 0)
+			return "at least one primitive must be defined";
 
         this.log("Parsed primitives");
         return null;

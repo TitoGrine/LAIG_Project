@@ -184,7 +184,7 @@
         <texture id="metalTexture" file="scenes/images/metal_texture.jpg"/>
         <texture id="blackmetalTexture" file="scenes/images/blackmetal_texture.jpg"/>
         <texture id="canvasTexture" file="scenes/images/canvas_texture.jpg"/>
-        <texture id="haring_painting" file="scenes/images/haring_painting.jpeg"/>
+        <texture id="haring_painting" file="scenes/images/haring_painting.jpg"/>
         <texture id="banksy_painting" file="scenes/images/banksy_painting.jpg"/>
         <texture id="lichtenstein_painting" file="scenes/images/lichtenstein_painting.jpg"/>
         <texture id="basquiat_painting" file="scenes/images/basquiat_painting.jpg"/>
