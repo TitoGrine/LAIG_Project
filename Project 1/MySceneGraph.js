@@ -243,11 +243,10 @@ class MySceneGraph {
 		var firstValidViewID = null;
 		
 		// If the default argument was missing and there is no view define
-		// TODO: ver se tirar o sinal de erro e o return do == 0 ou deixar e n fazer default
         if(this.defView == "" && children.length == 0){
 			this.views["default"] = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
 			this.defView = "default";
-			this.onXMLError("no views defined");
+			this.onXMLError("no views defined. Using default view");
 		}
 
         // Any number views
@@ -282,7 +281,6 @@ class MySceneGraph {
 			}
 
 			// Checks for repeated ID's.
-			// TODO: ver se return ou ignorar
             if(this.views[viewID] != null)
                 return "ID must be unique for each view (conflict: ID = " + viewID + ")";
 
@@ -375,9 +373,11 @@ class MySceneGraph {
 			}
 		}
 
-		// TODO: ver acima do for loop para saber se pôr default ou não
-		if(firstValidViewID == null)
-			return "there must be at least one view defined";
+		if(firstValidViewID == null){
+            this.views["default"] = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+			this.defView = "default";
+            this.onXMLMinorError("there must be at least one valid view defined. Using default view.");
+        }
 		
         // Checks if the set default view actually exists. Sets it to the first valid defined view if it doesn't.
         if(this.views[this.defView] == null){
@@ -465,7 +465,6 @@ class MySceneGraph {
 			}
 
 			// Checks for repeated IDs.
-			// TODO: ver se return ou ignorar
             if (this.lights[lightId] != null)
                 return "ID must be unique for each light (conflict: ID = " + lightId + ")";
 
@@ -576,7 +575,6 @@ class MySceneGraph {
 			}
 			
 			// Checks for repeated IDs.
-			// TODO: ver se return ou ignorar
 			if (this.textures[textureId] != null)
                 return "ID must be unique for each texture (conflict: ID = " + textureId + ")";
 			
@@ -587,11 +585,9 @@ class MySceneGraph {
 			var textureFileName = this.reader.getString(children[i], 'file');
 			var extension = re.exec(textureFileName)[1];
 
-			// TODO: ver se return ou ignorar
 			if(extension == null || (extension != "png" && extension != "jpg")){
 				this.onXMLMinorError("bad file extension \"" + extension + "\". ignored texture with ID = " + textureId);
 				continue;
-				// return "unable to parse filename of the texture file with ID = " + textureId;
 			}
 			
 			// Create a new Texture and save it
@@ -648,7 +644,6 @@ class MySceneGraph {
 			}
 
 			// Checks for repeated IDs.
-			// TODO: ver se return ou ignorar
             if (this.materials[materialID] != null)
                 return "ID must be unique for each light (conflict: ID = " + materialID + ")";
 
@@ -732,7 +727,6 @@ class MySceneGraph {
 			}
 
 			// Checks for repeated IDs.
-			// TODO: ver se return ou ignorar
             if (this.transformations[transformationID] != null)
                 return "ID must be unique for each transformation (conflict: ID = " + transformationID + ")";
 
@@ -752,7 +746,6 @@ class MySceneGraph {
 
             for (var j = 0; j < grandChildren.length; j++) {
                 switch (grandChildren[j].nodeName) {
-					// TODO: ver se return ou ignorar
 					// Parse translate block
                     case 'translate':
                         var coordinates = this.parseCoordinates3DIndex(grandChildren[j], "", "translate transformation for ID " + transformationID);
@@ -773,7 +766,7 @@ class MySceneGraph {
                         break;
 					// Parse rotate block
 					case 'rotate':
-                        var axis = this.reader.getString(grandChildren[j], 'axis'); // TODO: confirm this is the right way to get the character
+                        var axis = this.reader.getString(grandChildren[j], 'axis');
 						if (axis == "")
                             return "no axis defined for rotation for the transformation of ID = " + transformationID;
                         else if (axis.length > 1 || !(axis == 'x' || axis == 'y' || axis == 'z'))
@@ -846,7 +839,6 @@ class MySceneGraph {
 			}
 
 			// Checks for repeated IDs.
-			// TODO: ver se return ou ignorar
             if (this.primitives[primitiveId] != null)
                 return "ID must be unique for each primitive (conflict: ID = " + primitiveId + ")";
 
@@ -891,8 +883,8 @@ class MySceneGraph {
 				this.primitives[primitiveId] = rect;
 			}
 			else if (primitiveType == 'triangle') {
-				var globalCoord = [];
-				// TODO: verificar parametros entre 1, 2 e 3??
+                var globalCoord = [];
+                
 				// p1 (x1, y1, z1)
 				var aux = this.parseCoordinates3DIndex(grandChildren[0], 1, "primitive coordinates for ID = " + primitiveId);
 				if (!Array.isArray(aux))
@@ -917,7 +909,6 @@ class MySceneGraph {
 				this.primitives[primitiveId] = triangle;
 			}
 			else if (primitiveType == 'cylinder') {
-				// TODO: refactor??
 				 // base
 				 var base = this.reader.getFloat(grandChildren[0], 'base');
 				 if (!(base != null && !isNaN(base) && base >= 0))
@@ -934,7 +925,6 @@ class MySceneGraph {
 					 return "unable to parse height of the primitive coordinates for ID = " + primitiveId;
  
 				 // slices
-				 // TODO: assim ou com getInteger que é mais liberal
 				 var slices = this.reader.getFloat(grandChildren[0], 'slices');
 				 if (!(slices != null && Number.isInteger(slices) && slices > 2))
 					 return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
@@ -950,7 +940,6 @@ class MySceneGraph {
 				 this.primitives[primitiveId] = cylinder;
 			}
 			else if (primitiveType == 'sphere') {
-				// TODO: refactor??
 				// radius
 				var radius = this.reader.getFloat(grandChildren[0], 'radius');
 				if (!(radius != null && !isNaN(radius) && radius > 0))
@@ -972,7 +961,6 @@ class MySceneGraph {
 				this.primitives[primitiveId] = sphere;
 			}
 			else if (primitiveType == 'torus') {
-				// TODO: refactor??
 				// inner
 				var inner = this.reader.getFloat(grandChildren[0], 'inner');
 				if (!(inner != null && !isNaN(inner) && inner > 0))
@@ -1043,7 +1031,6 @@ class MySceneGraph {
 			}
 				
 			// Checks for repeated IDs.
-			// TODO: ver se return ou ignorar
             if (this.components[componentID] != null && this.components[componentID].isLoaded())
 				return "ID must be unique for each component (conflict: ID = " + componentID + ")";
 			
@@ -1054,7 +1041,6 @@ class MySceneGraph {
                 nodeNames.push(grandChildren[j].nodeName);
             }
 
-			// TODO: verificar que só há estes 4??
             var transformationIndex = nodeNames.indexOf("transformation");
             var materialsIndex = nodeNames.indexOf("materials");
             var textureIndex = nodeNames.indexOf("texture");
@@ -1188,9 +1174,8 @@ class MySceneGraph {
                     case 'primitiveref':
                         var primitiveRefID = this.reader.getString(grandgrandChildren[j], 'id');
 
-						// TODO: ver se return ou ignorar
                         if(this.primitives[primitiveRefID] == null)
-                            return "there is no primitive with ID = " + primitiveRefID + ". Used as a child of the component with ID = " + componentID; // TODO: Check if this is true
+                            return "there is no primitive with ID = " + primitiveRefID + ". Used as a child of the component with ID = " + componentID; 
 
                         numChildren++; // Valid child
 
@@ -1406,10 +1391,9 @@ class MySceneGraph {
 					continue;
 				}
 							
-				// TODO: ver se return ou ignorar
 				// Check if the transformation exists
 				if(this.transformations[transformationID] == null)
-					return "there is no transformation with ID " + transformationID;
+                this.onXMLMinorError("there is no transformation with ID " + transformationID);
 				
 				// Ignore the rest of the transformations
 				if(node.length > 1)
@@ -1432,7 +1416,6 @@ class MySceneGraph {
 					break;
 			   // Parse scale block
 				case 'scale':
-					// TODO: refactor coordinates3d??
 					var scaleFactors = this.parseCoordinates3DIndex(node[j], "", "scale transformation for the component ID " + messageError);                  
 					if (!Array.isArray(scaleFactors))
 						return scaleFactors;
@@ -1441,7 +1424,7 @@ class MySceneGraph {
 					break;
 				// Parse rotate block
 				case 'rotate':
-					var axis = this.reader.getString(node[j], 'axis'); // TODO: confirm this is the right way to get the character
+					var axis = this.reader.getString(node[j], 'axis');
 					if (axis == "")
 						return "no axis defined for rotation for the transformation of the component of ID = " + messageError;
 					else if (axis.length > 1 || !(axis == 'x' || axis == 'y' || axis == 'z'))

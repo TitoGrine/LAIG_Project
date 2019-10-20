@@ -28,7 +28,7 @@ class MyInterface extends CGFinterface {
 		this.initKeys();
 		
 
-		// TODO: prov apagar
+		/*
 		if(this.scene.testCamera){
 			var cameraNormal = this.gui.addFolder('Camera');
 			cameraNormal.add(this.scene, 'near', -3.0, 3.0).step(0.1).name('Near').onChange(this.scene.updateCamera.bind(this.scene));
@@ -51,6 +51,7 @@ class MyInterface extends CGFinterface {
 			}
 		}
 		//fim
+		*/
 
         return true;
     }

@@ -33,24 +33,24 @@
         </perspective>
 
         <perspective id="Sculpure - Ilusao" near="0.2" far="600" angle="45">
-            <to  x="105" y="2" z="-20"/>
 			<from  x="105" y="55" z="-10"/>
+            <to  x="105" y="2" z="-20"/>
         </perspective>
         <ortho id="Sculpure - Ilusao: Retangulo F" near="0.1" far="600" left="-25" right="25" top="30" bottom="-5">
-            <to  x="105" y="2" z="-20"/>
 			<from  x="105" y="2" z="-10"/>
+            <to  x="105" y="2" z="-20"/>
         </ortho>
 		<ortho id="Sculpure - Ilusao: Retangulo B" near="0.1" far="600" left="-25" right="25" top="30" bottom="-5">
-            <to  x="105" y="2" z="-20"/>
 			<from  x="105" y="2" z="-30"/>
+            <to  x="105" y="2" z="-20"/>
         </ortho>
 		<ortho id="Sculpure - Ilusao: Triangulo" near="0.1" far="600" left="-25" right="25" top="30" bottom="-5">
-            <to  x="105" y="2" z="-20"/>
 			<from  x="115" y="2" z="-20"/>
+            <to  x="105" y="2" z="-20"/>
         </ortho>
 		<ortho id="Sculpure - Ilusao: Circulo" near="0.1" far="600" left="-25" right="25" top="30" bottom="-5">
-            <to  x="105" y="2" z="-20"/>
 			<from  x="95" y="2" z="-20"/>
+            <to  x="105" y="2" z="-20"/>
         </ortho>
 		
 		<perspective id="PopArt Room" near="0.1" far="600" angle="50">
