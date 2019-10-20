@@ -94,7 +94,8 @@ class MyComponent extends CGFobject {
 		this.currTexture = this.scene.pushTexture(this.component.texture);
 
 		// Applies Transformation
-		this.scene.multMatrix(this.component.transformation);
+		if(this.component.transformation != null)
+			this.scene.multMatrix(this.component.transformation);
 
 		// Applies Texture
 		if(this.currTexture != null)

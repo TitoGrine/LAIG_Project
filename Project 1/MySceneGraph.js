@@ -1390,12 +1390,7 @@ class MySceneGraph {
 
 		var explicitTransf = false;
 
-		// Verify if there is at least one transformation ref or explicit
-		if(node.length == 0)
-			return "there is no transformation defined for the component " + messageError;
-
-		var validTransf = false;
-        for(var j = 0; j < node.length; j++){ 
+		 for(var j = 0; j < node.length; j++){ 
 			if(node[j].nodeName == "transformationref"){
 				// If explicit transformation already begun to be defined, ignore all transformation refs
 				if(explicitTransf){
@@ -1422,7 +1417,6 @@ class MySceneGraph {
 
 				// Save Transformation in the component
 				component.transformation = this.transformations[transformationID];
-				validTransf = true;
 				break;
 			}
 
@@ -1435,7 +1429,6 @@ class MySceneGraph {
 						return coordinates;
 
 					transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
-					validTransf = true;
 					break;
 			   // Parse scale block
 				case 'scale':
@@ -1445,7 +1438,6 @@ class MySceneGraph {
 						return scaleFactors;
 					
 					transfMatrix = mat4.scale(transfMatrix, transfMatrix, scaleFactors);
-					validTransf = true;
 					break;
 				// Parse rotate block
 				case 'rotate':
@@ -1466,7 +1458,6 @@ class MySceneGraph {
 					rotationVec.push(...[('x' == axis), ('y' == axis), ('z' == axis)]);
 
 					transfMatrix = mat4.rotate(transfMatrix, transfMatrix, angle, rotationVec);
-					validTransf = true;
 					break;
 				// Other node Name
 				default:
@@ -1476,10 +1467,7 @@ class MySceneGraph {
 			}
 		}
 
-		// If there is none valid transformation inside
-		if(!validTransf)
-			return "Component " + messageError + " doesn't contain valid transformations";
-
+		
 		// Save Eplicit Transformation
 		if(explicitTransf)
 			component.transformation = transfMatrix;
