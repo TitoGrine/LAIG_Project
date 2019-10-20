@@ -1090,7 +1090,7 @@
             <sphere radius="0.2" slices="50" stacks="50" />
         </primitive>
         <primitive id="illusion_circle">
-		    <torus inner="0.4" outer="0.8" slices="50" loops="2" />
+		    <torus inner="0.4" outer="0.8" slices="2" loops="50" />
         </primitive>
 
 

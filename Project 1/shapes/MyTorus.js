@@ -5,8 +5,8 @@
  * @param {Torus ID} id
  * @param {Radius of the "tube"} inner 
  * @param {Radius of the "circular axis" of the torus} outer 
- * @param {Number of divisions along the circular axis} slices 
- * @param {Number of divisions on the "tube"} loops 
+ * @param {Number of sides along the inner circle} slices 
+ * @param {Number of circles around "tube"} loops 
  */
 class MyTorus extends CGFobject {
 	constructor(scene, id, inner, outer, slices, loops) {
@@ -15,8 +15,8 @@ class MyTorus extends CGFobject {
 		this.id = id;
 		this.innerRadius = inner;
 		this.outerRaidus = outer;
-		this.slices = slices;
 		this.loops = loops;
+		this.slices = slices;
 		
 		this.initBuffers();
 	}
@@ -29,12 +29,12 @@ class MyTorus extends CGFobject {
 
 		var thetaAng = 0;
 		var phiAng = 0;
-		var thetaInc = 2*Math.PI/this.slices;
-		var phiInc = 2*Math.PI/ this.loops;
+		var thetaInc = 2*Math.PI/this.loops;
+		var phiInc = 2*Math.PI/ this.slices;
 
-		for(let j = 0; j <= this.loops; j++){
+		for(let j = 0; j <= this.slices; j++){
 
-			for(let i = 0; i <= this.slices; i++){
+			for(let i = 0; i <= this.loops; i++){
 				
 				// vertices
 				this.vertices.push( (this.outerRaidus + this.innerRadius * Math.cos(phiAng) ) * Math.cos(thetaAng),
@@ -45,7 +45,7 @@ class MyTorus extends CGFobject {
 				this.normals.push( Math.cos(phiAng) * Math.cos(thetaAng), Math.cos(phiAng) * Math.sin(thetaAng),  Math.sin( phiAng ));
 
 				// Texture Coordinates
-				this.texCoords.push( i / this.slices, j / this.loops);
+				this.texCoords.push( i / this.loops, j / this.slices);
 
 				thetaAng+=thetaInc;
 			}
@@ -55,10 +55,10 @@ class MyTorus extends CGFobject {
 		}
 
 		// indices
-		for(var j = 0; j < this.loops; j++)
-			for (var i = 0; i < this.slices; i++) {
-				this.indices.push( j * (this.slices + 1) + 		i, 	j 		* (this.slices + 1) + 1 + i, (j + 1) * (this.slices + 1) + i);
-				this.indices.push( j * (this.slices + 1) +  1 + i, (j + 1) 	* (this.slices + 1) + 1 + i, (j + 1) * (this.slices + 1) + i);
+		for(var j = 0; j < this.slices; j++)
+			for (var i = 0; i < this.loops; i++) {
+				this.indices.push( j * (this.loops + 1) + 		i, 	j 		* (this.loops + 1) + 1 + i, (j + 1) * (this.loops + 1) + i);
+				this.indices.push( j * (this.loops + 1) +  1 + i, (j + 1) 	* (this.loops + 1) + 1 + i, (j + 1) * (this.loops + 1) + i);
 			}
 		
 		this.primitiveType = this.scene.gl.TRIANGLES;
