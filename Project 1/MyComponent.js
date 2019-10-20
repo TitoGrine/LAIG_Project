@@ -97,14 +97,15 @@ class MyComponent extends CGFobject {
 		this.scene.multMatrix(this.component.transformation);
 
 		// Applies Texture
-		this.currMaterial.setTexture(this.currTexture.textureID);
+		if(this.currTexture != null)
+			this.currMaterial.setTexture(this.currTexture.textureID);
 		// Applies Material
 		this.currMaterial.apply();
 		
 		// Loop through children to display them recursively
 		for(let i = 0; i < this.component.children.length; i++){
 			// If it is a primitive applies texture transformations
-			if(!(this.component.children[i] instanceof MyComponent))
+			if(!(this.component.children[i] instanceof MyComponent) && this.currTexture != null)
 				this.component.children[i].updateTexCoords(this.currTexture.length_s, this.currTexture.length_t);
 			// Calls child's display method
 			this.component.children[i].display();
