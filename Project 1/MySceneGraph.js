@@ -984,12 +984,12 @@ class MySceneGraph {
  
 				// slices
 				var slices = this.reader.getFloat(grandChildren[0], 'slices');
-				if (!(slices != null && Number.isInteger(slices) && slices > 2))
+				if (!(slices != null && Number.isInteger(slices) && slices > 1))
 					return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
 				
 				// loops
 				var loops = this.reader.getFloat(grandChildren[0], 'loops');
-				if (!(loops != null && Number.isInteger(loops) && loops > 1))
+				if (!(loops != null && Number.isInteger(loops) && loops > 2))
 					return "unable to parse loops of the primitive coordinates for ID = " + primitiveId;
 				
 				// Initialize and save Torus
