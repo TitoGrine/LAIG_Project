@@ -1,1 +1,5 @@
+# WebCGF Library
 lib/
+
+# Visual Studio Code files
+.vscode/*
