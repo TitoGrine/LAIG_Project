@@ -415,8 +415,8 @@
 	<animations>
 		<animation id="smt">
 			<keyframe instant="1.2">
-	        	<rotate angle_x="23" angle_y="2" angle_z="4" />
 				<translate x="2" y="3" z="4" />
+	        	<rotate angle_x="23" angle_y="2" angle_z="4" />
 				<scale x="4" y="4" z="4" />
 			</keyframe>
 
