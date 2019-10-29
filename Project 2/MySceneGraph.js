@@ -1314,7 +1314,9 @@ class MySceneGraph {
                 nodeNames.push(grandChildren[j].nodeName);
             }
 
-            var transformationIndex = nodeNames.indexOf("transformation");
+			var transformationIndex = nodeNames.indexOf("transformation");
+			// TODO: ver obriagoriedade de ordem
+			var animationIndex = nodeNames.indexOf("animationref");
             var materialsIndex = nodeNames.indexOf("materials");
             var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
@@ -1332,6 +1334,18 @@ class MySceneGraph {
 			var aux = this.parseComponentTransformation(grandgrandChildren, component, componentID);
 			if(aux != null)
 				return aux;
+
+			// Animation
+			if (animationIndex != -1){
+				var animationID = this.reader.getString(grandChildren[animationIndex], 'id');
+				// Ignore animation if the ID is missing
+				if(animationID == "" || animationID == null)
+					this.onXMLMinorError("ignored animationref: ID is missing of the component with ID = " + componentID);
+				else if(this.animations[animationID] == null)
+					return "there is no animation with ID " + animationID;
+				else
+					component.animation = this.animations[animationID];
+			}			
 
 			// Materials
             if(materialsIndex == -1)
