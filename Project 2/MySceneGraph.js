@@ -8,8 +8,15 @@ var LIGHTS_INDEX = 3;
 var TEXTURES_INDEX = 4;
 var MATERIALS_INDEX = 5;
 var TRANSFORMATIONS_INDEX = 6;
-var PRIMITIVES_INDEX = 7;
-var COMPONENTS_INDEX = 8;
+var ANIMATIONS_INDEX = 7;
+var PRIMITIVES_INDEX = 8;
+var COMPONENTS_INDEX = 9;
+
+// Order of the Animation Transformations in the XML document.
+var TRANSLATE_INDEX = 0;
+var ROTATE_INDEX = 1;
+var SCALE_INDEX = 2;
+
 
 /**
  * MySceneGraph class, representing the scene graph.
@@ -170,6 +177,18 @@ class MySceneGraph {
             //Parse transformations block
             if ((error = this.parseTransformations(nodes[index])) != null)
                 return error;
+		}
+		
+		// <animations>
+        if ((index = nodeNames.indexOf("animations")) == -1)
+            return "tag <animations> missing";
+        else {
+            if (index != ANIMATIONS_INDEX)
+                this.onXMLMinorError("tag <animations> out of order");
+
+            //Parse animations block
+            if ((error = this.parseAnimations(nodes[index])) != null)
+                return error;
         }
 
         // <primitives>
@@ -243,7 +262,7 @@ class MySceneGraph {
 		var firstValidViewID = null;
 		
 		// If the default argument was missing and there is no view define
-        if(this.defView == "" && children.length == 0){
+        if((this.defView == "" || this.defView == null) && children.length == 0){
 			this.views["default"] = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
 			this.defView = "default";
 			this.onXMLError("no views defined. Using default view");
@@ -275,7 +294,7 @@ class MySceneGraph {
             // Get ID of current view
 			var viewID = this.reader.getString(children[i], 'id');
 			// Ignore view if the ID is missing
-            if(viewID == ""){
+            if(viewID == "" || viewID == null){
 				this.onXMLMinorError("ignored view in the position " + (i + 1) + ": ID is missing");
 				continue;
 			}
@@ -367,7 +386,7 @@ class MySceneGraph {
 				firstValidViewID = viewID;
 			
 			// If there was no default view defined, it is assumed it is the first valid view
-			if(this.defView == ""){
+			if(this.defView == "" || this.defView == null){
 				this.defView = firstValidViewID;
 				this.onXMLMinorError("no default view defined. Default set to first valid defined view: " + this.defView);
 			}
@@ -459,7 +478,7 @@ class MySceneGraph {
             // Get id of the current light.
 			var lightId = this.reader.getString(children[i], 'id');
 			// Ignore light if the ID is missing
-            if(lightId == ""){
+            if(lightId == "" || lightId == null){
 				this.onXMLMinorError("ignored light in the position " + (i + 1) + ": ID is missing");
 				continue;
 			}
@@ -569,7 +588,7 @@ class MySceneGraph {
 	        // Get id of the current texture.
 			var textureId = this.reader.getString(children[i], 'id');
 			// Ignore view if the ID is missing
-            if(textureId == ""){
+            if(textureId == "" || textureId == null){
 				this.onXMLMinorError("ignored texture in the position " + (i + 1) + ": ID is missing");
 				continue;
 			}
@@ -638,7 +657,7 @@ class MySceneGraph {
             // Get id of the current material.
 			var materialID = this.reader.getString(children[i], 'id');
 			// Ignore material if the ID is missing
-            if(materialID == ""){
+            if(materialID == "" || materialID == null){
 				this.onXMLMinorError("ignored material in the position " + (i + 1) + ": ID is missing");
 				continue;
 			}
@@ -721,7 +740,7 @@ class MySceneGraph {
             // Get id of the current transformation.
 			var transformationID = this.reader.getString(children[i], 'id');
 			// Ignore transformation if the ID is missing
-            if(transformationID == ""){
+            if(transformationID == "" || transformationID == null){
 				this.onXMLMinorError("ignored transformation in the position " + (i + 1) + ": ID is missing");
 				continue;
 			}
@@ -767,7 +786,7 @@ class MySceneGraph {
 					// Parse rotate block
 					case 'rotate':
                         var axis = this.reader.getString(grandChildren[j], 'axis');
-						if (axis == "")
+						if (axis == "" || axis == null)
                             return "no axis defined for rotation for the transformation of ID = " + transformationID;
                         else if (axis.length > 1 || !(axis == 'x' || axis == 'y' || axis == 'z'))
                             return  "invalid axis of rotation for the transformation of ID = " + transformationID + ". It must be a single character from the following: 'x', 'y' or 'z'."; 
@@ -808,7 +827,185 @@ class MySceneGraph {
 			
         this.log("Parsed transformations");
         return null;
-    }
+	}
+	
+	/**
+     * Parses the <animations> block.
+     * @param {animations block element} animationsNode
+     */
+	parseAnimations(animationsNode) {
+		var children = animationsNode.children;
+
+		this.animations = [];
+
+		var grandChildren = [];
+		var grandgrandChildren = [];
+		var invalidKeyframe = false;
+
+        // Any number of animations.
+        for (var i = 0; i < children.length; i++) {
+
+            if (children[i].nodeName != "animation") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+
+            // Get id of the current animation.
+			var animationID = this.reader.getString(children[i], 'id');
+			// Ignore animation if the ID is missing
+            if(animationID == "" || animationID == null){
+				this.onXMLMinorError("ignored animation in the position " + (i + 1) + ": ID is missing");
+				continue;
+			}
+
+			// Checks for repeated IDs.
+            if (this.animations[animationID] != null)
+                return "ID must be unique for each animation (conflict: ID = " + animationID + ")";
+
+			// keyframes
+			grandChildren = children[i].children; 
+			
+			// Verify if there is at least one keyframe in each block
+			if(grandChildren.length == 0){
+				this.onXMLMinorError("animation " + animationID + " was ignored because it has none keyframes blocks (minimum 1)");
+				continue;
+			}
+			
+			invalidKeyframe = false;
+			var keyframes = [];
+
+            // For each keyframe.
+            for (var j = 0; j < grandChildren.length; j++) {
+
+				// Get instant of the current keyframe.
+				var keyframeInstant = this.reader.getString(grandChildren[j], 'instant');
+
+				// Ignore keyframe if the ID is missing
+				if(keyframeInstant == "" || keyframeInstant == null){
+					this.onXMLMinorError("missing keyframe instant in the position " + (j + 1));
+					invalidKeyframe = true;
+					break;
+				}
+	
+				// Checks for repeated IDs.
+				if (keyframes[keyframeInstant] != null){
+					this.onXMLMinorError( "Instant must be unique for each keyframe ignored second one (conflict: ID = " + keyframeInstant + ")");
+					continue;
+				}
+
+				var transfAniMatrix = mat4.create();
+				// Keyframe Transformations
+				grandgrandChildren = grandChildren[j].children;
+
+				// Reads the names of the transformation nodes to an auxiliary buffer.
+				var nodeNames = [];
+
+				for (var k = 0; k < grandgrandChildren.length; k++) {
+					nodeNames.push(grandgrandChildren[k].nodeName);
+				}
+		 
+		 
+				// Processes each node, verifying errors.
+		 
+				// <translate>
+				var index;
+				if ((index = nodeNames.indexOf("translate")) == -1){
+					this.onXMLMinorError("tag translate missing in keyframe instant " + keyframeInstant);
+					invalidKeyframe = true;
+					break;
+				}
+				else {
+					if (index != TRANSLATE_INDEX)
+						this.onXMLMinorError("tag translate out of order " + index + " in keyframe instant " + keyframeInstant);
+		 
+					//Parse translate block
+					var coordinates = this.parseCoordinates3DIndex(grandgrandChildren[index], "", "translation in keyframe " +  keyframeInstant);
+					if (!Array.isArray(coordinates)){
+						this.onXMLMinorError(coordinates);
+						invalidKeyframe = true;
+						break;
+					}
+					transfAniMatrix = mat4.translate(transfAniMatrix, transfAniMatrix, coordinates);
+				}
+
+				// <rotate>
+				var index;
+				if ((index = nodeNames.indexOf("rotate")) == -1){
+					this.onXMLMinorError("tag rotate missing in keyframe instant " + keyframeInstant);
+					invalidKeyframe = true;
+					break;
+				}
+				else {
+					if (index != ROTATE_INDEX)
+						this.onXMLMinorError("tag rotate out of order " + index + " in keyframe instant " + keyframeInstant);
+		  
+					//Parse rotate block				
+					// x
+					var x = this.reader.getFloat(grandgrandChildren[index], 'angle_x');
+					if (!(x != null && !isNaN(x))){
+						this.onXMLMinorError( "unable to parse angle_x of the rotation in keyframe " +  keyframeInstant);
+						invalidKeyframe = true;
+						break;
+					}
+				
+					// y
+					var y = this.reader.getFloat(grandgrandChildren[index], 'angle_y');
+					if (!(y != null && !isNaN(y))){
+						this.onXMLMinorError( "unable to parse angle_y of the rotation in keyframe " +  keyframeInstant);
+						invalidKeyframe = true;
+						break;
+					}
+				
+					// z
+					var z = this.reader.getFloat(grandgrandChildren[index], 'angle_z');
+					if (!(z != null && !isNaN(z))){
+						this.onXMLMinorError( "unable to parse angle_z of the rotation in keyframe " +  keyframeInstant);
+						invalidKeyframe = true;
+						break;
+					}
+				
+					transfAniMatrix = mat4.rotate(transfAniMatrix, transfAniMatrix, x * DEGREE_TO_RAD, [1, 0, 0]);
+					transfAniMatrix = mat4.rotate(transfAniMatrix, transfAniMatrix, y * DEGREE_TO_RAD, [0, 1, 0]);
+					transfAniMatrix = mat4.rotate(transfAniMatrix, transfAniMatrix, z * DEGREE_TO_RAD, [0, 0, 1]);
+				}
+
+				// <scale>
+				var index;
+				if ((index = nodeNames.indexOf("scale")) == -1){
+					this.onXMLMinorError("tag scale missing in keyframe instant " + keyframeInstant);
+					invalidKeyframe = true;
+					break;
+				}
+				else {
+					if (index != SCALE_INDEX)
+						this.onXMLMinorError("tag scale out of order " + index + " in keyframe instant " + keyframeInstant);
+		  
+					//Parse scale block
+					var scaleFactors = this.parseCoordinates3DIndex(grandgrandChildren[index], "", "scale in keyframe " +  keyframeInstant);                  
+					if (!Array.isArray(scaleFactors)){
+						this.onXMLMinorError(scaleFactors);
+						invalidKeyframe = true;
+						break;
+					}
+					
+					transfAniMatrix = mat4.scale(transfAniMatrix, transfAniMatrix, scaleFactors);
+				}
+
+				keyframes[keyframeInstant] = transfAniMatrix;
+			}
+
+			if(invalidKeyframe){
+				this.onXMLMinorError("animation " + animationID + " was ignored because it has invalid keyframes blocks");
+				continue;
+			}
+
+			// Save animation matrix
+			this.animations[animationID] = keyframes;
+        }
+
+        this.log("Parsed animations");
+        return null;
+	}
 
     /**
      * Parses the <primitives> block.
@@ -833,7 +1030,7 @@ class MySceneGraph {
             // Get id of the current primitive.
 			var primitiveId = this.reader.getString(children[i], 'id');
 			// Ignore primitive if the ID is missing
-            if(primitiveId == ""){
+            if(primitiveId == "" || primitiveId == null){
 				this.onXMLMinorError("ignored primitive in the position " + (i + 1) + ": ID is missing");
 				continue;
 			}
@@ -1025,7 +1222,7 @@ class MySceneGraph {
             // Get id of the current component.
 			var componentID = this.reader.getString(children[i], 'id');
 			// Ignore component if the ID is missing
-            if(componentID == ""){
+            if(componentID == "" || componentID == null){
 				this.onXMLMinorError("ignored component in the position " + (i + 1) + ": ID is missing");
 				continue;
 			}
@@ -1074,7 +1271,7 @@ class MySceneGraph {
 				// Get id of the current material.
                 var materialID = this.reader.getString(grandgrandChildren[j], 'id');
 				// Ignore material if the ID is missing
-				if(materialID == ""){
+				if(materialID == "" || materialID == null){
 					this.onXMLMinorError("ignored material in the position " + (i + 1) + ": ID is missing of the component with ID = " + componentID);
 					continue;
 				}
@@ -1107,7 +1304,7 @@ class MySceneGraph {
 			
 			// Get id of the current texture
 			var textureID = this.reader.getString(grandChildren[textureIndex], 'id'); 
-			if (textureID == "")
+			if (textureID == "" || textureID == null)
 				return "no ID defined for texture for component " + componentID;
 			
 			if(this.textures[textureID] == null && textureID != "inherit" && textureID != "none")
@@ -1149,7 +1346,7 @@ class MySceneGraph {
 	            // Get id of the current child.
                 var childrenID = this.reader.getString(grandgrandChildren[j], 'id');
 				// Ignore child if the ID is missing
-				if(childrenID == ""){
+				if(childrenID == "" || childrenID == null){
 					this.onXMLMinorError("no ID defined for child in the position " + (j + 1) + " for component " + componentID);
 					continue;
 
@@ -1386,7 +1583,7 @@ class MySceneGraph {
 	            // Get ID of current transformation reference
 				var transformationID = this.reader.getString(node[j], 'id');
 				// Ignore transformation if the ID is missing
-				if(transformationID == ""){
+				if(transformationID == "" || transformationID == null){
 					this.onXMLMinorError("no ID defined for transformation for component " + messageError);
 					continue;
 				}
@@ -1425,7 +1622,7 @@ class MySceneGraph {
 				// Parse rotate block
 				case 'rotate':
 					var axis = this.reader.getString(node[j], 'axis');
-					if (axis == "")
+					if (axis == "" || axis == null)
 						return "no axis defined for rotation for the transformation of the component of ID = " + messageError;
 					else if (axis.length > 1 || !(axis == 'x' || axis == 'y' || axis == 'z'))
 						return  "invalid axis of rotation for the transformation of the component of ID = " + messageError + ". It must be a single character from the following: 'x', 'y' or 'z'."; 
