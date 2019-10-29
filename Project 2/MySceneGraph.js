@@ -1060,12 +1060,11 @@ class MySceneGraph {
 
             grandChildren = children[i].children;
 
-            // Validate the primitive type
-            if (grandChildren.length != 1 ||
-                (grandChildren[0].nodeName != 'rectangle' && grandChildren[0].nodeName != 'triangle' &&
-                    grandChildren[0].nodeName != 'cylinder' && grandChildren[0].nodeName != 'sphere' &&
-                    grandChildren[0].nodeName != 'torus')) {
-                return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere or torus)"
+			// Validate the primitive type
+			var validPrimitives = ['rectangle', 'triangle', 'cylinder', 'sphere', 'torus', 'plane', 'patch', 'cylinder2']
+			
+            if (grandChildren.length != 1 || !validPrimitives.includes(grandChildren[0].nodeName)) {
+                return "There must be exactly 1 primitive type (" + validPrimitives + ")"
             }
 
             // Specifications for the current primitive.
@@ -1202,6 +1201,64 @@ class MySceneGraph {
  
 				this.primitives[primitiveId] = torus;
 			}
+			else if (primitiveType == 'plane'){
+				// npartsU
+				var npartsU = this.reader.getFloat(grandChildren[0], 'npartsU');
+				if (!(npartsU != null && Number.isInteger(npartsU) && npartsU > 0))
+					return "unable to parse npartsU of the primitive coordinates for ID = " + primitiveId;
+				
+				// npartsV
+				var npartsV = this.reader.getFloat(grandChildren[0], 'npartsV');
+				if (!(npartsV != null && Number.isInteger(npartsV) && npartsV > 0))
+					return "unable to parse npartsV of the primitive coordinates for ID = " + primitiveId;
+				
+				// Initialize and save Plane
+				// TODO: verificar assim ou contratio
+				var plane = new MyPlane(this.scene, primitiveId, npartsU, npartsV);
+ 
+				this.primitives[primitiveId] = plane;
+			}
+			else if (primitiveType == 'cylinder2') {
+				// base
+				var base = this.reader.getFloat(grandChildren[0], 'base');
+				if (!(base != null && !isNaN(base) && base >= 0))
+					return "unable to parse base of the primitive coordinates for ID = " + primitiveId;
+
+				// top
+				var top = this.reader.getFloat(grandChildren[0], 'top');
+				if (!(top != null && !isNaN(top) && top >= 0))
+					return "unable to parse top of the primitive coordinates for ID = " + primitiveId;
+
+				// height
+				var height = this.reader.getFloat(grandChildren[0], 'height');
+				if (!(height != null && !isNaN(height) && height >= 0))
+					return "unable to parse height of the primitive coordinates for ID = " + primitiveId;
+
+				// slices
+				var slices = this.reader.getFloat(grandChildren[0], 'slices');
+				if (!(slices != null && Number.isInteger(slices) && slices > 2))
+					return "unable to parse slices of the primitive coordinates for ID = " + primitiveId;
+
+				// stacks
+				var stacks = this.reader.getFloat(grandChildren[0], 'stacks');
+				if (!(stacks != null && Number.isInteger(stacks) && stacks > 0))
+					return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;
+			   
+			   // Initialize and save Cylinder2
+				var cylinder2 = new MyNurbCylinder(this.scene, primitiveId, base, top, height, slices, stacks);
+
+				this.primitives[primitiveId] = cylinder2;
+			}
+			else if (primitiveType == 'patch') {
+				console.log("TODO: MyPatch parsing");
+				// TODO: como discutido 
+
+			   // Initialize and save Patch
+				//var patch = new MyPatch(this.scene, ...);
+
+				//this.primitives[primitiveId] = patch;
+			}
+
 			// Does not reach this point
 			else{
 				this.onXMLMinorError("ignored primitive with ID = " + primitiveId + ". \"" + primitiveType + "\" is not a valid primitive type");
