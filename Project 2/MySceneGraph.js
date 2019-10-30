@@ -895,6 +895,7 @@ class MySceneGraph {
 
             // For each keyframe.
             for (var j = 0; j < grandChildren.length; j++) {
+				var keyframe = {};
 
 				// Get instant of the current keyframe.
 				var keyframeInstant = this.reader.getString(grandChildren[j], 'instant');
@@ -912,7 +913,6 @@ class MySceneGraph {
 					continue;
 				}
 
-				var transfAniMatrix = mat4.create();
 				// Keyframe Transformations
 				grandgrandChildren = grandChildren[j].children;
 
@@ -944,7 +944,7 @@ class MySceneGraph {
 						invalidKeyframe = true;
 						break;
 					}
-					transfAniMatrix = mat4.translate(transfAniMatrix, transfAniMatrix, coordinates);
+					keyframe.translate = coordinates;
 				}
 
 				// <rotate>
@@ -983,9 +983,7 @@ class MySceneGraph {
 						break;
 					}
 				
-					transfAniMatrix = mat4.rotate(transfAniMatrix, transfAniMatrix, x * DEGREE_TO_RAD, [1, 0, 0]);
-					transfAniMatrix = mat4.rotate(transfAniMatrix, transfAniMatrix, y * DEGREE_TO_RAD, [0, 1, 0]);
-					transfAniMatrix = mat4.rotate(transfAniMatrix, transfAniMatrix, z * DEGREE_TO_RAD, [0, 0, 1]);
+					keyframe.rotate = [x * DEGREE_TO_RAD, y * DEGREE_TO_RAD, z * DEGREE_TO_RAD];
 				}
 
 				// <scale>
@@ -1007,10 +1005,20 @@ class MySceneGraph {
 						break;
 					}
 					
-					transfAniMatrix = mat4.scale(transfAniMatrix, transfAniMatrix, scaleFactors);
+					keyframe.scale = scaleFactors;
 				}
 
-				keyframes[keyframeInstant] = transfAniMatrix;
+				keyframe.instant = keyframeInstant;
+				//keyframe.transMatrix = transfAniMatrix;
+				if(j == 0){
+					var kfIndentity = {};
+					kfIndentity.instant = 0;
+					kfIndentity.translate = [0, 0, 0];
+					kfIndentity.rotate = [0, 0, 0];
+					kfIndentity.scale = [1, 1, 1];	
+					keyframes.push(kfIndentity);
+				}
+				keyframes.push(keyframe);
 			}
 
 			if(invalidKeyframe){
@@ -1019,7 +1027,7 @@ class MySceneGraph {
 			}
 
 			// Save animation matrix
-			this.animations[animationID] = keyframes;
+			this.animations[animationID] = new KeyframeAnimation(this.scene, animationID, keyframes);
         }
 
         this.log("Parsed animations");
@@ -1774,6 +1782,12 @@ class MySceneGraph {
 	 */
 	nextMaterial(){
 		this.components[this.idRoot].nextMaterial();
+	}
+
+	// TODO: ver isto depois
+	updateAnimations(time){
+		for(var key in this.components)
+			this.components[key].updateAnimation(time);
 	}
 
     /**

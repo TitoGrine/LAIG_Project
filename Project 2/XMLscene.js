@@ -37,7 +37,7 @@ class XMLscene extends CGFscene {
 		this.texturesStack = [];
 		this.materialsStack = [];
 
-		this.displayAxis = false;
+		this.displayAxis = true;
 		this.displayLights = true;
 
         this.setUpdatePeriod(100);
@@ -179,8 +179,11 @@ class XMLscene extends CGFscene {
 	/**
 	 * Checks periodically if the M key is pressed
 	 */
-	update(){
+	update(t){
 		this.checkKeys();
+
+		if(this.sceneInited)	
+			this.graph.updateAnimations(t);
 	}
 
 	/**
