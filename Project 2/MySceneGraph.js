@@ -1258,13 +1258,57 @@ class MySceneGraph {
 				this.primitives[primitiveId] = cylinder2;
 			}
 			else if (primitiveType == 'patch') {
-				console.log("TODO: MyPatch parsing");
-				// TODO: como discutido 
+                var greatgrandChildren = [];
+                greatgrandChildren = grandChildren[0].children;
+                
+                var controlPoints = [];
+
+                // npointsU
+				var npointsU = this.reader.getFloat(grandChildren[0], 'npointsU');
+				if (!(npointsU != null && Number.isInteger(npointsU) && npointsU > 0))
+					return "unable to parse npointsU of the primitive coordinates for ID = " + primitiveId;
+				
+				// npointsV
+				var npointsV = this.reader.getFloat(grandChildren[0], 'npointsV');
+				if (!(npointsV != null && Number.isInteger(npointsV) && npointsV > 0))
+                    return "unable to parse npointsV of the primitive coordinates for ID = " + primitiveId;
+                    
+                // npartsU
+				var npartsU = this.reader.getFloat(grandChildren[0], 'npartsU');
+				if (!(npartsU != null && Number.isInteger(npartsU) && npartsU > 0))
+					return "unable to parse npartsU of the primitive coordinates for ID = " + primitiveId;
+				
+				// npartsV
+				var npartsV = this.reader.getFloat(grandChildren[0], 'npartsV');
+				if (!(npartsV != null && Number.isInteger(npartsV) && npartsV > 0))
+					return "unable to parse npartsV of the primitive coordinates for ID = " + primitiveId;
+                
+                var numberControlPoints = npointsU * npointsV;
+                var validControlPoints = 0;
+                
+                for (var i = 0; i < greatgrandChildren.length; i++){
+                    if(greatgrandChildren[i].nodeName == 'controlpoint'){
+                        var controlpoint = this.parsePatchCoordinates3D(greatgrandChildren[i], "control point coordenates of patch with ID " + primitiveId);
+                        if (!Array.isArray(controlpoint))
+                            return controlpoint;
+
+                        controlPoints.push(controlpoint);
+
+                        validControlPoints++;
+                    }
+                    else
+				        this.onXMLMinorError("there is an error on one of the control points of the patch primitive of ID = " + primitiveId + ". Ignoring this control point.");
+                }
+
+                //console.log(controlPoints);
+
+                if(numberControlPoints != validControlPoints)
+                    return "the number of valid control points in the patch primitive of ID = " + primitiveId + " , must be equal to npointsU x npointsV";
 
 			   // Initialize and save Patch
-				//var patch = new MyPatch(this.scene, ...);
+				var patch = new MyPatch(this.scene, primitiveId, npointsU - 1, npointsV - 1, npartsU, npartsV, controlPoints);
 
-				//this.primitives[primitiveId] = patch;
+				this.primitives[primitiveId] = patch;
 			}
 
 			// Does not reach this point
@@ -1561,6 +1605,34 @@ class MySceneGraph {
         var z = this.reader.getFloat(node, 'z' + index);
         if (!(z != null && !isNaN(z)))
             return "unable to parse z" + index + "-coordinate of the " + messageError;
+
+        position.push(...[x, y, z]);
+
+        return position;
+    }
+    
+    /**
+     * Parse the coordinates from a node with ID = id
+     * @param {block element} node
+     * @param {message to be displayed in case of error} messageError
+     */
+    parsePatchCoordinates3D(node, messageError) {
+        var position = [];
+
+        // x
+        var x = this.reader.getFloat(node, 'xx');
+        if (!(x != null && !isNaN(x)))
+            return "unable to parse xx - coordinate of the " + messageError;
+
+        // y
+        var y = this.reader.getFloat(node, 'yy');
+        if (!(y != null && !isNaN(y)))
+            return "unable to parse yy - coordinate of the " + messageError;
+
+        // z
+        var z = this.reader.getFloat(node, 'zz');
+        if (!(z != null && !isNaN(z)))
+            return "unable to parse zz - coordinate of the " + messageError;
 
         position.push(...[x, y, z]);
 

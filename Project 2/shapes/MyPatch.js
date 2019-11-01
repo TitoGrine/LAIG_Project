@@ -40,8 +40,6 @@ class MyPatch extends CGFobject {
     }
 
     makeSurface(){
-        console.log(this.control_points);
-
         var nurbsSurface = new CGFnurbsSurface(this.uDegree, // degree U: to control vertexes on U
                                                this.vDegree, // degree V: to control vertexes on V
                                                this.control_points);

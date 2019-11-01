@@ -116,6 +116,9 @@
         </transformation>
     </transformations>
 
+    <animations>
+    </animations>
+
     <primitives>
         <primitive id="rectangle1">
             <rectangle x1="0.0" y1="0.0" x2="20.0" y2="20.0" />

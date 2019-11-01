@@ -77,7 +77,20 @@
 
     <primitives>
         <primitive id="demoRectangle">
-            <rectangle x1="-0.5" y1="-1" x2="0.5" y2="1" />
+            <patch npointsU="3" npointsV="4" npartsU="10" npartsV="10" >
+                <controlpoint xx="-1.5" yy="-1.5" zz="0.0" />
+                <controlpoint xx="-2.0" yy="-2.0" zz="2.0" />
+                <controlpoint xx="-2.0" yy="2.0"  zz="2.0" />
+                <controlpoint xx="-1.5" yy="1.5"  zz="0.0" />
+                <controlpoint xx="0.0"  yy="0.0"  zz="3.0" />
+                <controlpoint xx="0.0"  yy="-2.0" zz="3.0" />
+                <controlpoint xx="0.0"  yy="2.0"  zz="3.0" />
+                <controlpoint xx="0.0"  yy="0.0"  zz="3.0" />
+                <controlpoint xx="1.5"  yy="-1.5" zz="0.0" />
+                <controlpoint xx="2.0"  yy="-2.0" zz="2.0" />
+                <controlpoint xx="2.0"  yy="2.0"  zz="2.0" />
+                <controlpoint xx="1.5"  yy="1.5"  zz="0.0" />
+            </patch>
         </primitive>
     </primitives>
 
