@@ -907,7 +907,7 @@ class MySceneGraph {
 					break;
 				}
 	
-				// Checks for repeated IDs.
+				// Checks for repeated IDs. TODO: por causa do 0
 				if (keyframes[keyframeInstant] != null){
 					this.onXMLMinorError( "Instant must be unique for each keyframe ignored second one (conflict: ID = " + keyframeInstant + ")");
 					continue;
