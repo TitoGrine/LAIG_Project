@@ -76,7 +76,13 @@
 	</animations>
 
     <primitives>
-        <primitive id="demoRectangle">
+        <primitive id="nurbPlane">
+            <plane npartsU="10" npartsV="10" />
+        </primitive>
+        <primitive id="nurbCylinder">
+            <cylinder2 base="5" top="5" height="5" slices="10" stacks="10" />
+        </primitive>
+        <primitive id="nurbPatch">
             <patch npointsU="3" npointsV="4" npartsU="10" npartsV="10" >
                 <controlpoint xx="-1.5" yy="-1.5" zz="0.0" />
                 <controlpoint xx="-2.0" yy="-2.0" zz="2.0" />
@@ -92,22 +98,23 @@
                 <controlpoint xx="1.5"  yy="1.5"  zz="0.0" />
             </patch>
         </primitive>
+        
     </primitives>
 
     <components>
         <component id="demoRoot">
             <transformation>
-                <translate x="0" y="0" z="1" />
-                <scale x="2" y="1" z="1" />
+                <translate x="0" y="0" z="0" />
+                <scale x="1" y="1" z="1" />
             </transformation>
-			<animationref id="test"/>
+			<animationref id="test"/> 
             <materials>
                 <material id="demoMaterial" />
 				<material id="greeMaterial" />
             </materials>
             <texture id="demoTexture" length_s="1.0" length_t="2.0"/>
             <children>
-                <primitiveref id="demoRectangle" />
+                <primitiveref id="nurbPatch" />
             </children>
         </component>
     </components>

@@ -44,7 +44,12 @@ class MyPatch extends CGFobject {
                                                this.vDegree, // degree V: to control vertexes on V
                                                this.control_points);
 
-		this.nurbObject = new CGFnurbsObject(this.scene, this.tDivs, this.sDivs, nurbsSurface);
+                                               
+        this.nurbObject = new CGFnurbsObject(this.scene, this.tDivs, this.sDivs, nurbsSurface);
+    }
+
+    updateTexCoords(lengthS, lengthT){
+        
     }
     
     display(){

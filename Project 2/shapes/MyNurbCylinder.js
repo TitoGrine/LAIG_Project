@@ -72,6 +72,10 @@ class MyNurbCylinder extends CGFobject {
         this.bottom_nurbObject = new CGFnurbsObject(this.scene, this.slices, this.stacks, bottom_nurbsSurface);
     }
 
+    updateTexCoords(lengthS, lengthT){
+
+    }
+
     display(){
         this.top_nurbObject.display();
         this.bottom_nurbObject.display();

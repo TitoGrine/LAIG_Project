@@ -45,7 +45,7 @@ class MySceneGraph {
         // File reading 
         this.reader = new CGFXMLreader();
 
-    /*  FOR TESTING NURB SURFACES
+    /*  FOR TESTING NURB SURFACES */
         this.plane = new MyPlane(this.scene, 'plane', 10, 10);
 
         this.patch = new MyPatch(this.scene, 'patch', 2, 3, 10, 10, [[ -1.5, -1.5, 0.0, 1 ],
@@ -53,8 +53,8 @@ class MySceneGraph {
                                                                      [ -2.0,  2.0, 2.0, 1 ],
                                                                      [ -1.5,  1.5, 0.0, 1 ],
                                                                      [  0.0,  0.0, 3.0, 1 ],
-                                                                     [  0.0, -2.0, 3.0, 5 ],
-                                                                     [  0.0,  2.0, 3.0, 5 ],
+                                                                     [  0.0, -2.0, 3.0, 1 ],
+                                                                     [  0.0,  2.0, 3.0, 1 ],
                                                                      [  0.0,  0.0, 3.0, 1 ],
                                                                      [  1.5, -1.5, 0.0, 1 ],
                                                                      [  2.0, -2.0, 2.0, 1 ],
@@ -62,7 +62,7 @@ class MySceneGraph {
                                                                      [  1.5,  1.5, 0.0, 1 ]]);
 
         this.nurb_cylinder = new MyNurbCylinder(this.scene, 'nurb_cylinder', 5.0, 0.0, 10.0, 50.0, 50.0);        
-    */
+    
 
         /*
          * Read the contents of the xml file, and refer to this class for loading and error handlers.
@@ -1251,6 +1251,7 @@ class MySceneGraph {
 				var stacks = this.reader.getFloat(grandChildren[0], 'stacks');
 				if (!(stacks != null && Number.isInteger(stacks) && stacks > 0))
 					return "unable to parse stacks of the primitive coordinates for ID = " + primitiveId;
+
 			   
 			   // Initialize and save Cylinder2
 				var cylinder2 = new MyNurbCylinder(this.scene, primitiveId, base, top, height, slices, stacks);
@@ -1300,14 +1301,12 @@ class MySceneGraph {
 				        this.onXMLMinorError("there is an error on one of the control points of the patch primitive of ID = " + primitiveId + ". Ignoring this control point.");
                 }
 
-                //console.log(controlPoints);
-
                 if(numberControlPoints != validControlPoints)
                     return "the number of valid control points in the patch primitive of ID = " + primitiveId + " , must be equal to npointsU x npointsV";
 
 			   // Initialize and save Patch
 				var patch = new MyPatch(this.scene, primitiveId, npointsU - 1, npointsV - 1, npartsU, npartsV, controlPoints);
-
+                
 				this.primitives[primitiveId] = patch;
 			}
 
@@ -1634,7 +1633,7 @@ class MySceneGraph {
         if (!(z != null && !isNaN(z)))
             return "unable to parse zz - coordinate of the " + messageError;
 
-        position.push(...[x, y, z]);
+        position.push(...[x, y, z, 1.0]);
 
         return position;
 	}
@@ -1866,6 +1865,6 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-		this.components[this.idRoot].display();
+        this.components[this.idRoot].display();
     }
 }

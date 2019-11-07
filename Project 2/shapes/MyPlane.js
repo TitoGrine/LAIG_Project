@@ -29,6 +29,10 @@ class MyPlane extends CGFobject {
 
 		this.nurbObject = new CGFnurbsObject(this.scene, this.tDivs, this.sDivs, nurbsSurface);
     }
+
+    updateTexCoords(lengthS, lengthT){
+
+    }
     
     display(){
         this.nurbObject.display();
