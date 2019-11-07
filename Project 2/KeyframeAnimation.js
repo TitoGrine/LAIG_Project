@@ -63,8 +63,11 @@ class KeyframeAnimation extends Animation {
 			mat4.scale(this.curMatrix, this.curMatrix, interScale);
 
 		}
-		else
-			this.curMatrix = this.prevMatrix;		
+		else{
+			this.curMatrix = this.prevMatrix;
+			mat4.scale(this.curMatrix, this.prevMatrix, this.keyframes[this.keyframeID].scale);	
+
+		}	
 	}
 
 	interpolArray(next, actual, percentagem, constant){

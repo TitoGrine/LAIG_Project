@@ -70,7 +70,7 @@
 			<keyframe instant="9.0">
 				<translate x="0.0" y="0.0" z="0.0" />
 				<rotate angle_x="0" angle_y="0" angle_z="0" />
-				<scale x="1" y="1" z="1" />
+				<scale x="2" y="1" z="1" />
 			</keyframe>
 		</animation>
 	</animations>
