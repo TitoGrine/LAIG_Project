@@ -11,6 +11,7 @@ class XMLscene extends CGFscene {
     constructor(myinterface) {
         super();
 
+
         this.interface = myinterface;
     }
 
@@ -21,7 +22,16 @@ class XMLscene extends CGFscene {
     init(application) {
         super.init(application);
 
-		this.sceneInited = false;
+        this.sceneInited = false;
+
+        this.camera_texture = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
+        this.security_camera = new MySecurityCamera(this);
+        
+        this.securityCameras = {'Entrance' : new CGFcamera(30 * DEGREE_TO_RAD, 0.1, 600, vec3.fromValues(30, 5, 120), vec3.fromValues(30, 20, 10)),
+                                'PopArt Room' : new CGFcamera(50 * DEGREE_TO_RAD, 0.1, 600, vec3.fromValues(-9, 12, 7), vec3.fromValues(-10, 12, 7)),
+                                '20th Century Artists Room' : new CGFcamera(40 * DEGREE_TO_RAD, 0.1, 600, vec3.fromValues(70, 10, 15), vec3.fromValues(90, 11, 15))};
+
+        this.curSecurityCamera = 'Entrance';
 
         this.initCameras();
 
@@ -31,6 +41,8 @@ class XMLscene extends CGFscene {
         this.gl.enable(this.gl.DEPTH_TEST);
         this.gl.enable(this.gl.CULL_FACE);
         this.gl.depthFunc(this.gl.LEQUAL);
+        this.gl.enable(this.gl.BLEND)
+        this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
 
 		this.axis = new CGFaxis(this);
 		
@@ -48,6 +60,7 @@ class XMLscene extends CGFscene {
      */
     initCameras() {
         this.camera = new CGFcamera(0.4, this.near, this.far, vec3.fromValues(this.posX, this.posY, this.posY), vec3.fromValues(this.targetX, this.targetY, this.targetZ));
+        this.securityCamera = this.securityCameras['Entrance'];
     }
 	
 	/**
@@ -119,7 +132,8 @@ class XMLscene extends CGFscene {
 		this.camera = this.graph.views[this.graph.defView];
 		this.interface.setActiveCamera(this.camera);
 		this.interface.addLightsGUI();
-		this.interface.addCamerasGUI();
+        this.interface.addCamerasGUI();
+        this.interface.addSecurityCamerasGUI();
 		
         this.sceneInited = true;
 	}
@@ -195,10 +209,13 @@ class XMLscene extends CGFscene {
 	}
 
     /**
-     * Displays the scene.
+     * Renders the scene.
+     * @param {Camera meant to be used as view for the scene rendering} camera 
      */
-    display() {
+    render(camera) {
         // ---- BEGIN Background, camera and axis setup
+
+        this.camera = camera; // TODO: Really not sure if this is how the teachers wanted it, but I found no better way
 
         // Clear image and depth buffer everytime we update the scene
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
@@ -209,6 +226,7 @@ class XMLscene extends CGFscene {
         this.loadIdentity();
 
         // Apply transformations corresponding to the camera position relative to the origin
+        
         this.applyViewMatrix();
 
 		this.pushMatrix();
@@ -230,5 +248,23 @@ class XMLscene extends CGFscene {
 
         this.popMatrix();
         // ---- END Background, camera and axis setup
+    }
+
+    /**
+     * Displays the scene and the security camera.
+     */
+    display() {
+        // Stores the main camera being used, since the rendering of the security camera overides it.
+        let main_camera = this.camera;
+        
+        this.camera_texture.attachToFrameBuffer();
+        this.render(this.securityCamera);
+        this.camera_texture.detachFromFrameBuffer();
+
+        this.render(main_camera);
+        
+        this.gl.disable(this.gl.DEPTH_TEST);
+        this.security_camera.display();
+        this.gl.enable(this.gl.DEPTH_TEST);
     }
 }

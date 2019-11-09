@@ -113,4 +113,14 @@ class MyInterface extends CGFinterface {
 			this.setActiveCamera(this.scene.camera);	
 		});
 	}
+
+	/**
+	 * Add Cameras Dropdown to the interface
+	 */
+	addSecurityCamerasGUI(){
+		this.gui.add(this.scene, 'curSecurityCamera', Object.keys(this.scene.securityCameras)).name('Security Cameras').onChange((val) => {
+			// In case of new camera selected, changes the scene camera
+			this.scene.securityCamera = this.scene.securityCameras[val];	
+		});
+	}
 }
