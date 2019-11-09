@@ -60,17 +60,17 @@
 			<keyframe instant="4.0">
 				<translate x="6" y="0.0" z="0.0" />
 				<rotate angle_x="0" angle_y="0" angle_z="360" />
-				<scale x="1" y="1" z="1" />
+				<scale x="2" y="1" z="1" />
 			</keyframe>
 			<keyframe instant="6.0">
 				<translate x="6" y="4.0" z="0.0" />
 				<rotate angle_x="0" angle_y="0" angle_z="360" />
-				<scale x="1" y="1" z="1" />
+				<scale x="2" y="1" z="1" />
 			</keyframe>
 			<keyframe instant="9.0">
 				<translate x="0.0" y="0.0" z="0.0" />
 				<rotate angle_x="0" angle_y="0" angle_z="0" />
-				<scale x="1" y="1" z="1" />
+				<scale x="2" y="1" z="1" />
 			</keyframe>
 		</animation>
 	</animations>
@@ -107,6 +107,22 @@
                 <translate x="0" y="0" z="0" />
                 <scale x="1" y="1" z="1" />
             </transformation>
+            <materials>
+                <material id="demoMaterial" />
+				<material id="greeMaterial" />
+            </materials>
+            <texture id="demoTexture" length_s="1.0" length_t="2.0"/>
+            <children>
+                <componentref id="nurbP" />
+                <componentref id="nurbC" />
+            </children>
+        </component>
+		
+        <component id="nurbP">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+                <scale x="1" y="1" z="1" />
+            </transformation>
 			<animationref id="test"/> 
             <materials>
                 <material id="demoMaterial" />
@@ -117,5 +133,21 @@
                 <primitiveref id="nurbPatch" />
             </children>
         </component>
+		
+        <component id="nurbC">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+                <scale x="1" y="1" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+				<material id="greeMaterial" />
+            </materials>
+            <texture id="demoTexture" length_s="1.0" length_t="2.0"/>
+            <children>
+                <primitiveref id="nurbCylinder" />
+            </children>
+        </component>
+
     </components>
 </lxs>
