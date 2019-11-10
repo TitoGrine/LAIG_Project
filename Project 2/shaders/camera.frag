@@ -9,7 +9,7 @@ uniform sampler2D noiseText;
 
 uniform float timeFactor;
 
-const float BLACK_INTENSITY = 1.7;
+const float BLACK_INTENSITY = 1.2;
 const float NLINES = 4.5;
 const float LINE_PRECISION = 3.0;
 const float LINE_AMPLITUDE = 0.25;
@@ -18,7 +18,6 @@ const float BACK_INTENSITY = 8.;
 
 void main() {
     vec4 color = texture2D(cameraTex, vTextureCoord);
-
 
 	// TODO: brincar com valores
 

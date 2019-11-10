@@ -11,10 +11,7 @@ class MySecurityCamera extends CGFobject {
         this.camera_shader = new CGFshader(this.scene.gl, "shaders/camera.vert", "shaders/camera.frag");
         this.date_shader = new CGFshader(this.scene.gl, "shaders/date.vert", "shaders/date.frag");
     
-		this.camera_shader.setUniformsValues({cameraTex : 1});
-		this.camera_shader.setUniformsValues({noiseText: 2});
-		this.camera_shader.setUniformsValues({timeFactor: 0});
-
+		this.camera_shader.setUniformsValues({timeFactor: 0, cameraTex : 1, noiseText: 2});
         this.date_shader.setUniformsValues({dateTex : 1});
 
 		this.dateTexture = new CGFtexture(this.scene, "scenes/images/date.png");
