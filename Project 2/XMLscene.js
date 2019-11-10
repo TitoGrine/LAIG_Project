@@ -196,6 +196,9 @@ class XMLscene extends CGFscene {
 	update(t){
 		this.checkKeys();
 
+		this.security_camera.setTimeFactor(t);
+
+
 		if(this.sceneInited)	
 			this.graph.updateAnimations(t);
 	}
