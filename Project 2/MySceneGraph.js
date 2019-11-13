@@ -1287,9 +1287,9 @@ class MySceneGraph {
                 var numberControlPoints = npointsU * npointsV;
                 var validControlPoints = 0;
                 
-                for (var i = 0; i < greatgrandChildren.length; i++){
-                    if(greatgrandChildren[i].nodeName == 'controlpoint'){
-                        var controlpoint = this.parsePatchCoordinates3D(greatgrandChildren[i], "control point coordenates of patch with ID " + primitiveId);
+                for (var j = 0; j < greatgrandChildren.length; j++){
+                    if(greatgrandChildren[j].nodeName == 'controlpoint'){
+                        var controlpoint = this.parsePatchCoordinates3D(greatgrandChildren[j], "control point coordenates of patch with ID " + primitiveId);
                         if (!Array.isArray(controlpoint))
                             return controlpoint;
 

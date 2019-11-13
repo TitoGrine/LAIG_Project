@@ -1,7 +1,7 @@
 <lxs>
-    <scene root="demoRoot" axis_length="5"/>
+    <scene root="security_camera" axis_length="5"/>
 
-    <views default="stuffCamera">
+    <views default="defaultCamera">
         <perspective id="defaultCamera" near="0.1" far="500" angle="45">
             <from x="20" y="5" z="20" />
             <to x="0" y="0" z="0" />
@@ -24,21 +24,21 @@
     </lights>
 
     <textures>
-        <texture id="demoTexture" file="scenes/images/vidral.jpg" />
+        <texture id="plasticTexture" file="scenes/images/plastic_texture.jpg" />
     </textures>
 
     <materials>
-        <material id="demoMaterial" shininess="10">
+        <material id="plasticMaterial" shininess="20">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="0.6" g="0.0" b="0.0" a="1.0" />
-            <specular r="0.6" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.6" g="0.6" b="0.6" a="1.0" />
+            <diffuse r="0.6" g="0.6" b="0.6" a="1.0" />
+            <specular r="0.6" g="0.6" b="0.6" a="1.0" />
         </material>
-		<material id="greeMaterial" shininess="10">
+		<material id="lensMaterial" shininess="20">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.0" g="1.0" b="0.0" a="1.0" />
-            <diffuse r="0.0" g="0.6" b="0.0" a="1.0" />
-            <specular r="0.0" g="0.6" b="0.0" a="1.0" />
+            <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="1.0" />
+            <specular r="0.2" g="0.2" b="0.2" a="1.0" />
         </material>
     </materials>
 
@@ -76,76 +76,209 @@
 	</animations>
 
     <primitives>
-        <primitive id="nurbPlane">
-            <plane npartsU="10" npartsV="10" />
+        <primitive id="wall_stand_front">
+            <rectangle x1="-1.5" y1="-1.5" x2="1.5" y2="1.5" />
         </primitive>
-        <primitive id="nurbCylinder">
-            <cylinder2 base="5" top="5" height="5" slices="10" stacks="10" />
+        <primitive id="wall_stand_sideh">
+            <rectangle x1="-1.5" y1="0.0" x2="1.5" y2="0.4" />
         </primitive>
-        <primitive id="nurbPatch">
-            <patch npointsU="3" npointsV="4" npartsU="10" npartsV="10" >
-                <controlpoint xx="-1.5" yy="-1.5" zz="0.0" />
-                <controlpoint xx="-2.0" yy="-2.0" zz="2.0" />
-                <controlpoint xx="-2.0" yy="2.0"  zz="2.0" />
-                <controlpoint xx="-1.5" yy="1.5"  zz="0.0" />
-                <controlpoint xx="0.0"  yy="0.0"  zz="3.0" />
-                <controlpoint xx="0.0"  yy="-2.0" zz="3.0" />
-                <controlpoint xx="0.0"  yy="2.0"  zz="3.0" />
-                <controlpoint xx="0.0"  yy="0.0"  zz="3.0" />
-                <controlpoint xx="1.5"  yy="-1.5" zz="0.0" />
-                <controlpoint xx="2.0"  yy="-2.0" zz="2.0" />
-                <controlpoint xx="2.0"  yy="2.0"  zz="2.0" />
-                <controlpoint xx="1.5"  yy="1.5"  zz="0.0" />
+        <primitive id="wall_stand_sidev">
+            <rectangle x1="0.0" y1="-1.5" x2="0.4" y2="1.5" />
+        </primitive>
+        <primitive id="wall_stand_bar">
+            <cylinder2 base="0.75" top="0.5" height="4.0" slices="30" stacks="30" />
+        </primitive>
+        <primitive id="camera_body">
+            <cylinder2 base="1.2" top="1.2" height="4.0" slices="30" stacks="30" />
+        </primitive>
+        <primitive id="camera_shield_bottom">
+            <patch npointsU="4" npointsV="2" npartsU="10" npartsV="10" >
+                <controlpoint xx="-1.2"   yy="0.0"  zz="0.0" />
+                <controlpoint xx="-1.2"   yy="0.0"  zz="4.5" />
+                <controlpoint xx="-1.2"   yy="1.6"  zz="0.0" />
+                <controlpoint xx="-1.2"   yy="1.6"  zz="6.0" />
+                <controlpoint xx="1.2"  yy="1.6"  zz="0.0" />
+                <controlpoint xx="1.2"  yy="1.6"  zz="6.0" />
+                <controlpoint xx="1.2"  yy="0.0"  zz="0.0" />
+                <controlpoint xx="1.2"  yy="0.0"  zz="4.5" />
+            </patch>
+        </primitive>
+
+        <primitive id="camera_shield_top">
+            <patch npointsU="4" npointsV="2" npartsU="30" npartsV="30" >
+                <controlpoint xx="1.2"   yy="0.0"  zz="0.0" />
+                <controlpoint xx="1.2"   yy="0.0"  zz="4.5" />
+                <controlpoint xx="1.2"   yy="1.6"  zz="0.0" />
+                <controlpoint xx="1.2"   yy="1.6"  zz="6.0" />
+                <controlpoint xx="-1.2"  yy="1.6"  zz="0.0" />
+                <controlpoint xx="-1.2"  yy="1.6"  zz="6.0" />
+                <controlpoint xx="-1.2"  yy="0.0"  zz="0.0" />
+                <controlpoint xx="-1.2"  yy="0.0"  zz="4.5" />
             </patch>
         </primitive>
         
+        <primitive id="camera_back">
+            <sphere radius="1.2" slices="50" stacks="50" />
+        </primitive>
+        <primitive id="camera_lens">
+            <sphere radius="0.8" slices="50" stacks="50" />
+        </primitive>
+        <primitive id="camera_front">
+            <torus inner="0.6" outer="0.6" slices="50" loops="50" />
+        </primitive>
     </primitives>
 
     <components>
-        <component id="demoRoot">
+        <component id="security_camera">
             <transformation>
-                <translate x="0" y="0" z="0" />
-                <scale x="1" y="1" z="1" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
-				<material id="greeMaterial" />
+                <material id="plasticMaterial" />
             </materials>
-            <texture id="demoTexture" length_s="1.0" length_t="2.0"/>
+            <texture id="plasticTexture" length_t="1.0" length_s="1.0"/>
             <children>
-                <componentref id="nurbP" />
-                <componentref id="nurbC" />
+                <componentref id="camera_stand" />
+                <componentref id="camera" />
             </children>
         </component>
-		
-        <component id="nurbP">
+
+        <component id="camera_stand">
             <transformation>
-                <translate x="0" y="0" z="0" />
-                <scale x="1" y="1" z="1" />
             </transformation>
-			<animationref id="test"/> 
             <materials>
-                <material id="demoMaterial" />
-				<material id="greeMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture" length_s="1.0" length_t="2.0"/>
+            <texture id="inherit" />
             <children>
-                <primitiveref id="nurbPatch" />
+                <componentref id="wall_stand_front" />
+                <componentref id="wall_stand_side1" />
+                <componentref id="wall_stand_side2" />
+                <componentref id="wall_stand_side3" />
+                <componentref id="wall_stand_side4" />
+                <componentref id="wall_stand_bar" />
             </children>
         </component>
-		
-        <component id="nurbC">
+
+        <component id="wall_stand_front">
             <transformation>
-                <translate x="0" y="0" z="0" />
-                <scale x="1" y="1" z="1" />
+                <translate x="0.0" y="0.0" z="0.4" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
-				<material id="greeMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="demoTexture" length_s="1.0" length_t="2.0"/>
+            <texture id="inherit" />
             <children>
-                <primitiveref id="nurbCylinder" />
+                <primitiveref id="wall_stand_front" />
+            </children>
+        </component>
+        <component id="wall_stand_side1">
+            <transformation>
+                <translate x="0.0" y="-1.5" z="0.0" />
+                <rotate axis="x" angle="90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="wall_stand_sideh" />
+            </children>
+        </component>
+        <component id="wall_stand_side2">
+            <transformation>
+                <translate x="0.0" y="1.5" z="0.4" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="wall_stand_sideh" />
+            </children>
+        </component>
+        <component id="wall_stand_side3">
+            <transformation>
+                <translate x="1.5" y="0.0" z="0.4" />
+                <rotate axis="y" angle="90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="wall_stand_sidev" />
+            </children>
+        </component>
+        <component id="wall_stand_side4">
+            <transformation>
+                <translate x="-1.5" y="0.0" z="0.0" />
+                <rotate axis="y" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="wall_stand_sidev" />
+            </children>
+        </component>
+        <component id="wall_stand_bar">
+            <transformation>
+                <rotate axis="x" angle="-30" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="wall_stand_bar" />
+            </children>
+        </component>
+
+        <component id="camera">
+            <transformation>
+                <translate x="0.0" y="3.2" z="2.5" />
+                <rotate axis="x" angle="20" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="camera_body" />
+                <primitiveref id="camera_shield_top" />
+                <primitiveref id="camera_shield_bottom" />
+                <primitiveref id="camera_back" />
+                <componentref id="camera_eye" />
+            </children>
+        </component>
+
+        <component id="camera_eye">
+            <transformation>
+                <translate x="0.0" y="0.0" z="4.0" />
+                <scale x="1.0" y="1.0" z="0.05" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="camera_front" />
+                <componentref id="lens" />
+            </children>
+        </component>
+
+        <component id="lens">
+            <transformation>
+                <scale x="1.0" y="1.0" z="10.0" />
+            </transformation>
+            <materials>
+                <material id="lensMaterial" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="camera_lens" />
             </children>
         </component>
 
