@@ -50,11 +50,15 @@ class MyTriangle extends CGFobject {
 		this.vertices = [
 			this.v1[0], this.v1[1], this.v1[2],
 			this.v2[0], this.v2[1], this.v2[2],
+			this.v3[0], this.v3[1], this.v3[2],
+		// ------------------------------------ //
+			this.v1[0], this.v1[1], this.v1[2],
+			this.v2[0], this.v2[1], this.v2[2],
 			this.v3[0], this.v3[1], this.v3[2]
 		];
 
 		//indices
-		this.indices = [0, 1, 2];
+		this.indices = [0, 1, 2, 2, 1, 0];
 
 		// a-side vector
 		let v12 = [	this.v2[0] - this.v1[0],
@@ -73,7 +77,11 @@ class MyTriangle extends CGFobject {
 		this.normals = [ 
 			normal[0], normal[1], normal[2],
 			normal[0], normal[1], normal[2],
-			normal[0], normal[1], normal[2]
+			normal[0], normal[1], normal[2],
+		// ------------------------------------ //
+			-normal[0], -normal[1], -normal[2],
+			-normal[0], -normal[1], -normal[2],
+			-normal[0], -normal[1], -normal[2]
 		];
 
 
@@ -88,6 +96,9 @@ class MyTriangle extends CGFobject {
 
 		// Texture Coordinates
 		this.texCoords = [
+			0, 1,
+			1, 1,
+			this.distC * this.cosAlpha, this.distC * this.sinAlpha,
 			0, 1,
 			1, 1,
 			this.distC * this.cosAlpha, this.distC * this.sinAlpha
@@ -105,6 +116,9 @@ class MyTriangle extends CGFobject {
 	 */
 	updateTexCoords(lengthS, lengthT) {
 		this.texCoords = [
+			0, 0,
+			this.distA / lengthS, 0,
+			(this.distC * this.cosAlpha) / lengthS, (this.distC * this.sinAlpha) / lengthT,
 			0, 0,
 			this.distA / lengthS, 0,
 			(this.distC * this.cosAlpha) / lengthS, (this.distC * this.sinAlpha) / lengthT

@@ -1,7 +1,7 @@
 <lxs>
     <scene root="root" axis_length="5"/>
 
-    <views default="Helicopter View 1">
+    <views default="Sculpture - Broken Obelisk">
         <perspective id="Helicopter View 1" near="0.1" far="600" angle="25">
             <from x="30" y="225" z="150" />
             <to x="30" y="0" z="0" />
@@ -425,11 +425,74 @@
     </transformations>
 
 	<animations>
-		<animation id="smt">
+		<animation id="shaking">
+			<keyframe instant="1.0">
+				<translate x="0." y="2.4" z="0." />
+	        	<rotate angle_x="0" angle_y="0" angle_z="0" />
+				<scale x="1.5" y="0.7" z="1.5" />
+			</keyframe>
 			<keyframe instant="1.2">
-				<translate x="2" y="3" z="4" />
-	        	<rotate angle_x="23" angle_y="2" angle_z="4" />
-				<scale x="4" y="4" z="4" />
+				<translate x="0." y="2.4" z="0." />
+	        	<rotate angle_x="0" angle_y="0" angle_z="0" />
+				<scale x="1.5" y="0.7" z="1.5" />
+			</keyframe>
+			<keyframe instant="1.4">
+				<translate x="0." y="0.0" z="0." />
+	        	<rotate angle_x="0" angle_y="0" angle_z="0" />
+				<scale x="0.9" y="1.1" z="0.9" />
+			</keyframe>
+			<keyframe instant="4.4">
+				<translate x="0." y="75" z="0." />
+	        	<rotate angle_x="0" angle_y="0" angle_z="0" />
+				<scale x="1" y="1" z="1" />
+			</keyframe>
+		</animation>
+		<animation id="open_triangle_2">
+			<keyframe instant="1.5">
+				<translate x="0." y="0.0" z="0." />
+	        	<rotate angle_x="0" angle_y="0" angle_z="0" />
+				<scale x="1." y="1." z="1." />
+			</keyframe>
+			<keyframe instant="3.5">
+				<translate x="0." y="0" z="0." />
+	        	<rotate angle_x="0" angle_y="0" angle_z="-75" />
+				<scale x="1" y="1" z="1" />
+			</keyframe>
+		</animation>
+		<animation id="open_triangle_4">
+			<keyframe instant="1.5">
+				<translate x="0." y="0.0" z="0." />
+	        	<rotate angle_x="0" angle_y="0" angle_z="0" />
+				<scale x="1." y="1." z="1." />
+			</keyframe>
+			<keyframe instant="3.5">
+				<translate x="0." y="0" z="0." />
+	        	<rotate angle_x="0" angle_y="0" angle_z="75" />
+				<scale x="1" y="1" z="1" />
+			</keyframe>
+		</animation>
+        <animation id="open_triangle_1">
+			<keyframe instant="1.5">
+				<translate x="0." y="0.0" z="0." />
+	        	<rotate angle_x="0" angle_y="0" angle_z="0" />
+				<scale x="1." y="1." z="1." />
+			</keyframe>
+			<keyframe instant="3.5">
+				<translate x="0." y="0" z="0." />
+	        	<rotate angle_x="75" angle_y="0" angle_z="0" />
+				<scale x="1" y="1" z="1" />
+			</keyframe>
+		</animation>
+		<animation id="open_triangle_3">
+			<keyframe instant="1.5">
+				<translate x="0." y="0.0" z="0." />
+	        	<rotate angle_x="0" angle_y="0" angle_z="0" />
+				<scale x="1." y="1." z="1." />
+			</keyframe>
+			<keyframe instant="3.5">
+				<translate x="0." y="0" z="0." />
+	        	<rotate angle_x="-58" angle_y="0" angle_z="0" />
+				<scale x="1" y="1" z="1" />
 			</keyframe>
 		</animation>
         
@@ -456,6 +519,7 @@
 				<scale x="1" y="1" z="1" />
 			</keyframe>
 		</animation>
+
 	</animations>
 
     <primitives>
@@ -669,24 +733,14 @@
                         x3="2.3" y3="10.0" z3="0.0" />
         </primitive>
         <primitive id="triangle1">
-            <triangle   x1="-4.5." y1="0.5" z1="4.5"
-                        x2="4.5" y2="0.5" z2="4.5"
-                        x3="0.0" y3="8.0" z3="0.0" />
+            <triangle   x1="-4.5" y1="0.0" z1="0"
+                        x2="4.5" y2="0.0" z2="0"
+                        x3="0" y3="8.75" z3="0.0" />
         </primitive>
         <primitive id="triangle2">
-            <triangle   x1="4.5" y1="0.5" z1="4.5"
-                        x2="4.5" y2="0.5" z2="-4.5"
-                        x3="0.0" y3="8.0" z3="0.0" />
-        </primitive>
-        <primitive id="triangle3">
-            <triangle   x1="4.5" y1="0.5" z1="-4.5"
-                        x2="-4.5" y2="0.5" z2="-4.5"
-                        x3="0.0" y3="8.0" z3="0.0" />
-        </primitive>
-        <primitive id="triangle4">
-            <triangle   x1="-4.5" y1="0.5" z1="-4.5"
-                        x2="-4.5" y2="0.5" z2="4.5"
-                        x3="0.0" y3="8.0" z3="0.0" />
+            <triangle   x1="0" y1="0.0" z1="4.5"
+                        x2="0" y2="0.0" z2="-4.5"
+                        x3="0" y3="8.75" z3="0.0" />
         </primitive>
         <primitive id="triangle5">
             <triangle   x1="1.5" y1="10.5" z1="1.5"
@@ -3233,7 +3287,6 @@
             <transformation>
                 <transformationref id="obelisk_transf" />
             </transformation>
-            <!--<animationref id="test"/>--> 
             <materials>
                 <material id="rustMaterial" />
             </materials>
@@ -3241,10 +3294,24 @@
             <children>
                 <componentref id="obelisk_base" />
                 <componentref id="obelisk_base_pyramid" />
+                <componentref id="broken_tip" />
+            </children>
+        </component>
+
+		<component id="broken_tip">
+            <transformation>
+            </transformation>
+			<animationref id="shaking" />
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="rustTexture" length_t="1.0" length_s="1.0"/>
+            <children>
                 <componentref id="obelisk_pole" />
                 <componentref id="obelisk_top" />
             </children>
         </component>
+
         <component id="obelisk_base">
             <transformation>
                 <translate x="0.0" y="0.5" z="0.0" />
@@ -3342,7 +3409,10 @@
         </component>
         <component id="obelisk_base_triangle1">
             <transformation>
+				<translate x="0" y="0.5" z="4.5" />
+            	<rotate axis="x" angle="-31" />
             </transformation>
+			<animationref id="open_triangle_1" />
             <materials>
                 <material id="inherit" />
             </materials>
@@ -3353,7 +3423,10 @@
         </component>
         <component id="obelisk_base_triangle2">
             <transformation>
+				<translate x="4.5" y="0.5" z="0" />
+            	<rotate axis="z" angle="31" />
             </transformation>
+			<animationref id="open_triangle_2" />
             <materials>
                 <material id="inherit" />
             </materials>
@@ -3364,24 +3437,30 @@
         </component>
         <component id="obelisk_base_triangle3">
             <transformation>
+				<translate x="0" y="0.5" z="-4.5" />
+            	<rotate axis="x" angle="31" />
             </transformation>
+			<animationref id="open_triangle_3" />
             <materials>
                 <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
-                <primitiveref id="triangle3" />
+                <primitiveref id="triangle1" />
             </children>
         </component>
         <component id="obelisk_base_triangle4">
             <transformation>
+				<translate x="-4.5" y="0.5" z="0" />
+            	<rotate axis="z" angle="-31" />
             </transformation>
+			<animationref id="open_triangle_4" />
             <materials>
                 <material id="inherit" />
             </materials>
             <texture id="inherit" />
             <children>
-                <primitiveref id="triangle4" />
+                <primitiveref id="triangle2" />
             </children>
         </component>
         <component id="obelisk_pole">
