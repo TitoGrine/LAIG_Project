@@ -28,7 +28,7 @@ class MyNurbCylinder extends CGFobject {
         
         var h = 4.0 / 3.0;
 
-        this.top_control_points = [// U = 0 | V = 0..1;
+        this.top_control_points1 = [// U = 0 | V = 0..1;
                                    [[this.base_radius, 0.0, 0.0, 1],
                                        [this.top_radius, 0.0, this.height, 1]],
                                    // U = 1 | V = 0..1;
@@ -42,7 +42,21 @@ class MyNurbCylinder extends CGFobject {
                                        [-this.top_radius, 0.0, this.height, 1]]
                                   ];
 
-        this.bottom_control_points = [// U = 0 | V = 0..1;
+        this.top_control_points2 = [// U = 0 | V = 0..1;
+                                   [[this.base_radius, 0.0, this.height, 1],
+                                       [this.top_radius, 0.0, 0.0, 1]],
+                                   // U = 1 | V = 0..1;
+                                   [[this.base_radius, h * this.base_radius, this.height, 1],
+                                       [this.top_radius, h * this.top_radius, 0.0, 1]],
+                                   // U = 2 | V = 0..1;
+                                   [[-this.base_radius, h * this.base_radius, this.height, 1],
+                                       [-this.top_radius, h * this.top_radius, 0.0, 1]],
+                                   // U = 3 | V = 0..1;
+                                   [[-this.base_radius, 0.0, this.height, 1],
+                                       [-this.top_radius, 0.0, 0.0, 1]]
+                                  ];
+
+        this.bottom_control_points1 = [// U = 0 | V = 0..1;
                                       [[-this.base_radius, 0.0, 0.0, 1],
                                           [-this.top_radius, 0.0, this.height, 1]],
                                       // U = 1 | V = 0..1;
@@ -55,21 +69,45 @@ class MyNurbCylinder extends CGFobject {
                                       [[this.base_radius, 0.0, 0.0, 1],
                                           [this.top_radius, 0.0, this.height, 1]]
                                      ];
+
+        this.bottom_control_points2 = [// U = 0 | V = 0..1;
+                                      [[-this.base_radius, 0.0, this.height, 1],
+                                          [-this.top_radius, 0.0, 0.0, 1]],
+                                      // U = 1 | V = 0..1;
+                                      [[-this.base_radius, -h * this.base_radius, this.height, 1],
+                                          [-this.top_radius, -h * this.top_radius, 0.0, 1]],
+                                      // U = 2 | V = 0..1;
+                                      [[this.base_radius, -h * this.base_radius, this.height, 1],
+                                          [this.top_radius, -h * this.top_radius, 0.0, 1]],
+                                      // U = 2 | V = 0..1;
+                                      [[this.base_radius, 0.0, this.height, 1],
+                                          [this.top_radius, 0.0, 0.0, 1]]
+                                     ];
     }
 
     makeSurface(){
 
-        var top_nurbsSurface = new CGFnurbsSurface(3, // degree U: to control vertexes on U
+        var top_nurbsSurface1 = new CGFnurbsSurface(3, // degree U: to control vertexes on U
                                                    1, // degree V: to control vertexes on V
-                                                   this.top_control_points);
+                                                   this.top_control_points1);
 
-        var bottom_nurbsSurface = new CGFnurbsSurface(3, // degree U: to control vertexes on U
+        var top_nurbsSurface2 = new CGFnurbsSurface(3, // degree U: to control vertexes on U
+                                                   1, // degree V: to control vertexes on V
+                                                   this.top_control_points2);
+
+        var bottom_nurbsSurface1 = new CGFnurbsSurface(3, // degree U: to control vertexes on U
                                                       1, // degree V: to control vertexes on V
-                                                      this.bottom_control_points);
+                                                      this.bottom_control_points1);
+
+        var bottom_nurbsSurface2 = new CGFnurbsSurface(3, // degree U: to control vertexes on U
+                                                      1, // degree V: to control vertexes on V
+                                                      this.bottom_control_points2);
        
 
-        this.top_nurbObject = new CGFnurbsObject(this.scene, this.slices, this.stacks, top_nurbsSurface);
-        this.bottom_nurbObject = new CGFnurbsObject(this.scene, this.slices, this.stacks, bottom_nurbsSurface);
+        this.top_nurbObject1 = new CGFnurbsObject(this.scene, this.slices, this.stacks, top_nurbsSurface1);
+        this.top_nurbObject2 = new CGFnurbsObject(this.scene, this.slices, this.stacks, top_nurbsSurface2);
+        this.bottom_nurbObject1 = new CGFnurbsObject(this.scene, this.slices, this.stacks, bottom_nurbsSurface1);
+        this.bottom_nurbObject2 = new CGFnurbsObject(this.scene, this.slices, this.stacks, bottom_nurbsSurface2);
     }
 
     updateTexCoords(lengthS, lengthT){
@@ -77,7 +115,9 @@ class MyNurbCylinder extends CGFobject {
     }
 
     display(){
-        this.top_nurbObject.display();
-        this.bottom_nurbObject.display();
+        this.top_nurbObject1.display();
+        this.top_nurbObject2.display();
+        this.bottom_nurbObject1.display();
+        this.bottom_nurbObject2.display();
     }
 }

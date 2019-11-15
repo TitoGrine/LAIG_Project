@@ -47,23 +47,7 @@ class MySceneGraph {
 
     /*  FOR TESTING NURB SURFACES */
         this.plane = new MyPlane(this.scene, 'plane', 10, 10);
-
-        this.patch = new MyPatch(this.scene, 'patch', 2, 3, 10, 10, [[ -1.5, -1.5, 0.0, 1 ],
-                                                                     [ -2.0, -2.0, 2.0, 1 ],
-                                                                     [ -2.0,  2.0, 2.0, 1 ],
-                                                                     [ -1.5,  1.5, 0.0, 1 ],
-                                                                     [  0.0,  0.0, 3.0, 1 ],
-                                                                     [  0.0, -2.0, 3.0, 1 ],
-                                                                     [  0.0,  2.0, 3.0, 1 ],
-                                                                     [  0.0,  0.0, 3.0, 1 ],
-                                                                     [  1.5, -1.5, 0.0, 1 ],
-                                                                     [  2.0, -2.0, 2.0, 1 ],
-                                                                     [  2.0,  2.0, 2.0, 1 ],
-                                                                     [  1.5,  1.5, 0.0, 1 ]]);
-
-        this.nurb_cylinder = new MyNurbCylinder(this.scene, 'nurb_cylinder', 5.0, 0.0, 10.0, 50.0, 50.0);        
-    
-
+        
         /*
          * Read the contents of the xml file, and refer to this class for loading and error handlers.
          * After the file is read, the reader calls onXMLReady on this object.

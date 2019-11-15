@@ -240,9 +240,9 @@
         </material>
         <material id="goldMaterial" shininess="0.1"> <!-- Gold Color --> 
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="1.0" g="0.85" b="0.0" a="0.5" />
-            <diffuse r="1.0" g="0.85" b="0.0" a="0.5" />
-            <specular r="1.0" g="0.85" b="0.0" a="1.0" />
+            <ambient r="0.24725" g="0.1995" b="0.0745" a="0.5" />
+            <diffuse r="0.75164" g="0.60648" b="0.22648" a="0.5" />
+            <specular r="0.628281" g="0.555802" b="0.366065" a="1.0" />
         </material>
         <material id="rustMaterial" shininess="1.0"> <!-- Rust Color --> 
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
@@ -309,6 +309,18 @@
             <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
             <diffuse r="0.2" g="0.2" b="0.2" a="1.0" />
             <specular r="0.2" g="0.2" b="0.2" a="1.0" />
+        </material>
+        <material id="rubyMaterial" shininess="5">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.1745" g="0.01175" b="0.01175" a="0.7" />
+            <diffuse  r="0.61424" g="0.04136" b="0.04136" a="0.6" />
+            <specular  r="0.727811" g="0.626959" b="0.626959" a="1.0" />
+        </material>
+        <material id="turquoiseMaterial" shininess="5">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.1" g="0.18725" b="0.1745" a="0.7" />
+            <diffuse  r="0.396" g="0.74151" b="0.69102" a="0.6" />
+            <specular  r="0.297254" g="0.30829" b="0.306678" a="1.0" />
         </material>
     </materials>
 
@@ -422,6 +434,11 @@
             <translate x="105.0" y="2.0" z="-20.0" />
             <scale x="1.5" y="1.5" z="1.5" />
         </transformation>
+
+        <transformation id="easter_egg_transf">
+            <translate x="30.0" y="2.75" z="12.5" />
+            <scale x="0.5" y="0.5" z="0.5" />
+        </transformation>
     </transformations>
 
 	<animations>
@@ -497,26 +514,16 @@
 		</animation>
         
         
-		<animation id="test">
-			 <keyframe instant="2.0">
+		<animation id="dog_walking">
+			<keyframe instant="2.0">
 				<translate x="0.0" y="0.0" z="0.0" />
-				<rotate angle_x="0" angle_y="0" angle_z="0" />
-				<scale x="1" y="1" z="1" />
+				<rotate angle_x="30" angle_y="60" angle_z="0" />
+				<scale x="0.3" y="0.3" z="0.3" />
 			</keyframe>
-			<keyframe instant="4.0">
-				<translate x="6" y="0.0" z="0.0" />
-				<rotate angle_x="0" angle_y="0" angle_z="360" />
-				<scale x="1" y="1" z="1" />
-			</keyframe>
-			<keyframe instant="6.0">
-				<translate x="6" y="4.0" z="0.0" />
-				<rotate angle_x="0" angle_y="0" angle_z="360" />
-				<scale x="1" y="1" z="1" />
-			</keyframe>
-			<keyframe instant="9.0">
-				<translate x="0.0" y="0.0" z="0.0" />
-				<rotate angle_x="0" angle_y="0" angle_z="0" />
-				<scale x="1" y="1" z="1" />
+            <keyframe instant="4.0">
+				<translate x="0.0" y="0.0" z="2.0" />
+				<rotate angle_x="30" angle_y="60" angle_z="0" />
+				<scale x="0.3" y="0.3" z="0.3" />
 			</keyframe>
 		</animation>
 
@@ -723,6 +730,166 @@
                 <controlpoint xx="1.2"  yy="1.6"  zz="6.0" />
                 <controlpoint xx="1.2"  yy="0.0"  zz="0.0" />
                 <controlpoint xx="1.2"  yy="0.0"  zz="4.5" />
+            </patch>
+        </primitive>
+        <primitive id="wave_patch1_side1">
+            <patch npointsU="3" npointsV="2" npartsU="50" npartsV="50" >
+                <controlpoint xx=" 0.0"   yy="0.0"  zz="-0.25" />
+                <controlpoint xx=" 0.0"   yy="0.0"  zz=" 0.25" />
+                <controlpoint xx=" 1.8"   yy="1.0"  zz="-0.5" />
+                <controlpoint xx=" 1.8"   yy="1.0"  zz=" 0.5" />
+                <controlpoint xx=" 0.0"   yy="2.0"  zz="-0.5" />
+                <controlpoint xx=" 0.0"   yy="2.0"  zz=" 0.5" />
+            </patch>
+        </primitive>
+        <primitive id="wave_patch1_side2">
+            <patch npointsU="3" npointsV="2" npartsU="50" npartsV="50" >
+                <controlpoint xx=" 0.0"   yy="0.0"  zz=" 0.25" />
+                <controlpoint xx=" 0.0"   yy="0.0"  zz="-0.25" />
+                <controlpoint xx=" 1.8"   yy="1.0"  zz=" 0.5" />
+                <controlpoint xx=" 1.8"   yy="1.0"  zz="-0.5" />
+                <controlpoint xx=" 0.0"   yy="2.0"  zz=" 0.5" />
+                <controlpoint xx=" 0.0"   yy="2.0"  zz="-0.5" />
+            </patch>
+        </primitive>
+        <primitive id="wave_patch2_side1">
+            <patch npointsU="3" npointsV="2" npartsU="50" npartsV="50" >
+                <controlpoint xx=" 0.0"  yy="2.0"  zz="-0.5" />
+                <controlpoint xx=" 0.0"  yy="2.0"  zz=" 0.5" />
+                <controlpoint xx="-1.8"  yy="3.0"  zz="-0.5" />
+                <controlpoint xx="-1.8"  yy="3.0"  zz=" 0.5" />
+                <controlpoint xx=" 0.0"  yy="4.0"  zz="-0.5" />
+                <controlpoint xx=" 0.0"  yy="4.0"  zz=" 0.5" />
+            </patch>
+        </primitive>
+        <primitive id="wave_patch2_side2">
+            <patch npointsU="3" npointsV="2" npartsU="50" npartsV="50" >
+                <controlpoint xx=" 0.0"   yy="2.0"  zz=" 0.5" />
+                <controlpoint xx=" 0.0"   yy="2.0"  zz="-0.5" />
+                <controlpoint xx="-1.8"   yy="3.0"  zz=" 0.5" />
+                <controlpoint xx="-1.8"   yy="3.0"  zz="-0.5" />
+                <controlpoint xx=" 0.0"   yy="4.0"  zz=" 0.5" />
+                <controlpoint xx=" 0.0"   yy="4.0"  zz="-0.5" />
+            </patch>
+        </primitive>
+        <primitive id="wave_patch3_side1">
+            <patch npointsU="3" npointsV="2" npartsU="50" npartsV="50" >
+                <controlpoint xx=" 0.0"   yy="4.0"  zz="-0.5" />
+                <controlpoint xx=" 0.0"   yy="4.0"  zz=" 0.5" />
+                <controlpoint xx=" 1.8"   yy="5.0"  zz="-0.5" />
+                <controlpoint xx=" 1.8"   yy="5.0"  zz=" 0.5" />
+                <controlpoint xx=" 0.0"   yy="6.0"  zz="-0.5" />
+                <controlpoint xx=" 0.0"   yy="6.0"  zz=" 0.5" />
+            </patch>
+        </primitive>
+        <primitive id="wave_patch3_side2">
+            <patch npointsU="3" npointsV="2" npartsU="50" npartsV="50" >
+                <controlpoint xx=" 0.0"   yy="4.0"  zz=" 0.5" />
+                <controlpoint xx=" 0.0"   yy="4.0"  zz="-0.5" />
+                <controlpoint xx=" 1.8"   yy="5.0"  zz=" 0.5" />
+                <controlpoint xx=" 1.8"   yy="5.0"  zz="-0.5" />
+                <controlpoint xx=" 0.0"   yy="6.0"  zz=" 0.5" />
+                <controlpoint xx=" 0.0"   yy="6.0"  zz="-0.5" />
+            </patch>
+        </primitive>
+        <primitive id="wave_patch4_side1">
+            <patch npointsU="3" npointsV="2" npartsU="50" npartsV="50" >
+                <controlpoint xx=" 0.0"   yy="6.0"  zz="-0.5" />
+                <controlpoint xx=" 0.0"   yy="6.0"  zz=" 0.5" />
+                <controlpoint xx="-1.8"   yy="7.0"  zz="-0.5" />
+                <controlpoint xx="-1.8"   yy="7.0"  zz=" 0.5" />
+                <controlpoint xx=" 0.0"   yy="8.0"  zz="-0.5" />
+                <controlpoint xx=" 0.0"   yy="8.0"  zz=" 0.5" />
+            </patch>
+        </primitive>
+        <primitive id="wave_patch4_side2">
+            <patch npointsU="3" npointsV="2" npartsU="50" npartsV="50" >
+                <controlpoint xx=" 0.0"   yy="6.0"  zz=" 0.5" />
+                <controlpoint xx=" 0.0"   yy="6.0"  zz="-0.5" />
+                <controlpoint xx="-1.8"   yy="7.0"  zz=" 0.5" />
+                <controlpoint xx="-1.8"   yy="7.0"  zz="-0.5" />
+                <controlpoint xx=" 0.0"   yy="8.0"  zz=" 0.5" />
+                <controlpoint xx=" 0.0"   yy="8.0"  zz="-0.5" />
+            </patch>
+        </primitive>
+        <primitive id="wave_patch5_side1">
+            <patch npointsU="3" npointsV="2" npartsU="50" npartsV="50" >
+                <controlpoint xx=" 0.0"   yy="8.0"   zz="-0.5" />
+                <controlpoint xx=" 0.0"   yy="8.0"   zz=" 0.5" />
+                <controlpoint xx=" 1.8"   yy="9.0"   zz="-0.5" />
+                <controlpoint xx=" 1.8"   yy="9.0"   zz=" 0.5" />
+                <controlpoint xx=" 0.0"   yy="10.0"  zz="-0.5" />
+                <controlpoint xx=" 0.0"   yy="10.0"  zz=" 0.5" />
+            </patch>
+        </primitive>
+        <primitive id="wave_patch5_side2">
+            <patch npointsU="3" npointsV="2" npartsU="50" npartsV="50" >
+                <controlpoint xx=" 0.0"   yy="8.0"   zz=" 0.5" />
+                <controlpoint xx=" 0.0"   yy="8.0"   zz="-0.5" />
+                <controlpoint xx=" 1.8"   yy="9.0"   zz=" 0.5" />
+                <controlpoint xx=" 1.8"   yy="9.0"   zz="-0.5" />
+                <controlpoint xx=" 0.0"   yy="10.0"  zz=" 0.5" />
+                <controlpoint xx=" 0.0"   yy="10.0"  zz="-0.5" />
+            </patch>
+        </primitive>
+        <primitive id="wave_patch6_side1">
+            <patch npointsU="3" npointsV="2" npartsU="50" npartsV="50" >
+                <controlpoint xx=" 0.0"   yy="10.0"  zz="-0.5" />
+                <controlpoint xx=" 0.0"   yy="10.0"  zz=" 0.5" />
+                <controlpoint xx="-1.8"   yy="11.0"  zz="-0.5" />
+                <controlpoint xx="-1.8"   yy="11.0"  zz=" 0.5" />
+                <controlpoint xx=" 0.0"   yy="12.0"  zz="-0.5" />
+                <controlpoint xx=" 0.0"   yy="12.0"  zz=" 0.5" />
+            </patch>
+        </primitive>
+        <primitive id="wave_patch6_side2">
+            <patch npointsU="3" npointsV="2" npartsU="50" npartsV="50" >
+                <controlpoint xx=" 0.0"   yy="10.0"  zz=" 0.5" />
+                <controlpoint xx=" 0.0"   yy="10.0"  zz="-0.5" />
+                <controlpoint xx="-1.8"   yy="11.0"  zz=" 0.5" />
+                <controlpoint xx="-1.8"   yy="11.0"  zz="-0.5" />
+                <controlpoint xx=" 0.0"   yy="12.0"  zz=" 0.5" />
+                <controlpoint xx=" 0.0"   yy="12.0"  zz="-0.5" />
+            </patch>
+        </primitive>
+        <primitive id="wave_patch7_side1">
+            <patch npointsU="3" npointsV="2" npartsU="50" npartsV="50" >
+                <controlpoint xx=" 0.0"   yy="12.0"  zz="-0.5" />
+                <controlpoint xx=" 0.0"   yy="12.0"  zz=" 0.5" />
+                <controlpoint xx=" 1.8"   yy="13.0"  zz="-0.5" />
+                <controlpoint xx=" 1.8"   yy="13.0"  zz=" 0.5" />
+                <controlpoint xx=" 0.0"   yy="14.0"  zz="-0.5" />
+                <controlpoint xx=" 0.0"   yy="14.0"  zz=" 0.5" />
+            </patch>
+        </primitive>
+        <primitive id="wave_patch7_side2">
+            <patch npointsU="3" npointsV="2" npartsU="50" npartsV="50" >
+                <controlpoint xx=" 0.0"   yy="12.0"  zz=" 0.5" />
+                <controlpoint xx=" 0.0"   yy="12.0"  zz="-0.5" />
+                <controlpoint xx=" 1.8"   yy="13.0"  zz=" 0.5" />
+                <controlpoint xx=" 1.8"   yy="13.0"  zz="-0.5" />
+                <controlpoint xx=" 0.0"   yy="14.0"  zz=" 0.5" />
+                <controlpoint xx=" 0.0"   yy="14.0"  zz="-0.5" />
+            </patch>
+        </primitive>
+        <primitive id="wave_patch8_side1">
+            <patch npointsU="3" npointsV="2" npartsU="50" npartsV="50" >
+                <controlpoint xx=" 0.0"   yy="14.0"  zz="-0.5" />
+                <controlpoint xx=" 0.0"   yy="14.0"  zz=" 0.5" />
+                <controlpoint xx="-1.8"   yy="15.0"  zz="-0.5" />
+                <controlpoint xx="-1.8"   yy="15.0"  zz=" 0.5" />
+                <controlpoint xx=" 0.0"   yy="16.0"  zz=" 0.0" />
+                <controlpoint xx=" 0.0"   yy="16.0"  zz=" 0.0" />
+            </patch>
+        </primitive>
+        <primitive id="wave_patch8_side2">
+            <patch npointsU="3" npointsV="2" npartsU="50" npartsV="50" >
+                <controlpoint xx=" 0.0"   yy="14.0"  zz=" 0.5" />
+                <controlpoint xx=" 0.0"   yy="14.0"  zz="-0.5" />
+                <controlpoint xx="-1.8"   yy="15.0"  zz=" 0.5" />
+                <controlpoint xx="-1.8"   yy="15.0"  zz="-0.5" />
+                <controlpoint xx=" 0.0"   yy="16.0"  zz=" 0.0" />
+                <controlpoint xx=" 0.0"   yy="16.0"  zz=" 0.0" />
             </patch>
         </primitive>
     
@@ -1233,7 +1400,9 @@
         <primitive id="camera_lens">
             <sphere radius="0.8" slices="50" stacks="50" />
         </primitive>
-
+        <primitive id="sphere_top">
+            <sphere radius="1.0" slices="50" stacks="50" />
+        </primitive>
 
         <primitive id="cylinder1">
             <cylinder base="0.2" top="0.2" height="1.75" slices="50" stacks="50" />
@@ -1247,6 +1416,9 @@
         <primitive id="illusion_cylinder">
             <cylinder base="1.2" top="1.2" height="3.0" slices="50" stacks="50" />
         </primitive>
+        <primitive id="cone1">
+            <cylinder base="0.0" top="0.4" height="0.7" slices="50" stacks="50" />
+        </primitive>
 
         <primitive id="wall_stand_bar">
             <cylinder2 base="0.75" top="0.5" height="4.0" slices="30" stacks="30" />
@@ -1254,10 +1426,29 @@
         <primitive id="camera_body">
             <cylinder2 base="1.2" top="1.2" height="4.0" slices="30" stacks="30" />
         </primitive>
-
-
-        <primitive id="cone1">
-            <cylinder base="0.0" top="0.4" height="0.7" slices="50" stacks="50" />
+        <primitive id="hoop1">
+            <cylinder2 base="0.5" top="0.5" height="1.0" slices="50" stacks="50" />
+        </primitive>
+        <primitive id="hoop2">
+            <cylinder2 base="1.5" top="1.5" height="1.0" slices="50" stacks="50" />
+        </primitive>
+        <primitive id="hoop3">
+            <cylinder2 base="2.5" top="2.5" height="1.0" slices="50" stacks="50" />
+        </primitive>
+        <primitive id="hoop4">
+            <cylinder2 base="3.5" top="3.5" height="1.0" slices="50" stacks="50" />
+        </primitive>
+        <primitive id="hoop5">
+            <cylinder2 base="4.5" top="4.5" height="1.0" slices="50" stacks="50" />
+        </primitive>
+        <primitive id="hoop6">
+            <cylinder2 base="5.5" top="5.5" height="1.0" slices="50" stacks="50" />
+        </primitive>
+        <primitive id="hoop7">
+            <cylinder2 base="6.5" top="6.5" height="1.0" slices="50" stacks="50" />
+        </primitive>
+        <primitive id="hoop8">
+            <cylinder2 base="7.5" top="7.5" height="1.0" slices="50" stacks="50" />
         </primitive>
     </primitives>
 
@@ -3084,6 +3275,7 @@
                 <componentref id="2_2_1:_to_dickie_and_tina" />
                 <componentref id="moondog" />
                 <componentref id="illusion" />
+                <componentref id="easter_egg_sculpture" />
             </children>
         </component>
 
@@ -3958,7 +4150,6 @@
                 <primitiveref id="tri83" />
             </children>
         </component>
-
         <component id="leg1">
             <transformation>
             </transformation>
@@ -4031,7 +4222,6 @@
                 <componentref id="leg" />
             </children>
         </component>
-
         <component id="leg">
             <transformation>
             </transformation>
@@ -4106,6 +4296,175 @@
                         x3="2.3" y3="10.0" z3="0.0" /> -->
             <children>
                 <primitiveref id="illusion_triangle" />
+            </children>
+        </component>
+
+        <component id="easter_egg_sculpture">
+            <transformation>
+                <transformationref id="easter_egg_transf" />
+            </transformation>
+            <materials>
+                <material id="turquoiseMaterial" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="easter_egg_sculpture_top" />"
+                <componentref id="easter_egg_sculpture_wave" />"
+                <componentref id="easter_egg_sculpture_hoops" />"
+            </children>
+        </component>
+        <component id="easter_egg_sculpture_top">
+            <transformation>
+                <translate x="0.0" y="17.0" z="0.0" />
+            </transformation>
+            <materials>
+                <material id="turquoiseMaterial" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="sphere_top" />
+            </children>
+        </component>
+        <component id="easter_egg_sculpture_wave">
+            <transformation>
+                <rotate axis="y" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="turquoiseMaterial" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="wave_patch1_side1" />
+                <primitiveref id="wave_patch1_side2" />
+                <primitiveref id="wave_patch2_side1" />
+                <primitiveref id="wave_patch2_side2" />
+                <primitiveref id="wave_patch3_side1" />
+                <primitiveref id="wave_patch3_side2" />
+                <primitiveref id="wave_patch4_side1" />
+                <primitiveref id="wave_patch4_side2" />
+                <primitiveref id="wave_patch5_side1" />
+                <primitiveref id="wave_patch5_side2" />
+                <primitiveref id="wave_patch6_side1" />
+                <primitiveref id="wave_patch6_side2" />
+                <primitiveref id="wave_patch7_side1" />
+                <primitiveref id="wave_patch7_side2" />
+                <primitiveref id="wave_patch8_side1" />
+                <primitiveref id="wave_patch8_side2" />
+            </children>
+        </component>
+        <component id="easter_egg_sculpture_hoops">
+            <transformation>
+                <translate x="0.0" y="0.0" z="-0.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="hoop1" />
+                <componentref id="hoop2" />
+                <componentref id="hoop3" />
+                <componentref id="hoop4" />
+                <componentref id="hoop5" />
+                <componentref id="hoop6" />
+                <componentref id="hoop7" />
+                <componentref id="hoop8" />
+            </children>
+        </component>
+        <component id="hoop1">
+            <transformation>
+                <translate x="0.0" y="0.5" z="0.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="hoop1" />
+            </children>
+        </component>
+        <component id="hoop2">
+            <transformation>
+                <translate x="0.0" y="1.5" z="0.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="hoop2" />
+            </children>
+        </component>
+        <component id="hoop3">
+            <transformation>
+                <translate x="0.0" y="2.5" z="0.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="hoop3" />
+            </children>
+        </component>
+        <component id="hoop4">
+            <transformation>
+                <translate x="0.0" y="3.5" z="0.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="hoop4" />
+            </children>
+        </component>
+        <component id="hoop5">
+            <transformation>
+                <translate x="0.0" y="4.5" z="0.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="hoop5" />
+            </children>
+        </component>
+        <component id="hoop6">
+            <transformation>
+                <translate x="0.0" y="5.5" z="0.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="hoop6" />
+            </children>
+        </component>
+        <component id="hoop7">
+            <transformation>
+                <translate x="0.0" y="6.5" z="0.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="hoop7" />
+            </children>
+        </component>
+        <component id="hoop8">
+            <transformation>
+                <translate x="0.0" y="7.5" z="0.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="hoop8" />
             </children>
         </component>
     </components>
