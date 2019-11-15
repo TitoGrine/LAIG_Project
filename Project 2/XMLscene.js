@@ -1,4 +1,5 @@
 var DEGREE_TO_RAD = Math.PI / 180;
+var TESTING_MODE = 0;
 
 /**
  * XMLscene class, representing the scene that is to be rendered.
@@ -260,14 +261,18 @@ class XMLscene extends CGFscene {
         // Stores the main camera being used, since the rendering of the security camera overides it.
         let main_camera = this.camera;
         
-        this.camera_texture.attachToFrameBuffer();
-        this.render(this.securityCamera);
-        this.camera_texture.detachFromFrameBuffer();
+        if(!TESTING_MODE){
+            this.camera_texture.attachToFrameBuffer();
+            this.render(this.securityCamera);
+            this.camera_texture.detachFromFrameBuffer();
+        }
 
         this.render(main_camera);
         
-        this.gl.disable(this.gl.DEPTH_TEST);
-        this.security_camera.display();
-        this.gl.enable(this.gl.DEPTH_TEST);
+        if(!TESTING_MODE){
+            this.gl.disable(this.gl.DEPTH_TEST);
+            this.security_camera.display();
+            this.gl.enable(this.gl.DEPTH_TEST);
+        }
     }
 }
