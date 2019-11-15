@@ -21,18 +21,41 @@ class XMLscene extends CGFscene {
      * @param {CGFApplication} application
      */
     init(application) {
-        super.init(application);
+		super.init(application);
+		
+		this.sceneInited = false;
+		
+		// TODO: apagar
+		// this.ortho = false;
+		// this.testCamera = false;
 
-        this.sceneInited = false;
+		// this.near = 0.1;
+		// this.far = 500;
+		// this.posX = -30;
+		// this.posY = 60;
+		// this.posZ = 70;
+		// this.targetX = -30;
+		// this.targetY = 5;
+		// this.targetZ = -20;
+		// if(this.ortho){
+		// 	this.upX = 0;
+		// 	this.upY = 1;
+		// 	this.upZ = 0;
+		// 	this.left = -60;
+		// 	this.right = 70;
+		// 	this.top = 50;
+		// 	this.bottom = -40;
+		// }
+		// fim
 
         this.camera_texture = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
         this.security_camera = new MySecurityCamera(this);
         
-        this.securityCameras = {'Entrance' : new CGFcamera(30 * DEGREE_TO_RAD, 0.1, 600, vec3.fromValues(30, 5, 120), vec3.fromValues(30, 20, 10)),
-                                'PopArt Room' : new CGFcamera(50 * DEGREE_TO_RAD, 0.1, 600, vec3.fromValues(-9, 12, 7), vec3.fromValues(-10, 12, 7)),
-                                '20th Century Artists Room' : new CGFcamera(40 * DEGREE_TO_RAD, 0.1, 600, vec3.fromValues(70, 10, 15), vec3.fromValues(90, 11, 15))};
+        this.securityCameras = {'Entrance' : new CGFcamera(50 * DEGREE_TO_RAD, 0.2, 600, vec3.fromValues(30, 36, 56), vec3.fromValues(30, 20, 41)),
+                                'PopArt Room' : new CGFcamera(50 * DEGREE_TO_RAD, 0.2, 600, vec3.fromValues(-30, 35, -29), vec3.fromValues(-30, 15, -5)),
+                                '20th Century Artists Room' : new CGFcamera(50 * DEGREE_TO_RAD, 0.2, 600, vec3.fromValues(63, 35, 15), vec3.fromValues(75, 25, 15))};
 
-        this.curSecurityCamera = 'Entrance';
+        this.curSecurityCamera = '20th Century Artists Room';
 
         this.initCameras();
 
@@ -61,7 +84,7 @@ class XMLscene extends CGFscene {
      */
     initCameras() {
         this.camera = new CGFcamera(0.4, this.near, this.far, vec3.fromValues(this.posX, this.posY, this.posY), vec3.fromValues(this.targetX, this.targetY, this.targetZ));
-        this.securityCamera = this.securityCameras['Entrance'];
+        this.securityCamera = this.securityCameras[this.curSecurityCamera];
     }
 	
 	/**
@@ -130,7 +153,10 @@ class XMLscene extends CGFscene {
 		this.initLights();
 
 		
-		this.camera = this.graph.views[this.graph.defView];
+		
+		// TODO: apagar if
+		// if(!this.testCamera)
+			this.camera = this.graph.views[this.graph.defView];
 		this.interface.setActiveCamera(this.camera);
 		this.interface.addLightsGUI();
         this.interface.addCamerasGUI();
@@ -180,6 +206,14 @@ class XMLscene extends CGFscene {
 	popMaterial(){
 		this.materialsStack.pop();
 	}
+
+	// TODO: apagar (choose one to test)
+	// updateCamera(){
+	// 	if(!this.ortho)
+	// 		this.camera = new CGFcamera(0.4, this.near, this.far, vec3.fromValues(this.posX, this.posY, this.posZ), vec3.fromValues(this.targetX, this.targetY, this.targetZ));
+	// 	else
+	// 		this.camera = new CGFcameraOrtho(this.left, this.right, this.bottom, this.top, this.near, this.far, vec3.fromValues(this.posX, this.posY, this.posZ), vec3.fromValues(this.targetX, this.targetY, this.targetZ), vec3.fromValues(this.upX, this.upY, this.upZ) );
+	// }
 
 
 	/**

@@ -1,7 +1,7 @@
 <lxs>
     <scene root="root" axis_length="5"/>
 
-    <views default="Sculpture - Broken Obelisk">
+    <views default="Helicopter View 1">
         <perspective id="Helicopter View 1" near="0.1" far="600" angle="25">
             <from x="30" y="225" z="150" />
             <to x="30" y="0" z="0" />
@@ -23,32 +23,32 @@
             <from x="5" y="9" z="60" />
             <to x="50" y="8" z="40" />
         </perspective>
-        <perspective id="Sculpure - 2-2-1: To Dickie and Tina" near="0.1" far="600" angle="34">
+        <perspective id="Sculpture - 2-2-1: To Dickie and Tina" near="0.1" far="600" angle="34">
             <from x="40" y="10" z="50" />
             <to x="13" y="2" z="40" />
         </perspective>
-        <perspective id="Sculpure - Balloon Dog" near="0.1" far="600" angle="65">
+        <perspective id="Sculpture - Balloon Dog" near="0.1" far="600" angle="65">
             <from x="-20" y="12" z="10" />
             <to x="-30" y="10" z="-20" />
         </perspective>
 
-        <perspective id="Sculpure - Ilusao" near="0.2" far="600" angle="45">
+        <perspective id="Sculpture - Ilusao" near="0.2" far="600" angle="45">
 			<from  x="105" y="55" z="-10"/>
             <to  x="105" y="2" z="-20"/>
         </perspective>
-        <ortho id="Sculpure - Ilusao: Retangulo F" near="0.1" far="600" left="-25" right="25" top="30" bottom="-5">
+        <ortho id="Sculpture - Ilusao: Retangulo F" near="0.1" far="600" left="-25" right="25" top="30" bottom="-5">
 			<from  x="105" y="2" z="-10"/>
             <to  x="105" y="2" z="-20"/>
         </ortho>
-		<ortho id="Sculpure - Ilusao: Retangulo B" near="0.1" far="600" left="-25" right="25" top="30" bottom="-5">
+		<ortho id="Sculpture - Ilusao: Retangulo B" near="0.1" far="600" left="-25" right="25" top="30" bottom="-5">
 			<from  x="105" y="2" z="-30"/>
             <to  x="105" y="2" z="-20"/>
         </ortho>
-		<ortho id="Sculpure - Ilusao: Triangulo" near="0.1" far="600" left="-25" right="25" top="30" bottom="-5">
+		<ortho id="Sculpture - Ilusao: Triangulo" near="0.1" far="600" left="-25" right="25" top="30" bottom="-5">
 			<from  x="115" y="2" z="-20"/>
             <to  x="105" y="2" z="-20"/>
         </ortho>
-		<ortho id="Sculpure - Ilusao: Circulo" near="0.1" far="600" left="-25" right="25" top="30" bottom="-5">
+		<ortho id="Sculpture - Ilusao: Circulo" near="0.1" far="600" left="-25" right="25" top="30" bottom="-5">
 			<from  x="95" y="2" z="-20"/>
             <to  x="105" y="2" z="-20"/>
         </ortho>
@@ -2725,11 +2725,44 @@
             <texture id="inherit" />
             <children>
                 <!-- Call here every camera in the scene, that in it's turn, calls security_camera-->
-                <componentref id="security_camera" />
+                <componentref id="security_camera1" />
+				<componentref id="security_camera2" />
+				<componentref id="security_camera3" />
             </children>
         </component>
-        <component id="security_camera">
+        <component id="security_camera1">
             <transformation>
+				<translate x="-30" y="35.0" z="-30.0" />
+                <scale x="0.6" y="0.6" z="0.6" />
+            </transformation>
+            <materials>
+                <material id="plasticMaterial" />
+            </materials>
+            <texture id="plasticTexture" length_t="1.0" length_s="1.0"/>
+            <children>
+                <componentref id="camera_stand" />
+                <componentref id="camera" />
+            </children>
+        </component>
+		<component id="security_camera2">
+            <transformation>
+				<translate x="30" y="35.0" z="60.0" />
+				<rotate angle="180" axis="y" />
+                <scale x="0.6" y="0.6" z="0.6" />
+            </transformation>
+            <materials>
+                <material id="plasticMaterial" />
+            </materials>
+            <texture id="plasticTexture" length_t="1.0" length_s="1.0"/>
+            <children>
+                <componentref id="camera_stand" />
+                <componentref id="camera" />
+            </children>
+        </component>
+		<component id="security_camera3">
+            <transformation>
+				<translate x="60" y="35.0" z="15.0" />
+                <rotate angle="90" axis="y" />
                 <scale x="0.6" y="0.6" z="0.6" />
             </transformation>
             <materials>
