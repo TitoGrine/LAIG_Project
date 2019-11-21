@@ -550,127 +550,127 @@
             <rectangle x1="0.0" y1="0.0" x2="3.0" y2="15.0" />
         </primitive>
         <primitive id="room1_wall1">
-            <rectangle x1="0.0" y1="0.0" x2="60.0" y2="50.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room1_wall2_1">
-            <rectangle x1="0.0" y1="0.0" x2="40.0" y2="20.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room1_wall2_2">
-            <rectangle x1="0.0" y1="20.0" x2="60.0" y2="50.0" />
+            <plane npartsU='50' npartsV='50' />     
         </primitive>
         <primitive id="room1_wall2_3">
-            <rectangle x1="50.0" y1="0.0" x2="60.0" y2="20.0" />
+            <plane npartsU='50' npartsV='50' />    
         </primitive>
         <primitive id="room1_wall3_1">
-            <rectangle x1="0.0" y1="0.0" x2="10.0" y2="20.0" />
+            <plane npartsU='50' npartsV='50' />    
         </primitive>
         <primitive id="room1_wall3_2">
-            <rectangle x1="0.0" y1="20.0" x2="60.0" y2="50.0" />
+            <plane npartsU='50' npartsV='50' />    
         </primitive>
         <primitive id="room1_wall3_3">
-            <rectangle x1="20.0" y1="0.0" x2="60.0" y2="20.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room1_wall4_1">
-            <rectangle x1="20.0" y1="0.0" x2="0.0" y2="20.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room1_wall4_2">
-            <rectangle x1="60.0" y1="20.0" x2="0.0" y2="50.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room1_wall4_3">
-            <rectangle x1="60.0" y1="0.0" x2="40.0" y2="20.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room1_floor">
-            <rectangle x1="0.0" y1="0.0" x2="60.0" y2="60.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room1_ceiling">
-            <rectangle x1="0.0" y1="0.0" x2="60.0" y2="60.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room2_wall1">
-            <rectangle x1="0.0" y1="0.0" x2="60.0" y2="50.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room2_wall2">
-            <rectangle x1="0.0" y1="0.0" x2="60.0" y2="50.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room2_wall3_1">
-            <rectangle x1="0.0" y1="0.0" x2="40.0" y2="20.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room2_wall3_2">
-            <rectangle x1="0.0" y1="20.0" x2="60.0" y2="50.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room2_wall3_3">
-            <rectangle x1="50.0" y1="0.0" x2="60.0" y2="20.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room2_wall4">
-            <rectangle x1="60.0" y1="0.0" x2="0.0" y2="50.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room2_floor">
-            <rectangle x1="0.0" y1="0.0" x2="60.0" y2="60.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room2_ceiling">
-            <rectangle x1="0.0" y1="0.0" x2="60.0" y2="60.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room3_wall1_1">
-            <rectangle x1="0.0" y1="0.0" x2="40.0" y2="20.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room3_wall1_2">
-            <rectangle x1="0.0" y1="20.0" x2="60.0" y2="50.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room3_wall1_3">
-            <rectangle x1="50.0" y1="0.0" x2="60.0" y2="20.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room3_wall2_1">
-            <rectangle x1="0.0" y1="0.0" x2="15.0" y2="20.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room3_wall2_2">
-            <rectangle x1="0.0" y1="20.0" x2="40.0" y2="50.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room3_wall2_3">
-            <rectangle x1="25.0" y1="0.0" x2="40.0" y2="20.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room3_wall3">
-            <rectangle x1="0.0" y1="0.0" x2="40.0" y2="50.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room3_wall4">
-            <rectangle x1="60.0" y1="0.0" x2="0.0" y2="50.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room3_floor">
-            <rectangle x1="0.0" y1="0.0" x2="60.0" y2="40.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room3_ceiling">
-            <rectangle x1="0.0" y1="0.0" x2="60.0" y2="40.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room4_wall1">
-            <rectangle x1="0.0" y1="0.0" x2="30.0" y2="50.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room4_wall2">
-            <rectangle x1="0.0" y1="0.0" x2="30.0" y2="50.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room4_wall3">
-            <rectangle x1="0.0" y1="0.0" x2="30.0" y2="50.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room4_wall4_1">
-            <rectangle x1="30.0" y1="0.0" x2="20.0" y2="20.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room4_wall4_2">
-            <rectangle x1="30.0" y1="20.0" x2="0.0" y2="50.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room4_wall4_3">
-            <rectangle x1="10.0" y1="0.0" x2="0.0" y2="20.0" />
-        </primitive>
+            <plane npartsU='50' npartsV='50' />
+a        </primitive>
         <primitive id="room4_floor">
-            <rectangle x1="0.0" y1="0.0" x2="30.0" y2="30.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="room4_ceiling">
-            <rectangle x1="0.0" y1="0.0" x2="30.0" y2="30.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="stand_top">
-            <rectangle x1="0.0" y1="0.0" x2="10.0" y2="10.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="stand_bottom">
-            <rectangle x1="0.0" y1="0.0" x2="10.0" y2="10.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="stand_side">
-            <rectangle x1="0.0" y1="0.0" x2="10.0" y2="1.0" />
+            <plane npartsU='50' npartsV='50' />
         </primitive>
         <primitive id="canvas_side">
             <rectangle x1="0.0" y1="0.0" x2="1.0" y2="1.0" />
@@ -1516,6 +1516,9 @@
         </component>
         <component id="r1_wall1">
             <transformation>
+                <scale x="60" y="50" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1542,6 +1545,9 @@
         </component>
         <component id="r1_wall2_1">
             <transformation>
+                <scale x="40" y="20" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1553,6 +1559,10 @@
         </component>
         <component id="r1_wall2_2">
             <transformation>
+                <translate x="0.0" y="20.0" z="0.0" />
+                <scale x="60" y="30" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1564,6 +1574,10 @@
         </component>
         <component id="r1_wall2_3">
             <transformation>
+                <translate x="50.0" y="0.0" z="0.0" />
+                <scale x="10" y="20" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1590,6 +1604,9 @@
         </component>
         <component id="r1_wall3_1">
             <transformation>
+                <scale x="10" y="20" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1601,6 +1618,10 @@
         </component>
         <component id="r1_wall3_2">
             <transformation>
+                <translate x="0.0" y="20.0" z="0.0" />
+                <scale x="60" y="30" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1612,6 +1633,10 @@
         </component>
         <component id="r1_wall3_3">
             <transformation>
+                <translate x="20.0" y="0.0" z="0.0" />
+                <scale x="40" y="20" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1637,6 +1662,9 @@
         </component>
         <component id="r1_wall4_1">
             <transformation>
+                <scale x="20" y="20" z="1.0" />
+                <rotate axis="x" angle="-90" />
+                <translate x="0.5" y="0.0" z="0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1648,6 +1676,10 @@
         </component>
         <component id="r1_wall4_2">
             <transformation>
+                <translate x="0.0" y="20.0" z="0.0" />
+                <scale x="60" y="30" z="1.0" />
+                <rotate axis="x" angle="-90" />
+                <translate x="0.5" y="0.0" z="0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1659,6 +1691,10 @@
         </component>
         <component id="r1_wall4_3">
             <transformation>
+                <translate x="40.0" y="0.0" z="0.0" />
+                <scale x="20" y="20" z="1.0" />
+                <rotate axis="x" angle="-90" />
+                <translate x="0.5" y="0.0" z="0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1670,8 +1706,10 @@
         </component>
         <component id="r1_ceiling">
             <transformation>
+                <scale x="60" y="1.0" z="60.0" />
                 <translate x="0.0" y="50.0" z="0.0" />
-                <rotate axis="x" angle="90" />
+                <rotate axis="x" angle="180" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1683,8 +1721,8 @@
         </component>
         <component id="r1_floor">
             <transformation>
-                <translate x="0.0" y="0.0" z="60.0" />
-                <rotate axis="x" angle="-90" />
+                <scale x="60" y="1.0" z="60.0" />
+                <translate x="0.5" y="0.0" z="0.5" />
             </transformation>
             <materials>
                 <material id="woodMaterial" />
@@ -1713,6 +1751,9 @@
         </component>
         <component id="r2_wall1">
             <transformation>
+                <scale x="60.0" y="50.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1726,6 +1767,9 @@
             <transformation>
                 <rotate axis="y" angle="90" />
                 <translate x="-60.0" y="0.0" z="0.0" />
+                <scale x="60.0" y="50.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1752,6 +1796,9 @@
         </component>
         <component id="r2_wall3_1">
             <transformation>
+                <scale x="40.0" y="20.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1763,6 +1810,10 @@
         </component>
         <component id="r2_wall3_2">
             <transformation>
+                <translate x="0.0" y="20.0" z="0.0" />
+                <scale x="60.0" y="30.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1774,6 +1825,10 @@
         </component>
         <component id="r2_wall3_3">
             <transformation>
+                <translate x="50.0" y="0.0" z="0.0" />
+                <scale x="10.0" y="20.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1786,6 +1841,9 @@
         <component id="r2_wall4">
             <transformation>
                 <translate x="0.0" y="0.0" z="60.0" />
+                <scale x="60" y="50" z="1.0" />
+                <rotate axis="x" angle="-90" />
+                <translate x="0.5" y="0.0" z="0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1797,8 +1855,10 @@
         </component>
         <component id="r2_ceiling">
             <transformation>
+                <scale x="60" y="1.0" z="60.0" />
                 <translate x="0.0" y="50.0" z="0.0" />
-                <rotate axis="x" angle="90" />
+                <rotate axis="x" angle="180" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1810,8 +1870,8 @@
         </component>
         <component id="r2_floor">
             <transformation>
-                <translate x="0.0" y="0.0" z="60.0" />
-                <rotate axis="x" angle="-90" />
+                <scale x="60" y="1.0" z="60.0" />
+                <translate x="0.5" y="0.0" z="0.5" />
             </transformation>
             <materials>
                 <material id="woodMaterial" />
@@ -1853,6 +1913,9 @@
         </component>
         <component id="r3_wall1_1">
             <transformation>
+                <scale x="40" y="20" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1864,6 +1927,10 @@
         </component>
         <component id="r3_wall1_2">
             <transformation>
+                <translate x="0.0" y="20.0" z="0.0" />
+                <scale x="60" y="30" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1875,6 +1942,10 @@
         </component>
         <component id="r3_wall1_3">
             <transformation>
+                <translate x="50.0" y="0.0" z="0.0" />
+                <scale x="10" y="20" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1901,6 +1972,9 @@
         </component>
         <component id="r3_wall2_1">
             <transformation>
+                <scale x="15" y="20" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1912,6 +1986,10 @@
         </component>
         <component id="r3_wall2_2">
             <transformation>
+                <translate x="0.0" y="20.0" z="0.0" />
+                <scale x="40" y="30" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1923,6 +2001,10 @@
         </component>
         <component id="r3_wall2_3">
             <transformation>
+                <translate x="25.0" y="0.0" z="0.0" />
+                <scale x="15" y="20" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1936,6 +2018,9 @@
             <transformation>
                 <translate x="60.0" y="0.0" z="0.0" />
                 <rotate axis="y" angle="-90" />
+                <scale x="40" y="50" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1948,6 +2033,9 @@
         <component id="r3_wall4">
             <transformation>
                 <translate x="0.0" y="0.0" z="40.0" />
+                <scale x="60" y="50" z="1.0" />
+                <rotate axis="x" angle="-90" />
+                <translate x="0.5" y="0.0" z="0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1959,8 +2047,10 @@
         </component>
         <component id="r3_ceiling">
             <transformation>
+                <scale x="60" y="1.0" z="40.0" />
                 <translate x="0.0" y="50.0" z="0.0" />
-                <rotate axis="x" angle="90" />
+                <rotate axis="x" angle="180" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1972,8 +2062,8 @@
         </component>
         <component id="r3_floor">
             <transformation>
-                <translate x="0.0" y="0.0" z="40.0" />
-                <rotate axis="x" angle="-90" />
+                <scale x="60" y="1.0" z="40.0" />
+                <translate x="0.5" y="0.0" z="0.5" />
             </transformation>
             <materials>
                 <material id="woodMaterial" />
@@ -2002,6 +2092,9 @@
         </component>
         <component id="r4_wall1">
             <transformation>
+                <scale x="30" y="50" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2015,6 +2108,9 @@
             <transformation>
                 <rotate axis="y" angle="90" />
                 <translate x="-30.0" y="0.0" z="0.0" />
+                <scale x="30" y="50" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2028,6 +2124,9 @@
             <transformation>
                 <translate x="30.0" y="0.0" z="0.0" />
                 <rotate axis="y" angle="-90" />
+                <scale x="30" y="50" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2053,6 +2152,10 @@
         </component>
         <component id="r4_wall4_1">
             <transformation>
+                <translate x="20.0" y="0.0" z="0.0" />
+                <scale x="10" y="20" z="1.0" />
+                <rotate axis="x" angle="-90" />
+                <translate x="0.5" y="0.0" z="0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2064,6 +2167,10 @@
         </component>
         <component id="r4_wall4_2">
             <transformation>
+                <translate x="0.0" y="20.0" z="0.0" />
+                <scale x="30" y="30" z="1.0" />
+                <rotate axis="x" angle="-90" />
+                <translate x="0.5" y="0.0" z="0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2075,6 +2182,9 @@
         </component>
         <component id="r4_wall4_3">
             <transformation>
+                <scale x="10" y="20" z="1.0" />
+                <rotate axis="x" angle="-90" />
+                <translate x="0.5" y="0.0" z="0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2086,8 +2196,10 @@
         </component>
         <component id="r4_ceiling">
             <transformation>
+                <scale x="30" y="1.0" z="30.0" />
                 <translate x="0.0" y="50.0" z="0.0" />
-                <rotate axis="x" angle="90" />
+                <rotate axis="x" angle="180" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2099,8 +2211,8 @@
         </component>
         <component id="r4_floor">
             <transformation>
-                <translate x="0.0" y="0.0" z="30.0" />
-                <rotate axis="x" angle="-90" />
+                <scale x="30" y="1.0" z="30.0" />
+                <translate x="0.5" y="0.0" z="0.5" />
             </transformation>
             <materials>
                 <material id="woodMaterial" />
@@ -2146,7 +2258,8 @@
         <component id="stand1_top">
             <transformation>
                 <translate x="-5.0" y="0.0" z="5.0" />
-                <rotate axis="x" angle="-90" />
+                <scale x="10" y="1.0" z="10" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2159,6 +2272,9 @@
         <component id="stand1_side1">
             <transformation>
                 <translate x="-5.0" y="-1.0" z="5.0" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2172,6 +2288,9 @@
             <transformation>
                 <translate x="5.0" y="-1.0" z="5.0" />
                 <rotate axis="y" angle="90" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2185,6 +2304,9 @@
             <transformation>
                 <rotate axis="y" angle="180" />
                 <translate x="-5.0" y="-1.0" z="5.0" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2198,6 +2320,9 @@
             <transformation>
                 <translate x="-5.0" y="-1.0" z="-5.0" />
                 <rotate axis="y" angle="-90" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2226,7 +2351,8 @@
         <component id="stand2_top">
             <transformation>
                 <translate x="-5.0" y="0.0" z="5.0" />
-                <rotate axis="x" angle="-90" />
+                <scale x="10" y="1.0" z="10" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2239,6 +2365,9 @@
         <component id="stand2_side1">
             <transformation>
                 <translate x="-5.0" y="-1.0" z="5.0" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2252,6 +2381,9 @@
             <transformation>
                 <translate x="5.0" y="-1.0" z="5.0" />
                 <rotate axis="y" angle="90" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2265,6 +2397,9 @@
             <transformation>
                 <rotate axis="y" angle="180" />
                 <translate x="-5.0" y="-1.0" z="5.0" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2278,6 +2413,9 @@
             <transformation>
                 <translate x="-5.0" y="-1.0" z="-5.0" />
                 <rotate axis="y" angle="-90" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2306,7 +2444,8 @@
         <component id="stand3_top">
             <transformation>
                 <translate x="-5.0" y="0.0" z="5.0" />
-                <rotate axis="x" angle="-90" />
+                <scale x="10" y="1.0" z="10" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2319,6 +2458,9 @@
         <component id="stand3_side1">
             <transformation>
                 <translate x="-5.0" y="-1.0" z="5.0" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2332,6 +2474,9 @@
             <transformation>
                 <translate x="5.0" y="-1.0" z="5.0" />
                 <rotate axis="y" angle="90" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2345,6 +2490,9 @@
             <transformation>
                 <rotate axis="y" angle="180" />
                 <translate x="-5.0" y="-1.0" z="5.0" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2358,6 +2506,9 @@
             <transformation>
                 <translate x="-5.0" y="-1.0" z="-5.0" />
                 <rotate axis="y" angle="-90" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2386,7 +2537,8 @@
         <component id="stand4_top">
             <transformation>
                 <translate x="-5.0" y="0.0" z="5.0" />
-                <rotate axis="x" angle="-90" />
+                <scale x="10" y="1.0" z="10" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2399,6 +2551,9 @@
         <component id="stand4_side1">
             <transformation>
                 <translate x="-5.0" y="-1.0" z="5.0" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2412,6 +2567,9 @@
             <transformation>
                 <translate x="5.0" y="-1.0" z="5.0" />
                 <rotate axis="y" angle="90" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2425,6 +2583,9 @@
             <transformation>
                 <rotate axis="y" angle="180" />
                 <translate x="-5.0" y="-1.0" z="5.0" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2438,6 +2599,9 @@
             <transformation>
                 <translate x="-5.0" y="-1.0" z="-5.0" />
                 <rotate axis="y" angle="-90" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2471,6 +2635,7 @@
             <texture id="inherit"/>
             <children>
                 <componentref id="stand5_top" />
+                <componentref id="stand5_bottom" />
                 <componentref id="stand5_side1" />
                 <componentref id="stand5_side2" />
                 <componentref id="stand5_side3" />
@@ -2480,7 +2645,8 @@
         <component id="stand5_top">
             <transformation>
                 <translate x="-5.0" y="0.0" z="5.0" />
-                <rotate axis="x" angle="-90" />
+                <scale x="10" y="1.0" z="10" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2490,9 +2656,27 @@
                 <primitiveref id="stand_top" />
             </children>
         </component>
+        <component id="stand5_bottom">
+            <transformation>
+                <scale x="10" y="1.0" z="10.0" />
+                <translate x="-0.5" y="0.0" z="0.0" />
+                <rotate axis="x" angle="180" />
+                <translate x="0.5" y="0.0" z="0.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="stand_bottom" />
+            </children>
+        </component>
         <component id="stand5_side1">
             <transformation>
                 <translate x="-5.0" y="-1.0" z="5.0" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2506,6 +2690,9 @@
             <transformation>
                 <translate x="5.0" y="-1.0" z="5.0" />
                 <rotate axis="y" angle="90" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2519,6 +2706,9 @@
             <transformation>
                 <rotate axis="y" angle="180" />
                 <translate x="-5.0" y="-1.0" z="5.0" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2532,6 +2722,9 @@
             <transformation>
                 <translate x="-5.0" y="-1.0" z="-5.0" />
                 <rotate axis="y" angle="-90" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2572,7 +2765,8 @@
         <component id="stand6_top">
             <transformation>
                 <translate x="-5.0" y="0.0" z="5.0" />
-                <rotate axis="x" angle="-90" />
+                <scale x="10" y="1.0" z="10" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2585,6 +2779,9 @@
         <component id="stand6_side1">
             <transformation>
                 <translate x="-5.0" y="-1.0" z="5.0" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2598,6 +2795,9 @@
             <transformation>
                 <translate x="5.0" y="-1.0" z="5.0" />
                 <rotate axis="y" angle="90" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2611,6 +2811,9 @@
             <transformation>
                 <rotate axis="y" angle="180" />
                 <translate x="-5.0" y="-1.0" z="5.0" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2624,6 +2827,9 @@
             <transformation>
                 <translate x="-5.0" y="-1.0" z="-5.0" />
                 <rotate axis="y" angle="-90" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2654,7 +2860,8 @@
         <component id="bench_top">
             <transformation>
                 <translate x="-5.0" y="0.0" z="5.0" />
-                <rotate axis="x" angle="-90" />
+                <scale x="10" y="1.0" z="10" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2667,6 +2874,9 @@
         <component id="bench_side1">
             <transformation>
                 <translate x="-5.0" y="-1.0" z="5.0" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2680,6 +2890,9 @@
             <transformation>
                 <translate x="5.0" y="-1.0" z="5.0" />
                 <rotate axis="y" angle="90" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2693,6 +2906,9 @@
             <transformation>
                 <rotate axis="y" angle="180" />
                 <translate x="-5.0" y="-1.0" z="5.0" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -2706,6 +2922,9 @@
             <transformation>
                 <translate x="-5.0" y="-1.0" z="-5.0" />
                 <rotate axis="y" angle="-90" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -3652,7 +3871,8 @@
         <component id="obelisk_base_top">
             <transformation>
                 <translate x="-5.0" y="0.0" z="5.0" />
-                <rotate axis="x" angle="-90" />
+                <scale x="10" y="1.0" z="10" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -3665,6 +3885,9 @@
         <component id="obelisk_base_side1">
             <transformation>
                 <translate x="-5.0" y="-1.0" z="5.0" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -3678,6 +3901,9 @@
             <transformation>
                 <translate x="5.0" y="-1.0" z="5.0" />
                 <rotate axis="y" angle="90" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -3691,6 +3917,9 @@
             <transformation>
                 <rotate axis="y" angle="180" />
                 <translate x="-5.0" y="-1.0" z="5.0" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -3704,6 +3933,9 @@
             <transformation>
                 <translate x="-5.0" y="-1.0" z="-5.0" />
                 <rotate axis="y" angle="-90" />
+                <scale x="10" y="1.0" z="1.0" />
+                <rotate axis="x" angle="90" />
+                <translate x="0.5" y="0.0" z="-0.5" />
             </transformation>
             <materials>
                 <material id="inherit" />
