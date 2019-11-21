@@ -4,10 +4,10 @@
  - [x] Animations by Keyframes
  - [x] 2D/3D surfaces
  - [x] Render-to-Texture (MySecurityCamera)
- - [ ] Add effects to security camera
+ - [X] Add effects to security camera
  - [ ] Add animations to scene
- - [ ] Add new surfaces to scene
- - [ ] Add security cameras to scene
+ - [X] Add new surfaces to scene
+ - [X] Add security cameras to scene
 
 #### Testing:
  - [ ] Animations by Keyframes
