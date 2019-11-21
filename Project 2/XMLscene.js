@@ -50,10 +50,10 @@ class XMLscene extends CGFscene {
 
         this.camera_texture = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
         this.security_camera = new MySecurityCamera(this);
-        
-        this.securityCameras = {'Entrance' : new CGFcamera(50 * DEGREE_TO_RAD, 0.2, 600, vec3.fromValues(30, 36, 56), vec3.fromValues(30, 20, 41)),
-                                'PopArt Room' : new CGFcamera(50 * DEGREE_TO_RAD, 0.2, 600, vec3.fromValues(-30, 35, -29), vec3.fromValues(-30, 15, -5)),
-                                '20th Century Artists Room' : new CGFcamera(50 * DEGREE_TO_RAD, 0.2, 600, vec3.fromValues(63, 35, 15), vec3.fromValues(75, 25, 15))};
+    
+        this.securityCameras = {'Entrance' : new CGFcamera(50 * DEGREE_TO_RAD, 0.2, 600, vec3.fromValues(58, 36, 56), vec3.fromValues(40, 10, 31)),
+                                'PopArt Room' : new CGFcamera(50 * DEGREE_TO_RAD, 0.2, 600, vec3.fromValues(-58, 35, -29), vec3.fromValues(-40, 15, -5)),
+                                '20th Century Artists Room' : new CGFcamera(50 * DEGREE_TO_RAD, 0.2, 600, vec3.fromValues(63, 35, 33), vec3.fromValues(95, 10, 10))};
 
         this.curSecurityCamera = '20th Century Artists Room';
 

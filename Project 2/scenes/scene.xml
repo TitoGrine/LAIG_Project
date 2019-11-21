@@ -93,6 +93,22 @@
             <from  x="90" y="5" z="5"/>
 			<to  x="110" y="5" z="5"/>
         </ortho>
+
+
+        <perspective id="CAM - Entrance" near="0.1" far="600" angle="50">
+            <from x="58" y="36" z="56" />
+            <to x="40" y="10" z="31" />
+        </perspective>
+
+        <perspective id="CAM - PopArt Room" near="0.1" far="600" angle="50">
+            <from x="-58" y="35" z="-29" />
+            <to x="-40" y="15" z="-5" />
+        </perspective>
+
+        <perspective id="CAM - 20th Century Artists Room" near="0.1" far="600" angle="50">
+            <from x="63" y="35" z="33" />
+            <to x="95" y="10" z="10" />
+        </perspective>
     </views>
 
     <globals>
@@ -2951,7 +2967,7 @@
         </component>
         <component id="security_camera1">
             <transformation>
-				<translate x="-30" y="35.0" z="-30.0" />
+				<translate x="-58" y="35.0" z="-30.0" />
                 <scale x="0.6" y="0.6" z="0.6" />
             </transformation>
             <materials>
@@ -2965,7 +2981,7 @@
         </component>
 		<component id="security_camera2">
             <transformation>
-				<translate x="30" y="35.0" z="60.0" />
+				<translate x="58" y="35.0" z="60.0" />
 				<rotate angle="180" axis="y" />
                 <scale x="0.6" y="0.6" z="0.6" />
             </transformation>
@@ -2980,7 +2996,7 @@
         </component>
 		<component id="security_camera3">
             <transformation>
-				<translate x="60" y="35.0" z="15.0" />
+				<translate x="60" y="35.0" z="33.0" />
                 <rotate angle="90" axis="y" />
                 <scale x="0.6" y="0.6" z="0.6" />
             </transformation>
@@ -3088,7 +3104,8 @@
         <component id="camera">
             <transformation>
                 <translate x="0.0" y="3.2" z="2.5" />
-                <rotate axis="x" angle="20" />
+                <rotate axis="y" angle="35" />
+                <rotate axis="x" angle="30" />
             </transformation>
             <materials>
                 <material id="inherit" />
