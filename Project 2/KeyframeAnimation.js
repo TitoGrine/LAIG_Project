@@ -56,13 +56,11 @@ class KeyframeAnimation extends Animation {
 
 		}
 		else{
-			mat4.translate(this.prevMatrix, mat4.create(), this.keyframes[this.keyframeID].translate);
-			mat4.rotate(this.prevMatrix, this.prevMatrix, this.keyframes[this.keyframeID].rotate[0], [1, 0, 0]);
-			mat4.rotate(this.prevMatrix, this.prevMatrix, this.keyframes[this.keyframeID].rotate[1], [0, 1, 0]);
-			mat4.rotate(this.prevMatrix, this.prevMatrix, this.keyframes[this.keyframeID].rotate[2], [0, 0, 1]);
-			mat4.scale(this.prevMatrix, this.prevMatrix, this.keyframes[this.keyframeID].scale);	
-
-			this.curMatrix = this.prevMatrix;
+			mat4.translate(this.curMatrix, mat4.create(), this.keyframes[this.keyframeID].translate);
+			mat4.rotate(this.curMatrix, this.curMatrix, this.keyframes[this.keyframeID].rotate[0], [1, 0, 0]);
+			mat4.rotate(this.curMatrix, this.curMatrix, this.keyframes[this.keyframeID].rotate[1], [0, 1, 0]);
+			mat4.rotate(this.curMatrix, this.curMatrix, this.keyframes[this.keyframeID].rotate[2], [0, 0, 1]);
+			mat4.scale(this.curMatrix, this.curMatrix, this.keyframes[this.keyframeID].scale);	
 		}	
 	}
 

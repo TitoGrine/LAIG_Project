@@ -656,7 +656,7 @@
         </primitive>
         <primitive id="room4_wall4_3">
             <plane npartsU='50' npartsV='50' />
-a        </primitive>
+	    </primitive>
         <primitive id="room4_floor">
             <plane npartsU='50' npartsV='50' />
         </primitive>
