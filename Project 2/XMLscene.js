@@ -51,12 +51,6 @@ class XMLscene extends CGFscene {
         this.camera_texture = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
         this.security_camera = new MySecurityCamera(this);
         
-        this.securityCameras = {'Entrance' : new CGFcamera(50 * DEGREE_TO_RAD, 0.2, 600, vec3.fromValues(30, 36, 56), vec3.fromValues(30, 20, 41)),
-                                'PopArt Room' : new CGFcamera(50 * DEGREE_TO_RAD, 0.2, 600, vec3.fromValues(-30, 35, -29), vec3.fromValues(-30, 15, -5)),
-                                '20th Century Artists Room' : new CGFcamera(50 * DEGREE_TO_RAD, 0.2, 600, vec3.fromValues(63, 35, 15), vec3.fromValues(75, 25, 15))};
-
-        this.curSecurityCamera = '20th Century Artists Room';
-
         this.initCameras();
 
         this.enableTextures(true);
@@ -84,7 +78,7 @@ class XMLscene extends CGFscene {
      */
     initCameras() {
         this.camera = new CGFcamera(0.4, this.near, this.far, vec3.fromValues(this.posX, this.posY, this.posY), vec3.fromValues(this.targetX, this.targetY, this.targetZ));
-        this.securityCamera = this.securityCameras[this.curSecurityCamera];
+        this.securityCamera = new CGFcamera(50 * DEGREE_TO_RAD, 0.2, 600, vec3.fromValues(30, 36, 56), vec3.fromValues(30, 20, 41));
     }
 	
 	/**
@@ -156,7 +150,9 @@ class XMLscene extends CGFscene {
 		
 		// TODO: apagar if
 		// if(!this.testCamera)
-			this.camera = this.graph.views[this.graph.defView];
+		this.camera = this.graph.views[this.graph.defView];
+		this.securityCamera = this.graph.securityViews[this.graph.defViewSec];
+		
 		this.interface.setActiveCamera(this.camera);
 		this.interface.addLightsGUI();
         this.interface.addCamerasGUI();

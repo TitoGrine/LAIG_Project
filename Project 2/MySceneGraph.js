@@ -259,10 +259,12 @@ class MySceneGraph {
 
         var children = viewsNode.children;	
 
-        this.views = [];
+		this.views = [];
+		this.securityViews = [];
         var grandChildren = [];
 		var nodeNames = [];
 		var firstValidViewID = null;
+		this.defViewSec = null;
 		
 		// If the default argument was missing and there is no view define
         if((this.defView == "" || this.defView == null) && children.length == 0){
@@ -271,8 +273,14 @@ class MySceneGraph {
 			this.onXMLError("no views defined. Using default view");
 		}
 
+		let security;
+		let securityN = 0;
+		let normalN = 0;
+
         // Any number views
         for(var i = 0; i < children.length; i++){
+
+			security = false;
 
             // Storing view information
             var global = [];
@@ -302,8 +310,11 @@ class MySceneGraph {
 				continue;
 			}
 
+			if(viewID[0] == 'C' && viewID[1] == 'A' && viewID[2] == 'M')
+				security = true;
+
 			// Checks for repeated ID's.
-            if(this.views[viewID] != null)
+            if(this.views[viewID] != null || this.securityViews[viewID] != null)
                 return "ID must be unique for each view (conflict: ID = " + viewID + ")";
 
 			// Parse Near Attribute
@@ -360,7 +371,13 @@ class MySceneGraph {
 				global.push(angle);
 				
 				// Initialize camera
-				this.views[viewID] = new CGFcamera(global[5] * DEGREE_TO_RAD, global[0], global[1], vec3.fromValues(...global[3]), vec3.fromValues(...global[4]));
+				if(security){
+					securityN++;
+					this.securityViews[viewID] = new CGFcamera(global[5] * DEGREE_TO_RAD, global[0], global[1], vec3.fromValues(...global[3]), vec3.fromValues(...global[4]));
+				}else{
+					normalN++;
+					this.views[viewID] = new CGFcamera(global[5] * DEGREE_TO_RAD, global[0], global[1], vec3.fromValues(...global[3]), vec3.fromValues(...global[4]));
+				}
 			}
             else {
                 var left = this.reader.getFloat(children[i], 'left');
@@ -382,18 +399,27 @@ class MySceneGraph {
 				global.push(...[left, right, bottom, top]);
 
 				// Initialize camera
-				this.views[viewID] = new CGFcameraOrtho(global[6], global[7], global[8], global[9], global[0], global[1], vec3.fromValues(...global[3]), vec3.fromValues(...global[4]), vec3.fromValues(...global[5]));
+				if(security){
+					securityN++;
+					this.securityViews[viewID] = new CGFcameraOrtho(global[6], global[7], global[8], global[9], global[0], global[1], vec3.fromValues(...global[3]), vec3.fromValues(...global[4]), vec3.fromValues(...global[5]));
+				}else{
+					normalN++;
+					this.views[viewID] = new CGFcameraOrtho(global[6], global[7], global[8], global[9], global[0], global[1], vec3.fromValues(...global[3]), vec3.fromValues(...global[4]), vec3.fromValues(...global[5]));
+				}
 			}
 
-			if(firstValidViewID == null)
+			if(firstValidViewID == null && security == false)
 				firstValidViewID = viewID;
 			
+			if(this.defViewSec == null && security)
+				this.defViewSec = viewID;
+			
 			// If there was no default view defined, it is assumed it is the first valid view
-			if(this.defView == "" || this.defView == null){
+			if(security == false && (this.defView == "" || this.defView == null)){
 				this.defView = firstValidViewID;
 				this.onXMLMinorError("no default view defined. Default set to first valid defined view: " + this.defView);
 			}
-		}
+		}		
 
 		if(firstValidViewID == null){
             this.views["default"] = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
@@ -406,6 +432,15 @@ class MySceneGraph {
             this.onXMLMinorError("default view \"" + this.defView + "\" not defined. Default set to first valid view: " + firstValidViewID);
             this.defView = firstValidViewID;
 		}
+		if(securityN == 0){
+			this.defViewSec = this.defView;
+			this.securityViews = this.views;
+		}
+		if(normalN == 0){
+			this.curView = this.defView = this.defViewSec;
+			this.views = this.securityViews;
+		}
+		this.curSecurityCamera = this.defViewSec;
 
         this.log("Parsed views");
         return null;
