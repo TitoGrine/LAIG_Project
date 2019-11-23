@@ -225,6 +225,7 @@
         </component>
         <component id="wall_stand_bar">
             <transformation>
+                <translate x="0.0" y="1.0" z="1.75" />
                 <rotate axis="x" angle="-30" />
             </transformation>
             <materials>
@@ -246,11 +247,24 @@
             </materials>
             <texture id="inherit" />
             <children>
-                <primitiveref id="camera_body" />
+                <componentref id="camera_body" />
                 <primitiveref id="camera_shield_top" />
                 <primitiveref id="camera_shield_bottom" />
                 <primitiveref id="camera_back" />
                 <componentref id="camera_eye" />
+            </children>
+        </component>
+
+        <component id="camera_body">
+            <transformation>
+                <translate x="0.0" y="0.0" z="2.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="camera_body" />
             </children>
         </component>
 

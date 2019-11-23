@@ -27,61 +27,62 @@ class MyNurbCylinder extends CGFobject {
     buildCPVector(){
         
         var h = 4.0 / 3.0;
+        var half_height = this.height / 2.0;
 
         this.top_control_points1 = [// U = 0 | V = 0..1;
-                                   [[this.base_radius, 0.0, 0.0, 1],
-                                       [this.top_radius, 0.0, this.height, 1]],
+                                   [[this.base_radius, 0.0, -half_height, 1],
+                                       [this.top_radius, 0.0, half_height, 1]],
                                    // U = 1 | V = 0..1;
-                                   [[this.base_radius, h * this.base_radius, 0.0, 1],
-                                       [this.top_radius, h * this.top_radius, this.height, 1]],
+                                   [[this.base_radius, h * this.base_radius, -half_height, 1],
+                                       [this.top_radius, h * this.top_radius, half_height, 1]],
                                    // U = 2 | V = 0..1;
-                                   [[-this.base_radius, h * this.base_radius, 0.0, 1],
-                                       [-this.top_radius, h * this.top_radius, this.height, 1]],
+                                   [[-this.base_radius, h * this.base_radius, -half_height, 1],
+                                       [-this.top_radius, h * this.top_radius, half_height, 1]],
                                    // U = 3 | V = 0..1;
-                                   [[-this.base_radius, 0.0, 0.0, 1],
-                                       [-this.top_radius, 0.0, this.height, 1]]
+                                   [[-this.base_radius, 0.0, -half_height, 1],
+                                       [-this.top_radius, 0.0, half_height, 1]]
                                   ];
 
         this.top_control_points2 = [// U = 0 | V = 0..1;
-                                   [[this.base_radius, 0.0, this.height, 1],
-                                       [this.top_radius, 0.0, 0.0, 1]],
+                                   [[this.top_radius, 0.0, half_height, 1],
+                                       [this.base_radius, 0.0, -half_height, 1]],
                                    // U = 1 | V = 0..1;
-                                   [[this.base_radius, h * this.base_radius, this.height, 1],
-                                       [this.top_radius, h * this.top_radius, 0.0, 1]],
+                                   [[this.top_radius, h * this.top_radius, half_height, 1],
+                                       [this.base_radius, h * this.base_radius, -half_height, 1]],
                                    // U = 2 | V = 0..1;
-                                   [[-this.base_radius, h * this.base_radius, this.height, 1],
-                                       [-this.top_radius, h * this.top_radius, 0.0, 1]],
+                                   [[-this.top_radius, h * this.top_radius, half_height, 1],
+                                       [-this.base_radius, h * this.base_radius, -half_height, 1]],
                                    // U = 3 | V = 0..1;
-                                   [[-this.base_radius, 0.0, this.height, 1],
-                                       [-this.top_radius, 0.0, 0.0, 1]]
+                                   [[-this.top_radius, 0.0, half_height, 1],
+                                       [-this.base_radius, 0.0, -half_height, 1]]
                                   ];
 
         this.bottom_control_points1 = [// U = 0 | V = 0..1;
-                                      [[-this.base_radius, 0.0, 0.0, 1],
-                                          [-this.top_radius, 0.0, this.height, 1]],
+                                      [[-this.base_radius, 0.0, -half_height, 1],
+                                          [-this.top_radius, 0.0, half_height, 1]],
                                       // U = 1 | V = 0..1;
-                                      [[-this.base_radius, -h * this.base_radius, 0.0, 1],
-                                          [-this.top_radius, -h * this.top_radius, this.height, 1]],
+                                      [[-this.base_radius, -h * this.base_radius, -half_height, 1],
+                                          [-this.top_radius, -h * this.top_radius, half_height, 1]],
                                       // U = 2 | V = 0..1;
-                                      [[this.base_radius, -h * this.base_radius, 0.0, 1],
-                                          [this.top_radius, -h * this.top_radius, this.height, 1]],
+                                      [[this.base_radius, -h * this.base_radius, -half_height, 1],
+                                          [this.top_radius, -h * this.top_radius, half_height, 1]],
                                       // U = 2 | V = 0..1;
-                                      [[this.base_radius, 0.0, 0.0, 1],
-                                          [this.top_radius, 0.0, this.height, 1]]
+                                      [[this.base_radius, 0.0, -half_height, 1],
+                                          [this.top_radius, 0.0, half_height, 1]]
                                      ];
 
         this.bottom_control_points2 = [// U = 0 | V = 0..1;
-                                      [[-this.base_radius, 0.0, this.height, 1],
-                                          [-this.top_radius, 0.0, 0.0, 1]],
+                                      [[-this.top_radius, 0.0, half_height, 1],
+                                          [-this.base_radius, 0.0, -half_height, 1]],
                                       // U = 1 | V = 0..1;
-                                      [[-this.base_radius, -h * this.base_radius, this.height, 1],
-                                          [-this.top_radius, -h * this.top_radius, 0.0, 1]],
+                                      [[-this.top_radius, -h * this.top_radius, half_height, 1],
+                                          [-this.base_radius, -h * this.base_radius, -half_height, 1]],
                                       // U = 2 | V = 0..1;
-                                      [[this.base_radius, -h * this.base_radius, this.height, 1],
-                                          [this.top_radius, -h * this.top_radius, 0.0, 1]],
+                                      [[this.top_radius, -h * this.top_radius, half_height, 1],
+                                          [this.base_radius, -h * this.base_radius, -half_height, 1]],
                                       // U = 2 | V = 0..1;
-                                      [[this.base_radius, 0.0, this.height, 1],
-                                          [this.top_radius, 0.0, 0.0, 1]]
+                                      [[this.top_radius, 0.0, half_height, 1],
+                                          [this.base_radius, 0.0, -half_height, 1]]
                                      ];
     }
 
