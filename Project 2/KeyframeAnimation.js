@@ -20,6 +20,18 @@ class KeyframeAnimation extends Animation {
 		this.curMatrix = mat4.create();
 	}
 
+	updateKeyFrames(){
+		let segmentTime = ((this.keyframes[this.keyframeID + 1].instant - this.keyframes[this.keyframeID].instant) * 1000);
+		while(this.sumT > segmentTime){
+			this.sumT -= segmentTime;
+			this.keyframeID++;
+			if(this.keyframeID >= this.keyframes.length - 1)
+				break;
+			else
+				segmentTime = ((this.keyframes[this.keyframeID + 1].instant - this.keyframes[this.keyframeID].instant) * 1000);
+		}
+	}
+
 	update(time){
 		if(this.keyframeID >= this.keyframes.length - 1)
 			return;
@@ -29,17 +41,11 @@ class KeyframeAnimation extends Animation {
 
 		this.sumT += this.deltaT;
 
-		if(this.sumT > ((this.keyframes[this.keyframeID + 1].instant - this.keyframes[this.keyframeID].instant) * 1000)){
 
-			this.sumT -= ((this.keyframes[this.keyframeID + 1].instant - this.keyframes[this.keyframeID].instant) * 1000);
-			
-			this.keyframeID++;
-
-			this.actualKF = this.keyframes[this.keyframeID];
-			this.nextKF = this.keyframes[this.keyframeID + 1];
-		}
-
-
+		this.updateKeyFrames();
+		this.actualKF = this.keyframes[this.keyframeID];
+		this.nextKF = this.keyframes[this.keyframeID + 1];
+		
 		
 		if(this.nextKF !=  null){
 			let execPerc = this.sumT / ((this.nextKF.instant - this.actualKF.instant) * 1000);
