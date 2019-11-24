@@ -27,32 +27,6 @@ class MyInterface extends CGFinterface {
 
 		this.initKeys();
 		
-
-		// TODO: APAGAR
-		// if(this.scene.testCamera){
-		// 	var cameraNormal = this.gui.addFolder('Camera');
-		// 	cameraNormal.add(this.scene, 'near', -3.0, 3.0).step(0.1).name('Near').onChange(this.scene.updateCamera.bind(this.scene));
-		// 	cameraNormal.add(this.scene, 'far', 0, 900).step(25).name('Far').onChange(this.scene.updateCamera.bind(this.scene));
-		// 	cameraNormal.add(this.scene, 'posX', -120, 175).step(1).name('Pos X').onChange(this.scene.updateCamera.bind(this.scene));
-		// 	cameraNormal.add(this.scene, 'posY', -80, 750).step(1).name('Pos Y').onChange(this.scene.updateCamera.bind(this.scene));
-		// 	cameraNormal.add(this.scene, 'posZ', -80, 175).step(1).name('Pos Z').onChange(this.scene.updateCamera.bind(this.scene));
-		// 	cameraNormal.add(this.scene, 'targetX', -80.0, 150.0).step(1).name('Target X').onChange(this.scene.updateCamera.bind(this.scene));
-		// 	cameraNormal.add(this.scene, 'targetY', -80.0, 150.0).step(1).name('Target Y').onChange(this.scene.updateCamera.bind(this.scene));
-		// 	cameraNormal.add(this.scene, 'targetZ', -80.0, 150.0).step(1).name('Target Z').onChange(this.scene.updateCamera.bind(this.scene));
-		// 	if(this.scene.ortho){
-		// 		cameraNormal.add(this.scene, 'upX', -1, 1).step(1).name('Up X').onChange(this.scene.updateCamera.bind(this.scene));
-		// 		cameraNormal.add(this.scene, 'upY', -1, 1).step(1).name('Up Y').onChange(this.scene.updateCamera.bind(this.scene));
-		// 		cameraNormal.add(this.scene, 'upZ', -1, 1).step(1).name('Up Z').onChange(this.scene.updateCamera.bind(this.scene));
-				
-		// 		cameraNormal.add(this.scene, 'left', -150, 20).step(1).name('Left').onChange(this.scene.updateCamera.bind(this.scene));
-		// 		cameraNormal.add(this.scene, 'right', 21, 150).step(1).name('Right').onChange(this.scene.updateCamera.bind(this.scene));
-		// 		cameraNormal.add(this.scene, 'bottom', -70, 20).step(1).name('Bottom').onChange(this.scene.updateCamera.bind(this.scene));
-		// 		cameraNormal.add(this.scene, 'top', 21, 70).step(1).name('Top').onChange(this.scene.updateCamera.bind(this.scene));
-		// 	}
-		// }
-		//fim
-		
-
         return true;
     }
 
@@ -115,7 +89,7 @@ class MyInterface extends CGFinterface {
 	}
 
 	/**
-	 * Add Cameras Dropdown to the interface
+	 * Add Security Cameras Dropdown to the interface
 	 */
 	addSecurityCamerasGUI(){
 		this.gui.add(this.scene.graph, 'curSecurityCamera', Object.keys(this.scene.graph.securityViews)).name('Security Cameras').onChange((val) => {

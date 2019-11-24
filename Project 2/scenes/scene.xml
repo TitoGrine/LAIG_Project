@@ -128,7 +128,7 @@
         
         <spot id="Entrance Light" enabled="0" angle="45" exponent="2.0">
             <location x="30" y="45" z="55" w="1.0"/>
-            <target x="30" y="10" z="40" />
+            <target x="30" y="10" z="50" />
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
@@ -137,7 +137,7 @@
 
         <spot id="20th Century Authors Room Light" enabled="0" angle="60" exponent="3.0">
             <location x="65" y="45" z="15" w="1.0"/>
-            <target x="80" y="-500" z="15" />
+            <target x="80" y="0" z="15" />
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
@@ -146,7 +146,7 @@
 
         <spot id="PopArt Room Green Light" enabled="0" angle="45" exponent="8">
             <location x="-30" y="50" z="0" w="1.0"/>
-            <target x="-40" y="10" z="10" />
+            <target x="-40" y="10" z="0" />
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="0.08" g="1.0" b="0.50" a="1.0" />
             <specular r="0.08" g="1.0" b="0.50" a="1.0" />
@@ -154,7 +154,7 @@
         </spot>
         <spot id="PopArt Room Pink Light" enabled="0" angle="45" exponent="8">
             <location x="-30" y="50" z="0" w="1.0"/>
-            <target x="-20" y="10" z="10" />
+            <target x="-20" y="10" z="0" />
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="1.0" g="0.08" b="0.57" a="1.0" />
             <specular r="1.0" g="0.08" b="0.57" a="1.0" />
@@ -163,7 +163,7 @@
 
 		<spot id="illusionLightR" enabled="0" angle="45" exponent="100.0">
             <location x="95" y="22" z="-10" w="1.0"/>
-			<target  x="190" y="20" z="-30"/>
+			<target  x="190" y="20" z="-40"/>
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
             <specular r="1.0" g="0.0" b="0.0" a="1.0" />
@@ -171,7 +171,7 @@
         </spot>
 		<spot id="illusionLightG" enabled="0" angle="45" exponent="100.0">
             <location x="105" y="22" z="-10" w="1.0"/>
-			<target  x="105" y="20" z="-20"/>
+			<target  x="105" y="20" z="-30"/>
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="0.0" g="1.0" b="0.0" a="1.0" />
             <specular r="0.0" g="1.0" b="0.0" a="1.0" />
@@ -179,7 +179,7 @@
         </spot>
 		<spot id="illusionLightB" enabled="0" angle="45" exponent="100.0">
             <location x="115" y="22" z="-10" w="1.0"/>
-			<target  x="25" y="20" z="-30"/>
+			<target  x="25" y="20" z="-40"/>
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="0.0" g="0.0" b="1.0" a="1.0" />
             <specular r="0.0" g="0.0" b="1.0" a="1.0" />

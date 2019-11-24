@@ -10,9 +10,8 @@ class XMLscene extends CGFscene {
      * @param {MyInterface} myinterface 
      */
     constructor(myinterface) {
-        super();
-
-
+		super();
+		
         this.interface = myinterface;
     }
 
@@ -25,29 +24,6 @@ class XMLscene extends CGFscene {
 		
 		this.sceneInited = false;
 		
-		// TODO: apagar
-		// this.ortho = false;
-		// this.testCamera = false;
-
-		// this.near = 0.1;
-		// this.far = 500;
-		// this.posX = -30;
-		// this.posY = 60;
-		// this.posZ = 70;
-		// this.targetX = -30;
-		// this.targetY = 5;
-		// this.targetZ = -20;
-		// if(this.ortho){
-		// 	this.upX = 0;
-		// 	this.upY = 1;
-		// 	this.upZ = 0;
-		// 	this.left = -60;
-		// 	this.right = 70;
-		// 	this.top = 50;
-		// 	this.bottom = -40;
-		// }
-		// fim
-
         this.camera_texture = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
         this.security_camera = new MySecurityCamera(this);
         
@@ -77,7 +53,6 @@ class XMLscene extends CGFscene {
      * Initializes the scene default camera.
      */
     initCameras() {
-        this.camera = new CGFcamera(0.4, this.near, this.far, vec3.fromValues(this.posX, this.posY, this.posY), vec3.fromValues(this.targetX, this.targetY, this.targetZ));
         this.securityCamera = new CGFcamera(50 * DEGREE_TO_RAD, 0.2, 600, vec3.fromValues(30, 36, 56), vec3.fromValues(30, 20, 41));
     }
 	
@@ -145,11 +120,7 @@ class XMLscene extends CGFscene {
         this.setGlobalAmbientLight(this.graph.ambient[0], this.graph.ambient[1], this.graph.ambient[2], this.graph.ambient[3]);
 
 		this.initLights();
-
 		
-		
-		// TODO: apagar if
-		// if(!this.testCamera)
 		this.camera = this.graph.views[this.graph.defView];
 		this.securityCamera = this.graph.securityViews[this.graph.defViewSec];
 		
@@ -203,15 +174,6 @@ class XMLscene extends CGFscene {
 		this.materialsStack.pop();
 	}
 
-	// TODO: apagar (choose one to test)
-	// updateCamera(){
-	// 	if(!this.ortho)
-	// 		this.camera = new CGFcamera(0.4, this.near, this.far, vec3.fromValues(this.posX, this.posY, this.posZ), vec3.fromValues(this.targetX, this.targetY, this.targetZ));
-	// 	else
-	// 		this.camera = new CGFcameraOrtho(this.left, this.right, this.bottom, this.top, this.near, this.far, vec3.fromValues(this.posX, this.posY, this.posZ), vec3.fromValues(this.targetX, this.targetY, this.targetZ), vec3.fromValues(this.upX, this.upY, this.upZ) );
-	// }
-
-
 	/**
 	 * Check if the M key is pressed and calls NextMaterial in that case
 	 */
@@ -225,11 +187,13 @@ class XMLscene extends CGFscene {
 	 * Checks periodically if the M key is pressed
 	 */
 	update(t){
+		// Check key values
 		this.checkKeys();
 
+		// Updates security camera timeFactor
 		this.security_camera.setTimeFactor(t);
 
-
+		// Updates animations
 		if(this.sceneInited)	
 			this.graph.updateAnimations(t);
 	}

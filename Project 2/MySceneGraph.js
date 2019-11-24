@@ -920,13 +920,13 @@ class MySceneGraph {
 				var keyframeInstant = this.reader.getString(grandChildren[j], 'instant');
 
 				// Ignore keyframe if the ID is missing
-				if(keyframeInstant == "" || keyframeInstant == null){
+				if(keyframeInstant == "" || keyframeInstant == null || keyframeInstant == 0){
 					this.onXMLMinorError("missing keyframe instant in the position " + (j + 1));
 					invalidKeyframe = true;
 					break;
 				}
 	
-				// Checks for repeated IDs. TODO: por causa do 0
+				// Checks for repeated IDs
 				if (keyframes[keyframeInstant] != null){
 					this.onXMLMinorError( "Instant must be unique for each keyframe ignored second one (conflict: ID = " + keyframeInstant + ")");
 					continue;
@@ -1028,7 +1028,7 @@ class MySceneGraph {
 				}
 
 				keyframe.instant = keyframeInstant;
-				//keyframe.transMatrix = transfAniMatrix;
+				// Adds default identity keyframe in initial instant
 				if(j == 0){
 					var kfIndentity = {};
 					kfIndentity.instant = 0;
@@ -1385,7 +1385,6 @@ class MySceneGraph {
             }
 
 			var transformationIndex = nodeNames.indexOf("transformation");
-			// TODO: ver obriagoriedade de ordem
 			var animationIndex = nodeNames.indexOf("animationref");
             var materialsIndex = nodeNames.indexOf("materials");
             var textureIndex = nodeNames.indexOf("texture");
@@ -1407,6 +1406,10 @@ class MySceneGraph {
 
 			// Animation
 			if (animationIndex != -1){
+				// Verify order
+				if(animationIndex != 1)
+					this.onXMLMinorError("tag animationref out of order " + animationIndex + " in component " + componentID);
+
 				var animationID = this.reader.getString(grandChildren[animationIndex], 'id');
 				// Ignore animation if the ID is missing
 				if(animationID == "" || animationID == null)
@@ -1874,10 +1877,12 @@ class MySceneGraph {
 		this.components[this.idRoot].nextMaterial();
 	}
 
-	// TODO: ver isto depois
+	/**
+	 * Calls UpdateAnimation on the root element
+	 * @param {Current Time} time 
+	 */
 	updateAnimations(time){
-		for(var key in this.components)
-			this.components[key].updateAnimation(time);
+		this.components[this.idRoot].updateAnimation(time);
 	}
 
     /**

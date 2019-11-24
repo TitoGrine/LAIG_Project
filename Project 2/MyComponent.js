@@ -83,19 +83,18 @@ class MyComponent extends CGFobject {
 			if(this.component.children[i] instanceof MyComponent)
 				this.component.children[i].nextMaterial();
 	}
-
-	// update(time){
-	// 	this.component.animation.update(time);
-
-	// 	// for(let i = 0; i < this.component.children.length; i++)
-	// 	// 	// Checks if it is not a primitive
-	// 	// 	if(this.component.children[i] instanceof MyComponent && this.component.animation != null)
-	// 	// 		this.component.children[i].update(time);
-	// }
 	
+	/**
+	 * Updates its animation and recursively calls it on the components children
+	 * @param {Current Time} time 
+	 */
 	updateAnimation(time){
 		if(this.component.animation != null)
 			this.component.animation.update(time);
+		// Loop through children
+		for(let i = 0; i < this.component.children.length; i++)
+			if(this.component.children[i] instanceof MyComponent)
+				this.component.children[i].updateAnimation(time);
 	}
 
 	/**
@@ -110,6 +109,7 @@ class MyComponent extends CGFobject {
 		// Applies Transformation
 		if(this.component.transformation != null)
 			this.scene.multMatrix(this.component.transformation);
+		// Applies Animation
 		if(this.component.animation != null)
 			this.component.animation.apply();
 
