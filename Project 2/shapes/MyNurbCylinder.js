@@ -24,6 +24,13 @@ class MyNurbCylinder extends CGFobject {
         this.makeSurface();
     }
 
+    /**
+     * Builds all the control points arrays necessary for the cylinder.
+     * Since the cylinder is built using two patch surfaces each creating half of
+     * the cylinder, and since the cylinder is double sided (interior is also visible),
+     * the total number of control points arrays necessary is 4.
+     * The cylinder will be centered in the origin.
+     */
     buildCPVector(){
         
         var h = 4.0 / 3.0;
@@ -86,6 +93,11 @@ class MyNurbCylinder extends CGFobject {
                                      ];
     }
 
+    /**
+     * Creates the NURB surface corresponding to the control points
+     * given. It then creates a NURB Object using that surface,
+     * with the given divisions in the U and V domain.
+     */
     makeSurface(){
 
         var top_nurbsSurface1 = new CGFnurbsSurface(3, // degree U: to control vertexes on U
@@ -111,6 +123,7 @@ class MyNurbCylinder extends CGFobject {
         this.bottom_nurbObject2 = new CGFnurbsObject(this.scene, this.slices, this.stacks, bottom_nurbsSurface2);
     }
 
+    // Doesn nothing: Texture coordinates of NURB objects can't be changed
     updateTexCoords(lengthS, lengthT){
 
     }
