@@ -3230,6 +3230,7 @@
             <transformation>
                 <translate x="0.0" y="3.2" z="2.5" />
                 <rotate axis="x" angle="20" />
+                <rotate axis="y" angle="30" />
             </transformation>
             <materials>
                 <material id="inherit" />
