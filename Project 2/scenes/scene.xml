@@ -128,7 +128,7 @@
         
         <spot id="Entrance Light" enabled="0" angle="45" exponent="2.0">
             <location x="30" y="45" z="55" w="1.0"/>
-            <target x="30" y="20" z="0" />
+            <target x="30" y="10" z="40" />
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
@@ -562,62 +562,62 @@
 		</animation>
 
         <animation id="cylinder_tipping">
-            <keyframe instant="5.5">
+            <keyframe instant="5.3">
 				<translate x="0.0" y="0.0" z="0.0" />
 				<rotate angle_x="0" angle_y="0" angle_z="0" />
 				<scale x="1.0" y="1.0" z="1.0" />
 			</keyframe>
-            <keyframe instant="5.819">
+            <keyframe instant="5.619">
 				<translate x="0.0" y="-0.5" z="0.0" />
 				<rotate angle_x="3.7" angle_y="0" angle_z="0" />
 				<scale x="1.0" y="1.0" z="1.0" />
 			</keyframe>
-            <keyframe instant="5.95">
+            <keyframe instant="5.75">
 				<translate x="0.0" y="-1.0" z="0.0" />
 				<rotate angle_x="7.4" angle_y="0" angle_z="0" />
 				<scale x="1.0" y="1.0" z="1.0" />
 			</keyframe>
-            <keyframe instant="6.05">
+            <keyframe instant="5.85">
 				<translate x="0.0" y="-1.5" z="0.0" />
 				<rotate angle_x="11.1" angle_y="0" angle_z="0" />
 				<scale x="1.0" y="1.0" z="1.0" />
 			</keyframe>
-            <keyframe instant="6.14">
+            <keyframe instant="5.94">
 				<translate x="0.0" y="-2.0" z="0.0" />
 				<rotate angle_x="14.8" angle_y="0" angle_z="0" />
 				<scale x="1.0" y="1.0" z="1.0" />
 			</keyframe>
-            <keyframe instant="6.36">
+            <keyframe instant="6.16">
 				<translate x="0.0" y="-3.656" z="0.0" />
 				<rotate angle_x="26" angle_y="0" angle_z="0" />
 				<scale x="1.0" y="1.0" z="1.0" />
 			</keyframe>
-            <keyframe instant="6.5">
+            <keyframe instant="6.3">
 				<translate x="0.0" y="-3.913" z="0.0" />
 				<rotate angle_x="-20" angle_y="0" angle_z="0" />
 				<scale x="1.0" y="1.0" z="1.0" />
 			</keyframe>
-            <keyframe instant="6.8">
+            <keyframe instant="6.6">
 				<translate x="0.0" y="-4.204" z="0.0" />
 				<rotate angle_x="15" angle_y="0" angle_z="0" />
 				<scale x="1.0" y="1.0" z="1.0" />
 			</keyframe>
-            <keyframe instant="6.9">
+            <keyframe instant="6.7">
 				<translate x="0.0" y="-4.403" z="0.0" />
 				<rotate angle_x="-10" angle_y="0" angle_z="0" />
 				<scale x="1.0" y="1.0" z="1.0" />
 			</keyframe>
-            <keyframe instant="7.0">
+            <keyframe instant="6.8">
 				<translate x="0.0" y="-4.805" z="0.0" />
 				<rotate angle_x="5" angle_y="0" angle_z="0" />
 				<scale x="1.0" y="1.0" z="1.0" />
 			</keyframe>
-            <keyframe instant="7.1">
+            <keyframe instant="6.9">
 				<translate x="0.0" y="-4.888" z="0.0" />
 				<rotate angle_x="-2" angle_y="0" angle_z="0" />
 				<scale x="1.0" y="1.0" z="1.0" />
 			</keyframe>
-            <keyframe instant="7.2">
+            <keyframe instant="7.0">
 				<translate x="0.0" y="-5.01" z="0.0" />
 				<rotate angle_x="0" angle_y="0" angle_z="0" />
 				<scale x="1.0" y="1.0" z="1.0" />
