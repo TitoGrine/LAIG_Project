@@ -178,8 +178,8 @@ class Board extends CGFobject {
                 let pos = this.size + aux_pos;
 ~
                 this.scene.pushMatrix();
-                this.scene.translate(1.0 + j, 1.01, i * (1.0 + this.columns));
-                this.scene.registerForPick(pos, this.tiles[pos]);
+                this.scene.translate(1.0 + j, 1.01, i * (1.0 + this.rows));
+                this.scene.registerForPick(pos + 1, this.tiles[pos]);
                 this.light_tiles[aux_pos].display();
                 this.scene.popMatrix();
             }
@@ -191,8 +191,8 @@ class Board extends CGFobject {
                 let pos = this.size + aux_pos;
                 
                 this.scene.pushMatrix();
-                this.scene.translate(i * (1.0 + this.rows), 1.01, 1.0 + j);
-                this.scene.registerForPick(pos, this.tiles[pos]);
+                this.scene.translate(i * (1.0 + this.columns), 1.01, 1.0 + j);
+                this.scene.registerForPick(pos + 1, this.tiles[pos]);
                 this.light_tiles[aux_pos].display();
                 this.scene.popMatrix();
             }
