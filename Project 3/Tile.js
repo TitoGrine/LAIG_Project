@@ -1,9 +1,10 @@
 /**
- * MyTile
+ * Tile
  * @constructor
  * @param {Reference to MyScene object} scene
- * @param {Number of divisions in the U domain} tDivs 
- * @param {Number of divisions in the V domain} sDivs 
+ * @param {Board row where the tile is} row 
+ * @param {Board column where the tile is} column
+ * @param {RGB color of the tile in the format [r, g, b]} rgb
  */
 class Tile extends CGFobject {
 

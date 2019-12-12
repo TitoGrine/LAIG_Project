@@ -9,14 +9,14 @@ var TEXTURES_INDEX = 4;
 var MATERIALS_INDEX = 5;
 var TRANSFORMATIONS_INDEX = 6;
 var ANIMATIONS_INDEX = 7;
-var PRIMITIVES_INDEX = 8;
-var COMPONENTS_INDEX = 9;
+var GEOMETRIES_INDEX = 8
+var PRIMITIVES_INDEX = 9;
+var COMPONENTS_INDEX = 10;
 
 // Order of the Animation Transformations in the XML document.
 var TRANSLATE_INDEX = 0;
 var ROTATE_INDEX = 1;
 var SCALE_INDEX = 2;
-
 
 /**
  * MySceneGraph class, representing the scene graph.
@@ -47,6 +47,9 @@ class MySceneGraph {
 
     /*  FOR TESTING NURB SURFACES */
         this.plane = new MyPlane(this.scene, 'plane', 10, 10);
+        this.piece = new Piece(this.scene, 1, 1, 1.0);
+        this.circle = new MyCircle(this.scene, 30, 5);
+
         
         /*
          * Read the contents of the xml file, and refer to this class for loading and error handlers.
@@ -146,6 +149,7 @@ class MySceneGraph {
             if ((error = this.parseLights(nodes[index])) != null)
                 return error;
         }
+
         // <textures>
         if ((index = nodeNames.indexOf("textures")) == -1)
             return "tag <textures> missing";
@@ -180,7 +184,7 @@ class MySceneGraph {
             //Parse transformations block
             if ((error = this.parseTransformations(nodes[index])) != null)
                 return error;
-		}
+        }
 		
 		// <animations>
         if ((index = nodeNames.indexOf("animations")) == -1)
@@ -193,6 +197,18 @@ class MySceneGraph {
             if ((error = this.parseAnimations(nodes[index])) != null)
                 return error;
         }
+
+        // <geomtries>
+        if ((index = nodeNames.indexOf("geometries")) == -1)
+            return "tag <transformations> missing";
+        else {
+            if (index != TRANSFORMATIONS_INDEX)
+                this.onXMLMinorError("tag <transformations> out of order");
+
+            //Parse transformations block
+            if ((error = this.parseGeometries(nodes[index])) != null)
+                return error;
+		}
 
         // <primitives>
         if ((index = nodeNames.indexOf("primitives")) == -1)
@@ -669,6 +685,8 @@ class MySceneGraph {
         var children = materialsNode.children;
 
         this.materials = [];
+        this.piece_material1 = null;
+        this.piece_material2 = null;
 
         var grandChildren = [];
         var nodeNames = [];
@@ -744,7 +762,13 @@ class MySceneGraph {
 			provMaterial.setSpecular(...global[4]);
 			provMaterial.setTextureWrap('REPEAT', 'REPEAT');
 
-            this.materials[materialID] = provMaterial;
+            if(materialID == "piece_color1")
+                this.piece_material1 = provMaterial;
+            else if(materialID == "piece_color2")
+                this.piece_material2 =  provMaterial;
+            else
+                this.materials[materialID] = provMaterial;
+
             numMaterials++;
         }
 
@@ -1051,7 +1075,62 @@ class MySceneGraph {
 
         this.log("Parsed animations");
         return null;
-	}
+    }
+    
+    /**
+     * Parses the <geometries> block.
+     * @param {geometries block element} primitivesNode 
+     */
+    parseGeometries(geometriesNode) {
+        var children = geometriesNode.children;
+
+        this.geometries = [];
+
+		var grandChildren = [];
+        var numGeometries = 0;
+
+        let id = 0;
+        
+        // Any number of geometries.
+        for (var i = 0; i < children.length; i++) {
+
+            if (children[i].nodeName != "geometry") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+
+            // Get id of the current geometry.
+            var geometryID = id++;
+            
+            // Checks for repeated IDs.
+            if (this.geometries[geometryID] != null)
+                return "ID must be unique for each geometry (conflict: ID = " + geometryID + ")";
+        
+            grandChildren = children[i].children;
+
+            // Validate the geometry type
+			var validGeometries = ['checker'];
+			
+            if (grandChildren.length != 1 || !validGeometries.includes(grandChildren[0].nodeName)) {
+                return "There must be exactly 1 geometry type (" + validGeometries + "), choosen geometry was " + grandChildren[0].nodeName;
+            }
+
+            // Specifications for the current geometry.
+            var geometryType = grandChildren[0].nodeName;
+
+            // Retrieves the geometry information.
+            if (geometryType == 'checker') {
+                // x1
+                console.log(grandChildren[0]);
+
+				// Initialize and save Checker geometry
+                var checker = new Checker(this.scene);
+
+				this.geometries[geometryID] = checker;
+			}
+        
+        }
+    }
 
     /**
      * Parses the <primitives> block.
@@ -1340,7 +1419,7 @@ class MySceneGraph {
 					return "unable to parse columns of the primitive for ID = " + primitiveId;
 				
 				// Initialize and save Board
-				var board = new Board(this.scene, primitiveId, rows, columns);
+				var board = new Board(this.scene, primitiveId, rows, columns, this.geometries[0], this.piece_material1, this.piece_material2);
  
 				this.primitives[primitiveId] = board;
 			}

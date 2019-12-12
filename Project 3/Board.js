@@ -7,12 +7,16 @@
  * @param {Number of columns} columns 
  */
 class Board extends CGFobject {
-	constructor(scene, id, rows, columns) {
+	constructor(scene, id, rows, columns, geometry, color1, color2) {
         super(scene);
 		this.id = id;
         this.rows = rows;
         this.columns = columns;
         this.size = rows * columns;
+
+        this.geometry = geometry;
+        this.color1 = color1;
+        this.color2 = color2;
 
         //super.init(application);
 		this.scene.initCameras();
@@ -38,6 +42,7 @@ class Board extends CGFobject {
         this.side = new MyPlane(this.scene, 'side', 30, 30);
         this.dark_tiles = [];
         this.light_tiles = [];
+        this.pieces = [];
 
         for(let i = 0; i < this.rows; i++){
             for(let j = 0; j < this.columns; j++){
@@ -54,6 +59,18 @@ class Board extends CGFobject {
         for(let i = 0; i < 2; i++){
             for(let j = 0; j < this.rows; j++){
                 this.light_tiles.push(new Tile(this.scene, j + 1, i * (1.0 + this.columns), [0.0, 0.8, 1.0]));
+            }
+        }
+
+        for(let i = 0; i < 2; i++){
+            for(let j = 0; j < this.columns; j++){
+                this.pieces.push(new Piece(this.scene, i * (1.0 + this.rows), j + 1, this.geometry, (Math.round(Math.random()) ? this.color1 : this.color2)));
+            }
+        }
+
+        for(let i = 0; i < 2; i++){
+            for(let j = 0; j < this.rows; j++){
+                this.pieces.push(new Piece(this.scene, j + 1, i * (1.0 + this.columns), this.geometry, (Math.round(Math.random()) ? this.color1 : this.color2)));
             }
         }
 
@@ -182,6 +199,12 @@ class Board extends CGFobject {
                 this.scene.registerForPick(pos + 1, this.tiles[pos]);
                 this.light_tiles[aux_pos].display();
                 this.scene.popMatrix();
+
+                this.scene.pushMatrix();
+                this.scene.translate(0.0, 1.0, 0.0);
+                //this.scene.registerForPick(pos + 1, this.tiles[pos]);
+                this.pieces[aux_pos].display();
+                this.scene.popMatrix();
             }
         }
 
@@ -189,11 +212,17 @@ class Board extends CGFobject {
             for(let j = 0; j < this.rows; j++){
                 let aux_pos = 2 * this.columns + i * this.rows + j;
                 let pos = this.size + aux_pos;
-                
+
                 this.scene.pushMatrix();
                 this.scene.translate(i * (1.0 + this.columns), 1.01, 1.0 + j);
                 this.scene.registerForPick(pos + 1, this.tiles[pos]);
                 this.light_tiles[aux_pos].display();
+                this.scene.popMatrix();
+                
+                this.scene.pushMatrix();
+                this.scene.translate(0.0, 1.0, 0.0);
+                //this.scene.registerForPick(pos + 1, this.tiles[pos]);
+                this.pieces[aux_pos].display();
                 this.scene.popMatrix();
             }
         }

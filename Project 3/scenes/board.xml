@@ -49,6 +49,18 @@
             <diffuse r="1.0" g="1.0" b="1.0" a="0.0" />
             <specular r="1.0" g="1.0" b="1.0" a="0.0" />
         </material>
+        <material id="piece_color1" shininess="50.0"> <!-- Ghost White -->
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="0.08" b="0.6" a="1.0" />
+            <diffuse r="1.0" g="0.08" b="0.6" a="1.0" />
+            <specular r="0.0" g="0.0" b="0.0" a="0.0" />
+        </material>
+        <material id="piece_color2" shininess="50.0"> <!-- Ghost White -->
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.08" g="1.0" b="0.5" a="1.0" />
+            <diffuse r="0.08" g="1.0" b="0.5" a="1.0" />
+            <specular r="0.0" g="0.0" b="0.0" a="0.0" />
+        </material>
     </materials>
 
     <transformations>
@@ -60,9 +72,15 @@
     <animations>
     </animations>
 
+    <geometries>
+        <geometry>
+            <checker />
+        </geometry>
+    </geometries>
+
     <primitives>
         <primitive id="game_board">
-            <board rows="6" columns="6" />
+            <board rows="10" columns="10" />
         </primitive>
     </primitives>
 
