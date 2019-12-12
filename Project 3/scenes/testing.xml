@@ -1,0 +1,440 @@
+<lxs>
+    <scene root="2_2_1:_to_dickie_and_tina" axis_length="5"/>
+
+    <views default="defaultCamera">
+        <perspective id="defaultCamera" near="0.2" far="600" angle="45">
+            <from x="30" y="15" z="30" />
+            <to x="0" y="-2" z="0" />
+        </perspective>
+
+        <ortho id="orthoCamera" near="0.1" far="500" left="5" right="5" top="5" bottom="5">
+            <from x="15" y="5" z="30" />
+            <to x="15" y="5" z="0" />
+        </ortho>
+    </views>
+
+    <globals>
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+        <background r="0.0" g="0.0" b="0.0" a="1.0" />
+    </globals>
+
+    <lights>
+        <omni id="globalLight" enabled="1">
+            <location x="9.8" y="11.9" z="10" w="1.0" />
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
+        </omni>
+
+        <spot id="stageLight" enabled="1" angle="45" exponent="1.0">
+            <location x="15" y="10" z="15" w="1.0"/>
+            <target x="15" y="0" z="15" />
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
+            <specular r="1.0" g="0.0" b="0.0" a="1.0" />
+            <attenuation constant="0.0" linear="1.0" quadratic="0.0" />
+        </spot>
+
+    </lights>
+
+    <textures>
+        <texture id="metalTexture" file="scenes/images/metal_texture.jpg"/>
+    </textures>
+
+    <materials>
+        <material id="defaultMaterial" shininess="50.0"> <!-- Ghost White -->
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="0.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="0.0" />
+        </material>
+        <material id="metalMaterial" shininess="0.1"> <!-- Grey Metal Color --> 
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.26" g="0.28" b="0.30" a="0.5" />
+            <diffuse r="0.26" g="0.28" b="0.30" a="0.5" />
+            <specular r="0.26" g="0.28" b="0.30" a="1.0" />
+        </material>
+    </materials>
+
+    <transformations>
+        <transformation id="neutral">
+            <translate x="0.0" y="0.0" z="0.0" />
+        </transformation>
+
+        <transformation id="wall1_transf">
+            <rotate axis="y" angle="90" />
+            <translate x="-20.0" y="0.0" z="0.0" />
+        </transformation>
+
+        <transformation id="floor_transf">
+            <rotate axis="x" angle="-90" />
+            <translate x="0.0" y="-20.0" z="0.0" />
+        </transformation>
+
+        <transformation id="middle_room_transf">
+            <translate x="12.5" y="2.0" z="10.0" />
+        </transformation>
+
+        <transformation id="balloon_transf">
+            <translate x="12.5" y="2.0" z="10.0" />
+            <rotate axis="y" angle="90" />
+            <scale x="1.2" y="1.2" z="1.2" />
+        </transformation>
+
+        <transformation id="nose_transf">
+            <translate x="0.0" y="7.33" z="0.0" />
+        </transformation>
+    </transformations>
+
+    <animations>
+        <animation id="cylinder_tipping">
+            <keyframe instant="5.5">
+				<translate x="0.0" y="0.0" z="0.0" />
+				<rotate angle_x="0" angle_y="0" angle_z="0" />
+				<scale x="1.0" y="1.0" z="1.0" />
+			</keyframe>
+            <keyframe instant="5.819">
+				<translate x="0.0" y="-0.5" z="0.0" />
+				<rotate angle_x="3.7" angle_y="0" angle_z="0" />
+				<scale x="1.0" y="1.0" z="1.0" />
+			</keyframe>
+            <keyframe instant="5.95">
+				<translate x="0.0" y="-1.0" z="0.0" />
+				<rotate angle_x="7.4" angle_y="0" angle_z="0" />
+				<scale x="1.0" y="1.0" z="1.0" />
+			</keyframe>
+            <keyframe instant="6.05">
+				<translate x="0.0" y="-1.5" z="0.0" />
+				<rotate angle_x="11.1" angle_y="0" angle_z="0" />
+				<scale x="1.0" y="1.0" z="1.0" />
+			</keyframe>
+            <keyframe instant="6.14">
+				<translate x="0.0" y="-2.0" z="0.0" />
+				<rotate angle_x="14.8" angle_y="0" angle_z="0" />
+				<scale x="1.0" y="1.0" z="1.0" />
+			</keyframe>
+            <keyframe instant="6.36">
+				<translate x="0.0" y="-3.656" z="0.0" />
+				<rotate angle_x="26" angle_y="0" angle_z="0" />
+				<scale x="1.0" y="1.0" z="1.0" />
+			</keyframe>
+            <keyframe instant="6.5">
+				<translate x="0.0" y="-3.993" z="0.0" />
+				<rotate angle_x="-20" angle_y="0" angle_z="0" />
+				<scale x="1.0" y="1.0" z="1.0" />
+			</keyframe>
+            <keyframe instant="6.8">
+				<translate x="0.0" y="-4.284" z="0.0" />
+				<rotate angle_x="15" angle_y="0" angle_z="0" />
+				<scale x="1.0" y="1.0" z="1.0" />
+			</keyframe>
+            <keyframe instant="6.9">
+				<translate x="0.0" y="-4.483" z="0.0" />
+				<rotate angle_x="-10" angle_y="0" angle_z="0" />
+				<scale x="1.0" y="1.0" z="1.0" />
+			</keyframe>
+            <keyframe instant="7.0">
+				<translate x="0.0" y="-4.885" z="0.0" />
+				<rotate angle_x="5" angle_y="0" angle_z="0" />
+				<scale x="1.0" y="1.0" z="1.0" />
+			</keyframe>
+            <keyframe instant="7.1">
+				<translate x="0.0" y="-4.968" z="0.0" />
+				<rotate angle_x="-2" angle_y="0" angle_z="0" />
+				<scale x="1.0" y="1.0" z="1.0" />
+			</keyframe>
+            <keyframe instant="7.2">
+				<translate x="0.0" y="-5.09" z="0.0" />
+				<rotate angle_x="0" angle_y="0" angle_z="0" />
+				<scale x="1.0" y="1.0" z="1.0" />
+			</keyframe>
+        </animation>
+        <animation id="slab_tipping">
+            <keyframe instant="5.0">
+				<translate x="0.0" y="0.0" z="0.0" />
+				<rotate angle_x="0" angle_y="0" angle_z="0" />
+				<scale x="1.0" y="1.0" z="1.0" />
+			</keyframe>
+            <keyframe instant="5.319">
+				<translate x="0.0" y="0.0" z="0.0" />
+				<rotate angle_x="2.3" angle_y="0" angle_z="0" />
+				<scale x="1.0" y="1.0" z="1.0" />
+			</keyframe>
+            <keyframe instant="5.45">
+				<translate x="0.0" y="0.0" z="0.0" />
+				<rotate angle_x="8.097" angle_y="0" angle_z="0" />
+				<scale x="1.0" y="1.0" z="1.0" />
+			</keyframe>
+            <keyframe instant="5.55">
+				<translate x="0.0" y="0.0" z="0.0" />
+				<rotate angle_x="14.02" angle_y="0" angle_z="0" />
+				<scale x="1.0" y="1.0" z="1.0" />
+			</keyframe>
+            <keyframe instant="5.64">
+				<translate x="0.0" y="0.0" z="0.0" />
+				<rotate angle_x="20.138" angle_y="0" angle_z="0" />
+				<scale x="1.0" y="1.0" z="1.0" />
+			</keyframe>
+            <keyframe instant="5.71">
+				<translate x="0.0" y="0.0" z="0.0" />
+				<rotate angle_x="26.56" angle_y="0" angle_z="0" />
+				<scale x="1.0" y="1.0" z="1.0" />
+			</keyframe>
+            <keyframe instant="5.78">
+				<translate x="0.0" y="0.0" z="0.0" />
+				<rotate angle_x="33.43" angle_y="0" angle_z="0" />
+				<scale x="1.0" y="1.0" z="1.0" />
+			</keyframe>
+            <keyframe instant="5.84">
+				<translate x="0.0" y="0.0" z="0.0" />
+				<rotate angle_x="40.99" angle_y="0" angle_z="0" />
+				<scale x="1.0" y="1.0" z="1.0" />
+			</keyframe>
+            <keyframe instant="5.90">
+				<translate x="0.0" y="0.0" z="0.0" />
+				<rotate angle_x="49.691" angle_y="0" angle_z="0" />
+				<scale x="1.0" y="1.0" z="1.0" />
+			</keyframe>
+            <keyframe instant="5.95">
+				<translate x="0.0" y="0.0" z="0.0" />
+				<rotate angle_x="60.72" angle_y="0" angle_z="0" />
+                <scale x="1.0" y="1.0" z="1.0" />
+			</keyframe>
+            <keyframe instant="5.98">
+				<translate x="0.0" y="0.0" z="0.0" />
+				<rotate angle_x="86.56" angle_y="0" angle_z="0" />
+				<scale x="1.0" y="1.0" z="1.0" />
+			</keyframe>
+        </animation>
+    </animations>
+
+    <primitives>
+        
+        <primitive id="slab_front">
+            <rectangle x1="0.0" y1="0.0" x2="5.0" y2="5.0" />
+        </primitive>
+        <primitive id="slab_back">
+            <rectangle x1="0.0" y1="0.0" x2="5.0" y2="5.0" />
+        </primitive>
+        <primitive id="slab_side1">
+            <rectangle x1="0.0" y1="0.0" x2="5.0" y2="0.1" />
+        </primitive>
+        <primitive id="slab_side2">
+            <rectangle x1="0.0" y1="0.0" x2="0.1" y2="5.0" />
+        </primitive>
+        <primitive id="slab_side3">
+            <rectangle x1="0.0" y1="0.0" x2="5.0" y2="0.1" />
+        </primitive>
+        <primitive id="slab_side4">
+            <rectangle x1="0.0" y1="0.0" x2="0.1" y2="5.0" />
+        </primitive>
+
+        
+        <primitive id="cylinder2">
+            <cylinder2 base="0.2" top="0.2" height="7.0" slices="50" stacks="50" />
+        </primitive>
+    </primitives>
+
+    <components>
+        <component id="2_2_1:_to_dickie_and_tina">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="metalMaterial" />
+            </materials>
+            <texture id="metalTexture" length_t="1.0" length_s="1.0"/>
+            <children>
+                <componentref id="slab1" />
+                <componentref id="slab2" />
+                <componentref id="slab3" />
+                <componentref id="slab4" />
+                <componentref id="slab5" />
+                <componentref id="balance_cylinder" />
+            </children>
+        </component>
+        <component id="slab1">
+            <transformation>
+                <translate x="-0.05" y="0.0" z="7.0" />
+                <rotate axis="y" angle="90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="slab_front" />
+                <componentref id="slab_back" />
+                <componentref id="slab_side1" />
+                <componentref id="slab_side2" />
+                <componentref id="slab_side3" />
+                <componentref id="slab_side4" />
+            </children>
+        </component>
+        <component id="slab2">
+            <transformation>
+                <translate x="0.1" y="0.0" z="1.0" />
+                <rotate axis="x" angle="3.44" />
+            </transformation>
+            <animationref id="slab_tipping" />
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="slab_front" />
+                <componentref id="slab_back" />
+                <componentref id="slab_side1" />
+                <componentref id="slab_side2" />
+                <componentref id="slab_side3" />
+                <componentref id="slab_side4" />
+            </children>
+        </component>
+        <component id="slab3">
+            <transformation>
+                <translate x="-5.1" y="0.0" z="1.0" />
+                <rotate axis="x" angle="3.44" />
+            </transformation>
+            <animationref id="slab_tipping" />
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="slab_front" />
+                <componentref id="slab_back" />
+                <componentref id="slab_side1" />
+                <componentref id="slab_side2" />
+                <componentref id="slab_side3" />
+                <componentref id="slab_side4" />
+            </children>
+        </component>
+        <component id="slab4">
+            <transformation>
+                <translate x="-5.1" y="0.0" z="-4.0" />
+                <rotate axis="x" angle="3.44" />
+            </transformation>
+            <animationref id="slab_tipping" />
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="slab_front" />
+                <componentref id="slab_back" />
+                <componentref id="slab_side1" />
+                <componentref id="slab_side2" />
+                <componentref id="slab_side3" />
+                <componentref id="slab_side4" />
+            </children>
+        </component>
+        <component id="slab5">
+            <transformation>
+                <translate x="0.1" y="0.0" z="-4.0" />
+                <rotate axis="x" angle="3.44" />
+            </transformation>
+            <animationref id="slab_tipping" />
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <componentref id="slab_front" />
+                <componentref id="slab_back" />
+                <componentref id="slab_side1" />
+                <componentref id="slab_side2" />
+                <componentref id="slab_side3" />
+                <componentref id="slab_side4" />
+            </children>
+        </component>
+        <component id="slab_front">
+            <transformation>
+                <translate x="0.0" y="0.0" z="0.1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="slab_front" />
+            </children>
+        </component>
+        <component id="slab_back">
+            <transformation>
+                <translate x="5.0" y="0.0" z="0.0" />
+                <rotate axis="y" angle="180" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="slab_back" />
+            </children>
+        </component>
+        <component id="slab_side1">
+            <transformation>
+                <rotate axis="x" angle="90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="slab_side1" />
+            </children>
+        </component>
+        <component id="slab_side2">
+            <transformation>
+                <translate x="5.0" y="0.0" z="0.1" />
+                <rotate axis="y" angle="90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="slab_side2" />
+            </children>
+        </component>
+        <component id="slab_side3">
+            <transformation>
+                <translate x="0.0" y="5.0" z="0.1" />
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="slab_side3" />
+            </children>
+        </component>
+        <component id="slab_side4">
+            <transformation>
+                <rotate axis="y" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="slab_side4" />
+            </children>
+        </component>
+        <component id="balance_cylinder">
+            <transformation>
+                <rotate axis="y" angle="180" />
+                <translate x="0.0" y="5.19" z="1.5" />
+            </transformation>
+            <animationref id="cylinder_tipping" />
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" />
+            <children>
+                <primitiveref id="cylinder2" />
+            </children>
+        </component>
+    </components>
+</lxs>
