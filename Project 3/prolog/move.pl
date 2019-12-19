@@ -172,7 +172,7 @@ inside_board([Line | TBoard], Column, Row) :-
 findall_moves_helper([], _, _, Prov, Prov) :- !.
 
 findall_moves_helper([[FC, FR] | Remain], Board, Player, Moves, Sol) :-
-	findall([IC, IR] - [FC, FR], move(Board, [IC, IR, FC, FR], _, Player), List),
+	findall([IC, IR, FC, FR], move(Board, [IC, IR, FC, FR], _, Player), List),
 	!, append(Moves, List, NewMoves),
 	!, findall_moves_helper(Remain, Board, Player, NewMoves, Sol).
 	
@@ -202,8 +202,8 @@ pass_move(Board, Player) :-
 
 %! generate_move_points(+Board, +Player, +Opponent, +Move, -PlayerPoints, -OpponentPoints)
 % Generates a given move points for both the Player as well as the opponent
-generate_move_points(Board, Player, Opponent, [IC, IR]-[FC, FR], PlayerPoints, OpponentPoints):-
-	move(Board, [IC, IR, FC, FR], NewBoard, Player),
+generate_move_points(Board, Player, Opponent, Move, PlayerPoints, OpponentPoints):-
+	move(Board, Move, NewBoard, Player),
 	select_piece(Player, PlayerDisc),
 	value(NewBoard, PlayerDisc, PlayerPoints),
 	select_piece(Opponent, OpponentDisc),
@@ -245,8 +245,8 @@ greedy_move(Player, Opponent, Board, Move):-
 %! get_new_boards(+InitialBoard, +Moves, -NewBoards, +Player)
 % Gets all the NewBoards for the given Moves for the given Player 
 get_new_boards(_,  [], [], _).
-get_new_boards(InitialBoard, [[IC, IR]-[FC, FR] | MoveT], [NewBoard | T2], Player):-
-	move(InitialBoard, [IC, IR, FC, FR], NewBoard, Player),
+get_new_boards(InitialBoard, [FMove | MoveT], [NewBoard | T2], Player):-
+	move(InitialBoard, FMove, NewBoard, Player),
 	get_new_boards(InitialBoard, MoveT, T2, Player).
 
 %! get_best_move_points(+Opponent, +Player, +Board, +Moves, -OpponentPoints, -PlayerPoints)
@@ -303,21 +303,21 @@ minimax(Board, Player, Func, Move):-
 choose_move(Board, [_, human], Move, _):-
 	read_move(Move, Board).
 
-choose_move(Board, [Player, bot], [IC, IR, FC, FR], 0 - _):-
-	random_move(Board, Player, [IC, IR]-[FC, FR]).
+choose_move(Board, [Player, bot], Move, 0 - _):-
+	random_move(Board, Player, Move).
 
-choose_move(Board, [Player, bot], [IC, IR, FC, FR], 1 - _):-
+choose_move(Board, [Player, bot], Move, 1 - _):-
 	NextPlayer is Player + 1,
 	Opponent is mod(NextPlayer, 2),
-	greedy_move(Player, Opponent, Board , [IC, IR]-[FC, FR]).
+	greedy_move(Player, Opponent, Board , Move).
 
-choose_move(Board, [Player, bot], [IC, IR, FC, FR], 2 - _):-
+choose_move(Board, [Player, bot], Move, 2 - _):-
 	NextPlayer is Player + 1,
 	Opponent is mod(NextPlayer, 2),
-	greedy_move(Player, Opponent, Board , [IC, IR]-[FC, FR]).
+	greedy_move(Player, Opponent, Board , Move).
 
-choose_move(Board, [Player, bot], [IC, IR, FC, FR], 3 - _):-
-	minimax(Board, Player , minimax_worst_play, [IC, IR]-[FC, FR]).
+choose_move(Board, [Player, bot], Move, 3 - _):-
+	minimax(Board, Player , minimax_worst_play, Move).
 	
-choose_move(Board, [Player, bot], [IC, IR, FC, FR], 4 - _):-
-	minimax(Board, Player , get_best_with_difference, [IC, IR]-[FC, FR]).
+choose_move(Board, [Player, bot], Move, 4 - _):-
+	minimax(Board, Player , get_best_with_difference, Move).

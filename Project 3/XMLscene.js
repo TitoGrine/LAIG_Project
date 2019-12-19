@@ -14,7 +14,7 @@ class XMLscene extends CGFscene {
 		
 		this.interface = myinterface; 
 		this.prologInterface = new MyPrologInterface(8081)
-		this.prologInterface.getPlayerMoves( '[[corner,bl,wt,bl,wt,corner],[wt,empty,empty,empty,empty,bl],[bl,empty,empty,empty,empty,wt],[bl,empty,empty,empty,empty,bl],[wt,empty,empty,empty,empty,bl],[corner,wt,bl,wt,wt,corner]]', 1)
+		this.prologInterface.moveBot( [[3,1,0,1,0,3],[0,2,2,2,2,1],[1,2,2,2,2,0],[1,2,2,2,2,1],[0,2,2,2,2,1],[3,0,1,0,0,3]], 1, 0)
 		this.prologInterface.quit()
     }
 
