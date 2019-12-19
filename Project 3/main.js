@@ -12,7 +12,8 @@ function getUrlVars() {
 }	 
 //Include additional files here
 serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.js', 'MyComponent.js', 'Animation.js', 'KeyframeAnimation.js', 'Board.js', 'Tile.js',
-               'shapes/MyRectangle.js', 'shapes/MyCylinder.js', 'shapes/MySphere.js', 'shapes/MyTriangle.js', 'shapes/MyTorus.js', 'shapes/MyPlane.js',  'shapes/MyPatch.js', 'shapes/MyNurbCylinder.js',
+			   'shapes/MyRectangle.js', 'shapes/MyCylinder.js', 'shapes/MySphere.js', 'shapes/MyTriangle.js', 'shapes/MyTorus.js', 'shapes/MyPlane.js',  'shapes/MyPatch.js', 'shapes/MyNurbCylinder.js',
+			   'MyPrologInterface.js',
 
 main=function()
 {

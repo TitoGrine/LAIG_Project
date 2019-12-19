@@ -2,7 +2,6 @@
 :- use_module(library(lists)).
 :- ensure_loaded('interface.pl').
 :- ensure_loaded('utils.pl').
-:- ensure_loaded('board_pieces.pl').
 :- ensure_loaded('points_calculation.pl').
 
 %! move(+Board, +Move, -NewBoard, +Player)
@@ -191,8 +190,7 @@ random_move(Board, Player, Move) :-
 	valid_moves(Board, Player, Moves),
 	length(Moves, NMoves),
 	NMoves > 0,
-	LastIndex is NMoves - 1,
-	random_between(0, LastIndex, RandomIndex),
+	random(0, NMoves, RandomIndex),
 	nth0(RandomIndex, Moves, Move).
 
 %! pass_move(+Board, +Player)

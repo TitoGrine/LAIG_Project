@@ -12,7 +12,10 @@ class XMLscene extends CGFscene {
     constructor(myinterface) {
 		super();
 		
-        this.interface = myinterface; 
+		this.interface = myinterface; 
+		this.prologInterface = new MyPrologInterface(8081)
+		this.prologInterface.initializeBoard(4, 4)
+		// this.prologInterface.quit()
     }
 
     /**
