@@ -8,7 +8,7 @@
  */
 class Piece extends CGFobject {
 
-	constructor(scene, row, column, geometry, material) {
+	constructor(scene, row, column, geometry, material, Tile) {
         super(scene);
         
         this.row = row;
@@ -16,6 +16,15 @@ class Piece extends CGFobject {
 
         this.geometry = geometry;
         this.material = material;
+        this.toggled = false;
+
+        this.tile = Tile;
+
+        this.toggle_color = new CGFappearance(this.scene);
+		this.toggle_color.setAmbient(1.0, 0.0, 0.0, 1);
+		this.toggle_color.setDiffuse(1.0, 0.0, 0.0, 1);
+		this.toggle_color.setSpecular(0.0, 0.0, 0.0, 1);
+        this.toggle_color.setShininess(10);
     }
 
     // Doesn nothing: Texture coordinates of NURB objects can't be changed
@@ -23,9 +32,15 @@ class Piece extends CGFobject {
 
     }
 
-    move(row, column){
+    move(row, column, Tile){
         this.row = row;
         this.column = column;
+        this.tile = Tile;
+        this.toggle = false;
+    }
+
+    togglePiece(){
+        this.toggled = !this.toggled;
     }
 
     getCoords(){
@@ -34,7 +49,7 @@ class Piece extends CGFobject {
     
     display(){
         this.scene.pushMatrix();
-        this.material.apply();
+        (this.toggled ? this.toggle_color.apply() : this.material.apply());
         this.scene.translate(this.column, 0.0, this.row);
         this.geometry.display();
         this.scene.popMatrix();

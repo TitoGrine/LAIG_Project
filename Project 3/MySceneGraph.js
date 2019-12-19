@@ -234,7 +234,7 @@ class MySceneGraph {
             if ((error = this.parseComponents(nodes[index])) != null)
                 return error;
         }
-		this.log("all parsed");
+		this.log("All Parsed");
 
 		
     }
@@ -1120,8 +1120,6 @@ class MySceneGraph {
 
             // Retrieves the geometry information.
             if (geometryType == 'checker') {
-                // x1
-                console.log(grandChildren[0]);
 
 				// Initialize and save Checker geometry
                 var checker = new Checker(this.scene);
@@ -1408,18 +1406,19 @@ class MySceneGraph {
 				this.primitives[primitiveId] = patch;
             }
             else if (primitiveType == 'board'){
-				// rows
-				var rows = this.reader.getFloat(grandChildren[0], 'rows');
-				if (!(rows != null && Number.isInteger(rows) && rows > 0))
-					return "unable to parse rows of the primitive for ID = " + primitiveId;
+                // x_scale
+				var x_scale = this.reader.getFloat(grandChildren[0], 'x_scale');
+				if (!(x_scale != null && Number.isInteger(x_scale) && x_scale > 0))
+					return "unable to parse x_scale of the primitive for ID = " + primitiveId;
 				
-				// columns
-				var columns = this.reader.getFloat(grandChildren[0], 'columns');
-				if (!(columns != null && Number.isInteger(columns) && columns > 0))
-					return "unable to parse columns of the primitive for ID = " + primitiveId;
+				// y_scale
+				var y_scale = this.reader.getFloat(grandChildren[0], 'y_scale');
+				if (!(y_scale != null && Number.isInteger(y_scale) && y_scale > 0))
+					return "unable to parse y_scale of the primitive for ID = " + primitiveId;
 				
-				// Initialize and save Board
-				var board = new Board(this.scene, primitiveId, rows, columns, this.geometries[0], this.piece_material1, this.piece_material2);
+                // Initialize and save Board
+                // TODO: CHANGE the rows and columns
+				var board = new Board(this.scene, primitiveId, x_scale, y_scale, 4, 4, this.geometries[0], this.piece_material1, this.piece_material2);
  
 				this.primitives[primitiveId] = board;
 			}

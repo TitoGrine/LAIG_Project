@@ -8,12 +8,14 @@
  */
 class Tile extends CGFobject {
 
-	constructor(scene, row, column, rgb) {
+	constructor(scene, row, column, rgb, Piece) {
         super(scene);
         
         this.row = row;
         this.column = column;
         this.toggled = false;
+
+        this.piece = Piece;
 
         this.plane = new MyPlane(this.scene, 'plane', 30, 30);
 
@@ -35,8 +37,21 @@ class Tile extends CGFobject {
 
     }
 
+    addPiece(Piece){
+        this.piece = Piece;
+        this.piece.move(this.row, this.column, this);
+    }
+
+    remPiece(){
+        this.piece = null;
+    }
+
+
     toggle(){
         this.toggled = !this.toggled;
+
+        if(this.piece)
+          this.piece.togglePiece();
     }
 
     getCoords(){
@@ -46,7 +61,7 @@ class Tile extends CGFobject {
     display(){
         this.scene.pushMatrix();
         (this.toggled ? this.toggle_color.apply() : this.color.apply());
-        this.scene.translate(0.5, 0.0, 0.5);
+        this.scene.translate(0.5 + this.column, 0.0, 0.5 + this.row);
         this.scene.scale(0.9, 1.0, 0.9);
         this.plane.display();
         this.scene.popMatrix();
