@@ -1,6 +1,7 @@
 
 :- ensure_loaded('board_generation.pl').
 :- ensure_loaded('points_calculation.pl').
+:- ensure_loaded('move.pl').
 
 
 %! initialize_board(+Rows, +Columns, -InitializedBoard)
@@ -56,6 +57,6 @@ playerMove(Board, Player, Move, NewBoard) :-
 % Player: 0 or 1
 % Difficulty: 0 .. 4
 botMove(Board, Player, Difficulty, NewBoard) :-
-	choose_move(Board, [Player, bot], NewMove, Difficulty),
+	choose_move(Board, [Player, bot], NewMove, Difficulty - _),
 	move(Board, NewMove, NewBoard, Player).
 
