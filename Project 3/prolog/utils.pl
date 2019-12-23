@@ -68,3 +68,20 @@ replace_row(Row, NewRow, [H | T], [H | T2]) :-
 get_element_matrix(Matrix, Row, Column, Element) :-
 	nth0(Row, Matrix, SearchedRow),
 	nth0(Column, SearchedRow, Element).
+
+
+max_list([H|T], Max) :-
+    max_list(T, H, Max).
+
+max_list([], Max, Max).
+max_list([H|T], Max0, Max) :-
+    Max1 is max(H, Max0),
+    max_list(T, Max1, Max).
+
+min_list([H|T], Min) :-
+    min_list(T, H, Min).
+
+min_list([], Min, Min).
+min_list([H|T], Min0, Min) :-
+    Min1 is min(H, Min0),
+    min_list(T, Min1, Min).

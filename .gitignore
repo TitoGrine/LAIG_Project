@@ -3,3 +3,12 @@ lib/
 
 # Visual Studio Code files
 .vscode/*
+
+Project 2/scenes/images/s_alturas.jpg
+Project 2/scenes/images/s_mascara.jpg
+Project 2/scenes/images/s_textura.jpg
+Project 2/scenes/testing2.xml
+Project 2/Praia.js
+Project 2/shaders/praia.frag
+Project 2/shaders/praia.vert
+Project 2/shapes/MyNurbTest.js

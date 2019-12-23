@@ -1,6 +1,5 @@
 :- use_module(library(random)).
 :- ensure_loaded('utils.pl').
-:- ensure_loaded('board_pieces.pl').
 
 %! init_row_helper(+ColumnNumber, -Line, +EndCell, +MiddleCell)
 % Helper function of @see initialize_row
@@ -108,14 +107,14 @@ generate_pieces(PiecesList, PiecesList, 0):- !.
 
 % Case 2: Beggining of accumulation of pieces
 generate_pieces([], PiecesList, NumPieces):-
-    random_between(0, 1, Random),
+    random(0, 2, Random),
     select_piece(Random, Piece),
     Num is NumPieces - 1,
     generate_pieces([Piece], PiecesList, Num).
 
 % Case 3: Second insertion on list 
 generate_pieces([H | []], PiecesList, NumPieces):-
-    random_between(0, 1, Random),
+    random(0, 2, Random),
     select_piece(Random, Piece),
     Num is NumPieces - 1,
     generate_pieces([Piece, H], PiecesList, Num).
@@ -179,7 +178,7 @@ generate_pieces([bl, bl | T], PiecesList, NumPieces):-
 % Case 10: Inserting a random piece in the board
 generate_pieces([H, H2 | T], PiecesList, NumPieces):-
 	repeat,
-    random_between(0, 1, Random),
+    random(0, 2, Random),
     select_piece(Random, Piece),
     Num is NumPieces - 1,
     generate_pieces([Piece, H, H2 | T], PiecesList, Num).
@@ -188,3 +187,5 @@ generate_pieces([H, H2 | T], PiecesList, NumPieces):-
 % Associates a Player number (0 or 1) to a Piece Type (wt or bl)
 select_piece(0, wt).
 select_piece(1, bl).
+select_piece(_, erro).
+

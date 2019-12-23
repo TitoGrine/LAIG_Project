@@ -1,6 +1,7 @@
 
 :- ensure_loaded('board_generation.pl').
 :- ensure_loaded('points_calculation.pl').
+:- ensure_loaded('move.pl').
 
 
 %! initialize_board(+Rows, +Columns, -InitializedBoard)
@@ -10,8 +11,10 @@
 % a previously EmptyBoard and returns it via the InitializedBoard argument
 initialize_board(Rows, Columns, FinalBoard):-
 	initialize_empty_board(Rows, Columns, EmptyBoard),
-	NPieces is (Rows + Columns - 4) * 2,
+	NPieces is (Rows + Columns) * 2,
     generate_pieces([], Pieces, NPieces),
+				write(Pieces), nl,
+
 	generate_board(EmptyBoard, FinalBoard, Pieces).
 
 %! pontuation(+Board, +Player, -Points)
@@ -22,7 +25,7 @@ initialize_board(Rows, Columns, FinalBoard):-
 % Player: 0 or 1
 pontuation(Board, Player, Points) :-
 	select_piece(Player, Disc),
-	value(Visited, Disc, MaxPoints).
+	value(Board, Disc, Points).
 
 %! hasMoves(+Board, +Player, -Ret)
 % Determines if the Player has any moves left
@@ -54,6 +57,6 @@ playerMove(Board, Player, Move, NewBoard) :-
 % Player: 0 or 1
 % Difficulty: 0 .. 4
 botMove(Board, Player, Difficulty, NewBoard) :-
-	choose_move(Board, [Player, bot], NewMove, Difficulty),
+	choose_move(Board, [Player, bot], NewMove, Difficulty - _),
 	move(Board, NewMove, NewBoard, Player).
 
