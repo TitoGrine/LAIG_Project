@@ -8,12 +8,17 @@
  */
 class Tile extends CGFobject {
 
-	constructor(scene, row, column, rgb, Piece) {
-        super(scene);
-        
+	constructor(scene, id, row, column, rgb, Piece) {
+		super(scene);
+		this.scene = scene
+		this.id = id
+		
         this.row = row;
         this.column = column;
-        this.toggled = false;
+		this.toggled = false;
+		
+		// TODO: depois por como parametro e dar para mudar
+		this.selectable = true
 
         this.piece = Piece;
 
@@ -59,11 +64,17 @@ class Tile extends CGFobject {
     }
     
     display(){
+		if (this.selectable)
+			this.scene.registerForPick(this.id, this)
+
         this.scene.pushMatrix();
         (this.toggled ? this.toggle_color.apply() : this.color.apply());
         this.scene.translate(0.5 + this.column, 0.0, 0.5 + this.row);
         this.scene.scale(0.9, 1.0, 0.9);
         this.plane.display();
-        this.scene.popMatrix();
+		this.scene.popMatrix();
+		
+		if(this.selectable)
+			this.scene.clearPickRegistration()
     }
 }

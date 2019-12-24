@@ -22,15 +22,6 @@ class Board extends CGFobject {
 
         this.movement = [];
 
-        //super.init(application);
-		this.scene.initCameras();
-		this.scene.initLights();
-		this.scene.gl.clearColor(0, 0, 0, 1.0);
-		this.scene.gl.clearDepth(10000.0);
-		this.scene.gl.enable(this.scene.gl.DEPTH_TEST);
-		this.scene.gl.enable(this.scene.gl.CULL_FACE);
-		this.scene.gl.depthFunc(this.scene.gl.LEQUAL);
-        this.scene.setPickEnabled(true);
         
         this.makeBoardSurface();
     }
@@ -61,9 +52,9 @@ class Board extends CGFobject {
                 let objects = [];
 
                 if(state != 3){
-                    objects.push(new Tile(this.scene, row, column, state == 2 ? [0.03, 0.6, 0.8] : [0.0, 0.8, 1.0], null));
+                    objects.push(new Tile(this.scene, this.calculatePos([row, column]), row, column, state == 2 ? [0.03, 0.6, 0.8] : [0.0, 0.8, 1.0], null));
                     if(state != 2){
-                        objects.push(new Piece(this.scene, row, column, this.geometry, state ? this.color1 : this.color2));
+                        objects.push(new Piece(this.scene, this.calculatePos([row, column]), row, column, this.geometry, state ? this.color1 : this.color2));
                         objects[0].addPiece(objects[1]);
                     }
                 }
@@ -92,7 +83,8 @@ class Board extends CGFobject {
 			}
 		}
     }
-    
+	
+	/*
     move(){
         if(this.movement.length != 2)
             return;
@@ -122,7 +114,7 @@ class Board extends CGFobject {
         init_tile.remPiece();
         dest_objects.push(piece);
         dest_tile.addPiece(piece);
-    }
+    }*/
 
     // Doesn nothing: Texture coordinates of NURB objects can't be changed
     updateTexCoords(lengthS, lengthT){
@@ -130,17 +122,6 @@ class Board extends CGFobject {
     }
     
     display(){
-        this.logPicking();
-		this.scene.clearPickRegistration();
-		// Clear image and depth buffer every time we update the scene
-		this.scene.gl.viewport(0, 0, this.scene.gl.canvas.width, this.scene.gl.canvas.height);
-		this.scene.gl.clear(this.scene.gl.COLOR_BUFFER_BIT | this.scene.gl.DEPTH_BUFFER_BIT);
-		this.scene.gl.enable(this.scene.gl.DEPTH_TEST);
-		// Initialize Model-View matrix as identity (no transformation
-		this.scene.updateProjectionMatrix();
-		this.scene.loadIdentity();
-		// Apply transformations corresponding to the camera position relative to the origin
-		this.scene.applyViewMatrix();
 
         this.scene.pushMatrix();
 
@@ -152,7 +133,7 @@ class Board extends CGFobject {
         this.square.display();
         this.scene.popMatrix();
 
-        this.move();
+        // this.move();
         
         for(let i = 0; i < 2; i++){
             this.scene.pushMatrix();
@@ -223,7 +204,9 @@ class Board extends CGFobject {
                         objects[1].display();
                 }
             }
-        }
+		}
+		
+		// TODO: confirmar duas vezes
         this.scene.popMatrix();
 
         this.scene.popMatrix();

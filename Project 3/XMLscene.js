@@ -46,7 +46,11 @@ class XMLscene extends CGFscene {
 		this.displayAxis = true;
 		this.displayLights = true;
 
-        this.setUpdatePeriod(100);
+		this.gameController = new MyGameController(this)
+
+		this.setUpdatePeriod(100);
+		this.setPickEnabled(true);
+
     }
 
     /**
@@ -191,6 +195,8 @@ class XMLscene extends CGFscene {
 		// Updates animations
 		if(this.sceneInited)	
 			this.graph.updateAnimations(t);
+
+		this.gameController.update(t)
 	}
 
 	/**
@@ -205,6 +211,11 @@ class XMLscene extends CGFscene {
      * Displays the scene.
      */
     display() {
+		this.gameController.managePick(this.pickMode, this.pickResults)
+		this.clearPickRegistration()
+
+		// TODO: mudar nome e fazer
+		// this.gameController.control()
         // ---- BEGIN Background, camera and axis setup
 
         // Clear image and depth buffer everytime we update the scene
