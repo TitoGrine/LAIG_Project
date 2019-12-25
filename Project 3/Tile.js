@@ -42,9 +42,9 @@ class Tile extends CGFobject {
 
     }
 
-    addPiece(Piece){
-        this.piece = Piece;
-        this.piece.move(this.row, this.column, this);
+    addPiece(piece){
+        this.piece = piece;
+        this.piece.move(this.row, this.column, this, this.id);
     }
 
     remPiece(){
@@ -54,18 +54,18 @@ class Tile extends CGFobject {
 
     toggle(){
         this.toggled = !this.toggled;
-
-        if(this.piece)
-          this.piece.togglePiece();
+        // if(this.piece)
+        //   this.piece.togglePiece();
     }
 
     getCoords(){
         return [this.column, this.row];
-    }
-    
+	}
+	
     display(){
 		if (this.selectable)
-			this.scene.registerForPick(this.id, this)
+			this.scene.registerForPick(this.id, this.toggle.bind(this))
+
 
         this.scene.pushMatrix();
         (this.toggled ? this.toggle_color.apply() : this.color.apply());

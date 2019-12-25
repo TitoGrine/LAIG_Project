@@ -42,47 +42,49 @@ class Board extends CGFobject {
         this.piece_holder = new MyPlane(this.scene, 'holder', 30, 30);
         this.side = new MyPlane(this.scene, 'side', 30, 30);
         this.tiles = [];
-
+		let pos = 0
         for(let row = 0; row < this.rows + 2; row++){
             let aux_row = [];
             let row_state = this.inicial_board[row];
 
             for(let column = 0; column < this.columns + 2; column++){
                 let state = row_state[column];
-                let objects = [];
+				let objects = [];
 
-                if(state != 3){
-                    objects.push(new Tile(this.scene, this.calculatePos([row, column]), row, column, state == 2 ? [0.03, 0.6, 0.8] : [0.0, 0.8, 1.0], null));
-                    if(state != 2){
-                        objects.push(new Piece(this.scene, this.calculatePos([row, column]), row, column, this.geometry, state ? this.color1 : this.color2));
+                if(state < 3){
+                    objects.push(new Tile(this.scene, pos + 1, row, column, state == 2 ? [0.03, 0.6, 0.8] : [0.0, 0.8, 1.0], null));
+                    if(state < 2){
+						objects.push(new Piece(this.scene, pos + 1, row, column, this.geometry, state ? this.color1 : this.color2))
                         objects[0].addPiece(objects[1]);
                     }
-                }
+				}
+				pos++
 
                 aux_row.push(objects);
             }
 
             this.tiles.push(aux_row);
-        }
+		}
+		// console.log(this.tiles)
     }
 
-    logPicking() {
-		if (this.scene.pickMode == false) {
-			if (this.scene.pickResults != null && this.scene.pickResults.length > 0) {
-				for (var i = 0; i < this.scene.pickResults.length; i++) {
-                    let obj = this.scene.pickResults[i][0];
-                    if (obj) {
-                            var coords = obj[0].getCoords();
-                            this.movement.push(obj[0]);
-                            obj[0].toggle();
-						    console.log("Picked object: " + obj + ", with coordenates " + coords);						
-                        }
+    // logPicking() {
+	// 	if (this.scene.pickMode == false) {
+	// 		if (this.scene.pickResults != null && this.scene.pickResults.length > 0) {
+	// 			for (var i = 0; i < this.scene.pickResults.length; i++) {
+    //                 let obj = this.scene.pickResults[i][0];
+    //                 if (obj) {
+    //                         var coords = obj[0].getCoords();
+    //                         this.movement.push(obj[0]);
+    //                         obj[0].toggle();
+	// 					    console.log("Picked object: " + obj + ", with coordenates " + coords);						
+    //                     }
                     
-				}
-				this.scene.pickResults.splice(0, this.scene.pickResults.length);
-			}
-		}
-    }
+	// 			}
+	// 			this.scene.pickResults.splice(0, this.scene.pickResults.length);
+	// 		}
+	// 	}
+    // }
 	
 	/*
     move(){
@@ -193,12 +195,12 @@ class Board extends CGFobject {
         this.scene.translate(0.0, 1.01, 0.0);
         for(let row = 0; row < this.rows + 2; row++){
             for(let column = 0; column < this.columns + 2; column++){
-                let pos = this.calculatePos([column, row]);
+                // let pos = this.calculatePos([column, row]);
                 let objects = this.tiles[row][column];
                 let state = objects.length;
 
                 if(state != 0){
-                    this.scene.registerForPick(pos + 1, objects);
+                  //  this.scene.registerForPick(pos + 1, objects);
                     objects[0].display();
                     if(state == 2)
                         objects[1].display();

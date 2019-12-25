@@ -5,7 +5,7 @@
 class MyGameController {
 	constructor(scene) {
 		this.prologInterface = new MyPrologInterface(8081)
-		this.theme = new MySceneGraph(ficheiro, scene)
+		this.theme = new MySceneGraph('board.xml', scene)
 		//this.animator = new MyAnimator()
 		
 	}
@@ -25,7 +25,7 @@ class MyGameController {
 						// console.log("Picked object: " + obj + ", with coordenates " + coords);	
 						// TODO: ver se mudar para ID
 						let uniqueId = results[i][1] // get id
-						this.OnObjectSelected(obj, uniqueId);
+						this.onObjectSelected(obj, uniqueId);
 						// this.onObjectSelected(obj, coords);
 					
                     }
@@ -37,13 +37,20 @@ class MyGameController {
 	}
 
 	onObjectSelected(obj, id) {
-		if(obj instanceof Piece) {
-			// do something with id knowing it is a piece
-		} else if (obj instanceof Tile) {
-			// do something with id knowing it is a tile
-		} else {
-			// error ? 
-		}
+		// if(obj instanceof Piece) {
+		// 	obj.tile.toggle()
+		// 	// do something with id knowing it is a piece
+		// 	console.log("piece: " + obj.getCoords()[0] + ", " + obj.getCoords()[1])
+
+		// } else if (obj instanceof Tile) {
+		// 	obj.toggle()
+		// 	console.log("tile: " + obj.getCoords()[0] + ", " + obj.getCoords()[1])
+		// 	// do something with id knowing it is a tile
+		// } else {
+		// 	console.log(obj)
+			obj()
+		// 	// error ? 
+		// }
 	}
 
 	update(time){
