@@ -17,34 +17,38 @@ class MyPrologInterface {
 		this.requestPort = port || 8081
 		this.prevBoards;
 		this.board;
-		this.moves;
-		this.hasMoves;
 		this.points;
     }
 
-    getPrologRequest(requestString, onSuccess, onError) {
-		if(onSuccess == undefined)
-			onSuccess = (data) => console.log("Request successful. Reply: " + data.target.response);
-		if(onError == undefined)
-			onError = () => console.log("Error waiting for response")
-		let request = new XMLHttpRequest()
-		request.open('GET', 'http://localhost:' + this.requestPort + '/' + requestString, true)
-		request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
+    async getPrologRequest(requestString) {	
+		self = this;
+		return new Promise(function (resolve, reject) {
+			let request = new XMLHttpRequest()
+			request.open('GET', 'http://localhost:' + self.requestPort + '/' + requestString, true)
+			request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8')
 
-		request.addEventListener('load', onSuccess.bind(this))
-
-		request.addEventListener('error', onError.bind(this))
-
-		request.send()
+			request.addEventListener('load', function(data){
+				console.log(requestString + ": " + data.target.response)
+				resolve(data.target.response)
+			})
+			
+			// TODO: ver isto depois
+			request.addEventListener('error', function(data){
+				console.log("Error waiting for response (" + requestString + ")");
+				reject(data.target.response);
+			})
+			request.send();
+		});
 	}
 
 	/**
 	 * Requests
 	 */
 
-	initializeBoard(rows, columns) {
+	async initializeBoard(rows, columns) {
 		let requestString = `init_board(${rows},${columns})`;
-		this.getPrologRequest(requestString, this.parseBoardHandler)
+		let reply  = await this.getPrologRequest(requestString)
+		return this.parseBoardHandler(reply)
 	}
 
 	getPlayerPoints(board, player) {
@@ -61,11 +65,11 @@ class MyPrologInterface {
 		this.getPrologRequest(requestString, this.parseReply)
 	}
 
-	getPlayerMoves(board, player) {
+	async getPlayerMoves(board, player) {
 		let strBoard =  JSON.stringify(board)
 		let boardProlog = strBoard.replace(/0|1|2|3|4/g, this.js2prolog);
 		let requestString = `playerMoves(${boardProlog},${player})`;
-		this.getPrologRequest(requestString, this.parseReply)
+		return this.getPrologRequest(requestString)
 	}
 
 	movePlayer(board, player, move) {
@@ -75,6 +79,7 @@ class MyPrologInterface {
 		let boardProlog = strBoard.replace(/0|1|2|3|4/g, this.js2prolog);
 		let requestString = `movePlayer(${boardProlog},${player},${strMove})`;
 		this.getPrologRequest(requestString, this.parseBoardHandler)
+		this.boardDifferences(this.prevBoards, this.board)
 	}
 
 	moveBot(board, player, difficulty) {
@@ -83,6 +88,7 @@ class MyPrologInterface {
 		let boardProlog = strBoard.replace(/0|1|2|3|4/g, this.js2prolog);
 		let requestString = `moveBot(${boardProlog},${player},${difficulty})`;
 		this.getPrologRequest(requestString, this.parseBoardHandler)
+		this.boardDifferences(this.prevBoards, this.board)
 	}
 
 	quit() {
@@ -92,17 +98,12 @@ class MyPrologInterface {
 	/**
 	 * Handlers
 	 */
-	parseBoardHandler(data){
-		let reply = data.target.response
-		// TODO: ver pq é q função n é reconhecida
+	parseBoardHandler(reply){
 		let replyParsed = reply.replace(/wt|bl|empty|corner|null/g, this.prolog2js); 
-		this.board = eval(replyParsed)
-		console.log(this.board)
-		this.boardDifferences(this.prevBoards, this.board)
+		return eval(replyParsed)
 	}
 
-	parseReply(data){
-		let reply = eval(data.target.response)
+	parseReply(reply){
 		if(Array.isArray(reply))
 			this.moves = reply
 		else if(typeof reply === 'boolean')

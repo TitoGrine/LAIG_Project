@@ -7,23 +7,27 @@
  * @param {Number of columns} columns 
  */
 class Board extends CGFobject {
-	constructor(scene, id, x_dimensions, y_dimensions, rows, columns, geometry, color1, color2) {
+	constructor(scene, id, x_dimensions, y_dimensions, geometry, color1, color2) {
         super(scene);
 		this.id = id;
-        this.rows = rows;
-        this.columns = columns;
-        this.size = rows * columns;
-        this.x_scale = x_dimensions / (columns + 2);
-        this.y_scale = y_dimensions / (rows + 2);
+
+		
+        this.rows = 0
+		this.columns = 0
+		this.size = 0
+		
+        this.x_scale = x_dimensions;
+        this.y_scale = y_dimensions;
 
         this.geometry = geometry;
         this.color1 = color1;
         this.color2 = color2;
 
-        this.movement = [];
+		this.highlight = false
 
-        
-        this.makeBoardSurface();
+		this.movement = [];
+
+		this.boardInit = false
     }
 
     calculatePos([column, row]){
@@ -35,9 +39,18 @@ class Board extends CGFobject {
      * facing the +Y direction. It then creates a NURB Object using that surface,
      * with the given divisions in the U and V domain.
      */
-    makeBoardSurface(){
-        this.inicial_board = [[3,1,0,1,0,3],[0,2,2,2,2,1],[1,2,2,2,2,0],[1,2,2,2,2,1],[0,2,2,2,2,1],[3,0,1,0,0,3]];
+    makeBoardSurface(initialBoard){
+		// this.board = [[3,1,0,1,0,3],[0,2,2,2,2,1],[1,2,2,2,2,0],[1,2,2,2,2,1],[0,2,2,2,2,1],[3,0,1,0,0,3]];
+		this.board = initialBoard
+		
+        this.rows = this.board.length - 2;
+		this.columns = this.board[0].length - 2;
 
+		this.size = this.rows * this.columns;
+        this.x_scale /= (this.columns + 2)
+        this.y_scale /= (this.rows + 2)
+
+		
         this.square = new MyPlane(this.scene, 'square', 30, 30);
         this.piece_holder = new MyPlane(this.scene, 'holder', 30, 30);
         this.side = new MyPlane(this.scene, 'side', 30, 30);
@@ -45,7 +58,7 @@ class Board extends CGFobject {
 		let pos = 0
         for(let row = 0; row < this.rows + 2; row++){
             let aux_row = [];
-            let row_state = this.inicial_board[row];
+            let row_state = this.board[row];
 
             for(let column = 0; column < this.columns + 2; column++){
                 let state = row_state[column];
@@ -54,7 +67,7 @@ class Board extends CGFobject {
                 if(state < 3){
                     objects.push(new Tile(this.scene, pos + 1, row, column, state == 2 ? [0.03, 0.6, 0.8] : [0.0, 0.8, 1.0], null));
                     if(state < 2){
-						objects.push(new Piece(this.scene, pos + 1, row, column, this.geometry, state ? this.color1 : this.color2))
+						objects.push(new Piece(this.scene, pos + 1, state, row, column, this.geometry, state ? this.color2 : this.color1))
                         objects[0].addPiece(objects[1]);
                     }
 				}
@@ -65,7 +78,7 @@ class Board extends CGFobject {
 
             this.tiles.push(aux_row);
 		}
-		// console.log(this.tiles)
+		this.boardInit = true
     }
 
     // logPicking() {
@@ -122,8 +135,22 @@ class Board extends CGFobject {
     updateTexCoords(lengthS, lengthT){
 
     }
-    
+	
+	getTile(column, row){
+		return this.tiles[row][column][0]
+	}
+
+	setHighlight(value){
+		this.highlight = value
+	}
+
+	isHighlighted(){
+		return this.highlight
+	}
+	
     display(){
+		if(!this.boardInit)
+			return;
 
         this.scene.pushMatrix();
 

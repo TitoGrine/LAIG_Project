@@ -1418,7 +1418,7 @@ class MySceneGraph {
 				
                 // Initialize and save Board
                 // TODO: CHANGE the rows and columns
-				var board = new Board(this.scene, primitiveId, x_scale, y_scale, 4, 4, this.geometries[0], this.piece_material1, this.piece_material2);
+				var board = new Board(this.scene, primitiveId, x_scale, y_scale, this.geometries[0], this.piece_material1, this.piece_material2);
  
 				this.primitives[primitiveId] = board;
 			}

@@ -12,10 +12,7 @@ class XMLscene extends CGFscene {
     constructor(myinterface) {
 		super();
 		
-		this.interface = myinterface; 
-		this.prologInterface = new MyPrologInterface(8081)
-		this.prologInterface.moveBot( [[3,1,0,1,0,3],[0,2,2,2,2,1],[1,2,2,2,2,0],[1,2,2,2,2,1],[0,2,2,2,2,1],[3,0,1,0,0,3]], 1, 0)
-		this.prologInterface.quit()
+		this.interface = myinterface;
     }
 
     /**
@@ -132,7 +129,12 @@ class XMLscene extends CGFscene {
 		this.interface.addLightsGUI();
         this.interface.addCamerasGUI();
 		
-        this.sceneInited = true;
+		this.sceneInited = true;
+
+		// TODO: tirar depois
+		// Menu -> Load
+		this.gameController.setBoard()
+		this.gameController.nextState(null)
 	}
 
 	/**
@@ -194,10 +196,11 @@ class XMLscene extends CGFscene {
 		this.checkKeys();
 
 		// Updates animations
-		if(this.sceneInited)	
+		if(this.sceneInited){
 			this.graph.updateAnimations(t);
-
+		}
 		this.gameController.update(t)
+
 	}
 
 	/**
@@ -243,8 +246,8 @@ class XMLscene extends CGFscene {
             // Draw axis
             this.setDefaultAppearance();
 
-            // Displays the scene (MySceneGraph function).
-            this.graph.displayScene();
+			// Displays the scene (MySceneGraph function).
+			this.gameController.display()
         }
 
         this.popMatrix();

@@ -187,5 +187,5 @@ generate_pieces([H, H2 | T], PiecesList, NumPieces):-
 % Associates a Player number (0 or 1) to a Piece Type (wt or bl)
 select_piece(0, wt).
 select_piece(1, bl).
-select_piece(_, erro).
+% select_piece(_, erro).
 

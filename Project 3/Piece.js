@@ -9,17 +9,18 @@
  */
 class Piece extends CGFobject {
 
-	constructor(scene, id, row, column, geometry, material, Tile) {
+	constructor(scene, id, type, row, column, geometry, material, Tile) {
 		super(scene);
 		this.scene = scene
 
 		this.id = id
+		this.type = type
         this.row = row;
 		this.column = column;
 
         this.geometry = geometry;
         this.material = material;
-        this.toggled = false;
+		this.toggled = false;
 
 		this.tile = Tile;
 		
@@ -42,11 +43,11 @@ class Piece extends CGFobject {
         this.row = row;
         this.column = column;
         this.tile = Tile;
-		this.toggle = false;
+		this.toggled = false;
 		this.id = id
     }
 
-    togglePiece(){
+    toggle(){
         this.toggled = !this.toggled;
     }
 
@@ -56,7 +57,9 @@ class Piece extends CGFobject {
 	    
     display(){
 		if (this.selectable)
-			this.scene.registerForPick(this.id, this.togglePiece.bind(this))
+			this.scene.registerForPick(this.id, this)
+//			this.scene.registerForPick(this.id, this.toggle.bind(this))
+
 
 			
         this.scene.pushMatrix();
