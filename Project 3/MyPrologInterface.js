@@ -49,19 +49,19 @@ class MyPrologInterface {
 		return this.parseBoardHandler(reply)
 	}
 
-	getPlayerPoints(board, player) {
+	async getPlayerPoints(board, player) {
 		let strBoard =  JSON.stringify(board)
 		let boardProlog = strBoard.replace(/0|1|2|3|4/g, this.js2prolog);
 		let requestString = `points(${boardProlog},${player})`;
-		this.getPrologRequest(requestString, this.parseReply)
+		return await this.getPrologRequest(requestString)
 	}
 	
-	hasValidMoves(board, player) {
-		let strBoard =  JSON.stringify(board)
-		let boardProlog = strBoard.replace(/0|1|2|3|4/g, this.js2prolog);
-		let requestString = `hasMovesLeft(${boardProlog},${player})`;
-		this.getPrologRequest(requestString, this.parseReply)
-	}
+	// hasValidMoves(board, player) {
+	// 	let strBoard =  JSON.stringify(board)
+	// 	let boardProlog = strBoard.replace(/0|1|2|3|4/g, this.js2prolog);
+	// 	let requestString = `hasMovesLeft(${boardProlog},${player})`;
+	// 	this.getPrologRequest(requestString, this.parseReply)
+	// }
 
 	getPlayerMoves(board, player) {
 		let strBoard =  JSON.stringify(board)
@@ -101,14 +101,6 @@ class MyPrologInterface {
 		return eval(replyParsed)
 	}
 
-	parseReply(reply){
-		if(Array.isArray(reply))
-			this.moves = reply
-		else if(typeof reply === 'boolean')
-			this.hasMoves = reply
-		else
-			this.points = reply
-	}
 
 	js2prolog (x) {
 		switch (x) {

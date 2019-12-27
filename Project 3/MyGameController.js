@@ -187,6 +187,7 @@ class MyGameController {
 				this.nextState(null)
 				break;
 			case states.CHOOSE_PIECE:
+				this.numPasses = 0
 				this.prevState = this.currState
 				if(this.promise != null){
 					this.possMoves = eval(await this.promise);
@@ -227,11 +228,7 @@ class MyGameController {
 				this.gameSequence.addMove(this.currMove)
 				this.nextState(null)
 				break;
-			case states.MOVE:
-				// TODO: nextPlayer
-				this.currPlayer = (this.currPlayer + 1) % 2
-				let promise = this.prologInterface.getPlayerMoves(this.board.board2NumberBoard(), this.currPlayer)
-					
+			case states.MOVE:					
 				// TODO: Animate
 				this.prevState = this.currState
 				let piece = this.board.getPiece(this.initialPick.column, this.initialPick.row)
@@ -239,13 +236,49 @@ class MyGameController {
 				this.currMove.animate()
 				piece.tile.toggle()
 				this.currState = states.CHOOSE_PIECE
+				
+				// TODO: nextPlayer
+				this.currPlayer = (this.currPlayer + 1) % 2
+				// TODO: passar isto para cima para ir calculando enquanto anima
+				let promise = this.prologInterface.getPlayerMoves(this.board.board2NumberBoard(), this.currPlayer)
+
 
 				this.possMoves = eval(await promise)
-				this.getInitialPos()
+				if(this.possMoves.length == 0){
+					this.currState = states.PASS
+					this.nextState(null)
+				}
+				else
+					this.getInitialPos()
 				break;
 			case states.PASS:
+				this.prevState = this.currState
+				this.numPasses++
+				if(this.numPasses == 2){
+					this.currState = states.END
+					this.nextState(null)
+				}
+				else{
+					this.currState = states.CHOOSE_PIECE
+					// TODO: nextPlayer
+					this.currPlayer = (this.currPlayer + 1) % 2
+					let promise = this.prologInterface.getPlayerMoves(this.board.board2NumberBoard(), this.currPlayer)
+					this.possMoves = eval(await promise)
+					if(this.possMoves.length == 0){
+						this.currState = states.PASS
+						this.nextState(null)
+					}
+					else
+						this.getInitialPos()
+				}
 				break;
 			case states.END:
+				console.log("Game End")
+				let pBoard = this.board.board2NumberBoard()
+				let points0 = await this.prologInterface.getPlayerPoints(pBoard, 0)
+				let points1 = await this.prologInterface.getPlayerPoints(pBoard, 1)
+				console.log("Result: " + points0 + " - "+ points1)
+				
 				break;
 			case states.UNDO:
 				break;
