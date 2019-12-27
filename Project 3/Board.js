@@ -99,45 +99,64 @@ class Board extends CGFobject {
 	// 	}
     // }
 	
-	/*
-    move(){
-        if(this.movement.length != 2)
-            return;
-
-        let init_tile = this.movement[0];
-        let dest_tile = this.movement[1];
-
-        if(init_tile == dest_tile){
-            this.movement = [];
-            return;
-        }
-
+	
+    move(piece, init_tile, dest_tile){
+		// TODO: ver depois
         let init_pos = init_tile.getCoords();
         let dest_pos = dest_tile.getCoords();
 
-        let init_objects = this.tiles[init_pos[1]][init_pos[0]];
-        let dest_objects = this.tiles[dest_pos[1]][dest_pos[0]];
-
-        if(init_objects.length < 2){
-            init_tile.toggle();
-            dest_tile.toggle();
-            this.movement = [];
-            return;
-        }
-
-        let piece = init_objects.pop();
+        this.tiles[init_pos[1]][init_pos[0]].pop();
         init_tile.remPiece();
-        dest_objects.push(piece);
+        this.tiles[dest_pos[1]][dest_pos[0]].push(piece);
         dest_tile.addPiece(piece);
-    }*/
+    }
 
     // Doesn nothing: Texture coordinates of NURB objects can't be changed
     updateTexCoords(lengthS, lengthT){
 
     }
-	
+
+	/**
+	 * 	0 : player 0
+	 *  1 : player 1
+	 * 	2 : empty
+	 * 	3 : corner
+	 * 	4 : null
+	 */
+	// TODO: ver representação do board
+	board2NumberBoard(){			
+		let numberBoard = []
+		for(let row = 0; row < this.rows + 2; row++){
+			let numberRow = [] 
+			for(let column = 0; column < this.columns + 2; column++){
+                let objects = this.tiles[row][column];
+                let state = objects.length;
+				switch (state) {
+					case 0:
+						numberRow.push(3)
+						break;
+					case 1:
+						if(row == 0 || row == this.rows + 1 || column == 0 || column == this.columns + 1)
+							numberRow.push(4)
+						else
+							numberRow.push(2)					
+						break;
+					case 2:
+						numberRow.push(objects[1].type)
+						break;
+				}
+			}
+			numberBoard.push(numberRow)
+		}
+		return numberBoard;
+	}
+
 	getTile(column, row){
 		return this.tiles[row][column][0]
+	}
+
+	getPiece(column, row){
+		return this.tiles[row][column][1]
 	}
 
 	setHighlight(value){

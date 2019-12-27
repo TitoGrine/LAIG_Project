@@ -24,11 +24,9 @@ class MyGameController {
 	constructor(scene) {
 		this.prologInterface = new MyPrologInterface(8081)
 		this.theme = new MySceneGraph('board.xml', scene)
+		this.gameSequence = new MyGameSequence()
 		//this.animator = new MyAnimator()
  
-		// this.prologInterface = new MyPrologInterface(8081)
-		// this.prologInterface.moveBot( [[3,1,0,1,0,3],[0,2,2,2,2,1],[1,2,2,2,2,0],[1,2,2,2,2,1],[0,2,2,2,2,1],[3,0,1,0,0,3]], 1, 0)
-		// this.prologInterface.quit()
 
 		this.numPasses = 0
 		this.currState = states.MENU
@@ -40,7 +38,6 @@ class MyGameController {
 		this.currPlayer = 0
 
 		this.initialPick = {column: 0, row: 0}
-		this.boardStack = [];
 		this.dimensions = {columns: 4, rows: 4}
 
 		this.promise = null;
@@ -48,6 +45,8 @@ class MyGameController {
 
 		this.possMoves = []
 		this.moveSet = new Set()
+
+		this.currMove = null
 
 	}
 
@@ -140,14 +139,6 @@ class MyGameController {
 		//this.animator.update(time)
 	}
 
-	addNewBoard(newBoard){
-		this.boardStack.push(newBoard)
-	}
-
-	getCurrentBoard(){
-		return this.boardStack[this.boardStack.length - 1]
-	}
-
 	highlightPossible(set){
 		if(!set)
 			for(let move of this.moveSet){
@@ -186,10 +177,9 @@ class MyGameController {
 
 		switch (this.currState) {
 			case states.MENU:
-				this.prevState = states.MENU
+				this.prevState = this.currState
 				// TODO: mudar depois
-				let newBoard = await this.prologInterface.initializeBoard(this.dimensions.rows, this.dimensions.columns)
-				this.addNewBoard(newBoard)
+				this.boardProlog = await this.prologInterface.initializeBoard(this.dimensions.rows, this.dimensions.columns)
 				this.currState = states.LOAD
 				
 				// TODO: provisorio
@@ -197,7 +187,7 @@ class MyGameController {
 				this.nextState(null)
 				break;
 			case states.CHOOSE_PIECE:
-				this.prevState = states.CHOOSE_PIECE
+				this.prevState = this.currState
 				if(this.promise != null){
 					this.possMoves = eval(await this.promise);
 					this.promise = null
@@ -218,17 +208,40 @@ class MyGameController {
 
 				break;
 			case states.CHOOSE_FINAL:
-				this.prevState = states.CHOOSE_FINAL
+				this.prevState = this.currState
 				if(this.initialPick.column == position[0] && this.initialPick.row == position[1]){
 					this.highlightPossible(false)
-					// TODO: otimize with 2 different sets
+					// TODO: otimize with 2 different sets (??)
 					this.getInitialPos()
 					this.initialPick = {column:0 , row: 0}
 					this.currState = states.CHOOSE_PIECE
+					return
 				}
-				//move
+				this.currState = states.MOVE
+
+				// TODO: prov(??)
+				this.highlightPossible(false)
+				this.moves = await this.prologInterface.movePlayer(this.board.board2NumberBoard(), this.currPlayer, [this.initialPick.column, this.initialPick.row, position[0], position[1]])
+				this.currMove = new MyGameMove(this.board)
+				this.currMove.addMoves(this.moves)
+				this.gameSequence.addMove(this.currMove)
+				this.nextState(null)
 				break;
 			case states.MOVE:
+				// TODO: nextPlayer
+				this.currPlayer = (this.currPlayer + 1) % 2
+				let promise = this.prologInterface.getPlayerMoves(this.board.board2NumberBoard(), this.currPlayer)
+					
+				// TODO: Animate
+				this.prevState = this.currState
+				let piece = this.board.getPiece(this.initialPick.column, this.initialPick.row)
+				piece.toggle()
+				this.currMove.animate()
+				piece.tile.toggle()
+				this.currState = states.CHOOSE_PIECE
+
+				this.possMoves = eval(await promise)
+				this.getInitialPos()
 				break;
 			case states.PASS:
 				break;
@@ -239,9 +252,9 @@ class MyGameController {
 			case states.MOVIE:
 				break;
 			case states.LOAD:
-				this.board.makeBoardSurface(this.getCurrentBoard())
+				this.board.makeBoardSurface(this.boardProlog)
 				if(this.prevState == states.MENU && this.players[0] == 'player'){
-					this.possMoves = eval(await this.prologInterface.getPlayerMoves(this.getCurrentBoard(), 0))
+					this.possMoves = eval(await this.prologInterface.getPlayerMoves(this.board.board2NumberBoard(), 0))
 					this.getInitialPos()
 					this.currState = states.CHOOSE_PIECE
 					return

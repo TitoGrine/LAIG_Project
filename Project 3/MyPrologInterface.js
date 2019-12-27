@@ -15,8 +15,6 @@ class MyPrologInterface {
      */
     constructor(port) {
 		this.requestPort = port || 8081
-		this.prevBoards;
-		this.board;
 		this.points;
     }
 
@@ -65,30 +63,30 @@ class MyPrologInterface {
 		this.getPrologRequest(requestString, this.parseReply)
 	}
 
-	async getPlayerMoves(board, player) {
+	getPlayerMoves(board, player) {
 		let strBoard =  JSON.stringify(board)
 		let boardProlog = strBoard.replace(/0|1|2|3|4/g, this.js2prolog);
 		let requestString = `playerMoves(${boardProlog},${player})`;
 		return this.getPrologRequest(requestString)
 	}
 
-	movePlayer(board, player, move) {
-		this.prevBoards = board;
+	async movePlayer(board, player, move) {
 		let strBoard =  JSON.stringify(board)
 		let strMove =  JSON.stringify(move)
 		let boardProlog = strBoard.replace(/0|1|2|3|4/g, this.js2prolog);
 		let requestString = `movePlayer(${boardProlog},${player},${strMove})`;
-		this.getPrologRequest(requestString, this.parseBoardHandler)
-		this.boardDifferences(this.prevBoards, this.board)
+		let reply = await this.getPrologRequest(requestString)
+		let newBoard = this.parseBoardHandler(reply)
+		return this.boardDifferences(board, newBoard)
 	}
 
-	moveBot(board, player, difficulty) {
-		this.prevBoards = board;
+	async moveBot(board, player, difficulty) {
 		let strBoard =  JSON.stringify(board)
 		let boardProlog = strBoard.replace(/0|1|2|3|4/g, this.js2prolog);
 		let requestString = `moveBot(${boardProlog},${player},${difficulty})`;
-		this.getPrologRequest(requestString, this.parseBoardHandler)
-		this.boardDifferences(this.prevBoards, this.board)
+		let reply = await this.getPrologRequest(requestString)
+		let newBoard = this.parseBoardHandler(reply)
+		return this.boardDifferences(board, newBoard)
 	}
 
 	quit() {
@@ -110,22 +108,6 @@ class MyPrologInterface {
 			this.hasMoves = reply
 		else
 			this.points = reply
-	}
-		
-	getBoard(){
-		return this.board
-	}
-
-	getMoveList(){
-		return this.moves
-	}
-
-	getHasMoves(){
-		return this.hasMoves
-	}
-
-	getPoints(){
-		return this.points
 	}
 
 	js2prolog (x) {
@@ -199,7 +181,7 @@ class MyPrologInterface {
 		// Caculates Line Differences
 		let lineDiffs = this.lineDifferences(lineInfo.oldLine, lineInfo.newLine)
 
-		this.moveAssembler(lineInfo, lineDiffs)
+		return this.moveAssembler(lineInfo, lineDiffs)
 	}
 
 	/**
@@ -263,6 +245,6 @@ class MyPrologInterface {
 			else
 				moves.push([lineDiffs[i][0], lineInfo.index, lineDiffs[i][1], lineInfo.index])
 		}
-		this.moves = moves;
+		return moves;
 	}
 }
