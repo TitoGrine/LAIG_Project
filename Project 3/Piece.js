@@ -22,7 +22,11 @@ class Piece extends CGFobject {
         this.material = material;
 		this.toggled = false;
 
-		this.tile = Tile;
+        this.tile = Tile;
+        
+        this.animation = mat4.create();
+        mat4.identity(this.animation);
+
 		
 		// TODO: depois por como parametro e dar para mudar
 		this.selectable = true
@@ -53,7 +57,11 @@ class Piece extends CGFobject {
 
     getCoords(){
         return [this.column, this.row];
-	}
+    }
+    
+    updateAnimation(animation){
+        this.animation = animation;
+    }
 	    
     display(){
 		if (this.selectable)
@@ -64,6 +72,8 @@ class Piece extends CGFobject {
 			
         this.scene.pushMatrix();
         (this.toggled ? this.toggle_color.apply() : this.material.apply());
+        this.scene.multMatrix(this.animation);
+        //console.log(this.animation);
         this.scene.translate(this.column, 0.0, this.row);
         this.geometry.display();
 		this.scene.popMatrix();

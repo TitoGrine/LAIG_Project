@@ -14,6 +14,5 @@ class MyBasicMove extends MyGameMove {
 
 	animate(){
 		console.log('TODO: moving basic')
-		this.board.move(this.piece, this.initial, this.final)
 	}
 }

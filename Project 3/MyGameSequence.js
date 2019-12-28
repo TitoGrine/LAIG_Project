@@ -11,6 +11,10 @@ class MyGameSequence {
 		this.gameMoves.push(move)
 	}
 
+	getLastMove(){
+		return this.gameMoves.slice(-1).pop();
+	}
+
 	undo(){
 		return this.gameMoves.pop()
 	}

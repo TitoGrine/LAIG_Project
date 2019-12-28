@@ -25,7 +25,7 @@ class MyGameController {
 		this.prologInterface = new MyPrologInterface(8081)
 		this.theme = new MySceneGraph('board.xml', scene)
 		this.gameSequence = new MyGameSequence()
-		//this.animator = new MyAnimator()
+		this.animator = new MyAnimator(scene, this, this.gameSequence)
  
 
 		this.numPasses = 0
@@ -45,6 +45,8 @@ class MyGameController {
 
 		this.possMoves = []
 		this.moveSet = new Set()
+
+		this.curr_time = 0
 
 		this.currMove = null
 
@@ -136,7 +138,15 @@ class MyGameController {
 	}
 
 	update(time){
-		//this.animator.update(time)
+		if(!this.curr_time){
+			this.curr_time = time;
+			return
+		}
+
+		let elapsed_time = time - this.curr_time
+		this.animator.update(elapsed_time)
+
+		this.curr_time = time
 	}
 
 	highlightPossible(set){
@@ -218,7 +228,6 @@ class MyGameController {
 					this.currState = states.CHOOSE_PIECE
 					return
 				}
-				this.currState = states.MOVE
 
 				// TODO: prov(??)
 				this.highlightPossible(false)
@@ -227,14 +236,14 @@ class MyGameController {
 				this.currMove.addMoves(this.moves)
 				this.gameSequence.addMove(this.currMove)
 				this.nextState(null)
+
+				this.animator.start(new BasicAnimation(this.scene, 3), () => {this.currState = states.MOVE; this.nextState(null)})
+
 				break;
-			case states.MOVE:					
-				// TODO: Animate
+			case states.MOVE:
+
 				this.prevState = this.currState
-				let piece = this.board.getPiece(this.initialPick.column, this.initialPick.row)
-				piece.toggle()
-				this.currMove.animate()
-				piece.tile.toggle()
+			
 				this.currState = states.CHOOSE_PIECE
 				
 				// TODO: nextPlayer
@@ -302,7 +311,8 @@ class MyGameController {
 	display(){
 		this.theme.displayScene()
 		//this.board.display()
-		//this.animator.display()
+		console.log('Queue')
+		this.animator.display()
 	}
 	
 }
