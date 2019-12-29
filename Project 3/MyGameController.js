@@ -22,11 +22,13 @@ const mode = Object.freeze({
  */
 class MyGameController {
 	constructor(scene) {
+		this.scene =scene
 		this.prologInterface = new MyPrologInterface(8081)
 		this.theme = new MySceneGraph('board.xml', scene)
 		this.gameSequence = new MyGameSequence()
 		//this.animator = new MyAnimator()
  
+		this.clock = new Clock(scene, 10, () => {this.playerTimeout()})
 
 		this.numPasses = 0
 		this.currState = states.MENU
@@ -135,8 +137,48 @@ class MyGameController {
 		}
 	}
 
+	// TODO: para já
+	nextPlayer(){
+		this.currPlayer = (this.currPlayer + 1) % 2
+	}
+	
+	// // TODO: para já
+	async nextPlayerProc(promise){
+		this.currState = states.CHOOSE_PIECE
+
+		let this_promise = promise
+		if(this_promise == null || this_promise == undefined){
+			this.nextPlayer()
+			this_promise = this.prologInterface.getPlayerMoves(this.board.board2NumberBoard(), this.currPlayer)
+		}
+
+		this.possMoves = eval(await this_promise)
+		this.scene.setPickEnabled(true)
+		if(this.possMoves.length == 0){
+			this.currState = states.PASS
+			this.nextState(null)
+		}
+		else{
+			this.getInitialPos()
+			this.clock.restart()
+		}
+	}
+
+	playerTimeout(){
+		this.scene.setPickEnabled(false)
+		console.log("End of turn: next player")
+		this.highlightPossible(false)
+		if (this.currState==states.CHOOSE_FINAL){
+			let piece = this.board.getPiece(this.initialPick.column, this.initialPick.row)
+			this.initialPick = {column:0 , row: 0}
+			piece.toggle()
+		}
+		this.nextPlayerProc()
+	}
+
 	update(time){
 		//this.animator.update(time)
+		this.clock.update(time)
 	}
 
 	highlightPossible(set){
@@ -219,7 +261,7 @@ class MyGameController {
 					return
 				}
 				this.currState = states.MOVE
-
+				this.clock.pause()
 				// TODO: prov(??)
 				this.highlightPossible(false)
 				this.moves = await this.prologInterface.movePlayer(this.board.board2NumberBoard(), this.currPlayer, [this.initialPick.column, this.initialPick.row, position[0], position[1]])
@@ -235,21 +277,12 @@ class MyGameController {
 				piece.toggle()
 				this.currMove.animate()
 				piece.tile.toggle()
-				this.currState = states.CHOOSE_PIECE
 				
-				// TODO: nextPlayer
-				this.currPlayer = (this.currPlayer + 1) % 2
+				this.nextPlayer()
 				// TODO: passar isto para cima para ir calculando enquanto anima
 				let promise = this.prologInterface.getPlayerMoves(this.board.board2NumberBoard(), this.currPlayer)
 
-
-				this.possMoves = eval(await promise)
-				if(this.possMoves.length == 0){
-					this.currState = states.PASS
-					this.nextState(null)
-				}
-				else
-					this.getInitialPos()
+				this.nextPlayerProc(promise)
 				break;
 			case states.PASS:
 				this.prevState = this.currState
@@ -258,21 +291,11 @@ class MyGameController {
 					this.currState = states.END
 					this.nextState(null)
 				}
-				else{
-					this.currState = states.CHOOSE_PIECE
-					// TODO: nextPlayer
-					this.currPlayer = (this.currPlayer + 1) % 2
-					let promise = this.prologInterface.getPlayerMoves(this.board.board2NumberBoard(), this.currPlayer)
-					this.possMoves = eval(await promise)
-					if(this.possMoves.length == 0){
-						this.currState = states.PASS
-						this.nextState(null)
-					}
-					else
-						this.getInitialPos()
-				}
+				else
+					this.nextPlayerProc()
 				break;
 			case states.END:
+				this.clock.stop()
 				console.log("Game End")
 				let pBoard = this.board.board2NumberBoard()
 				let points0 = await this.prologInterface.getPlayerPoints(pBoard, 0)
@@ -285,14 +308,17 @@ class MyGameController {
 			case states.MOVIE:
 				break;
 			case states.LOAD:
+				this.clock.pause()
 				this.board.makeBoardSurface(this.boardProlog)
 				if(this.prevState == states.MENU && this.players[0] == 'player'){
 					this.possMoves = eval(await this.prologInterface.getPlayerMoves(this.board.board2NumberBoard(), 0))
 					this.getInitialPos()
 					this.currState = states.CHOOSE_PIECE
+					this.clock.play()
 					return
 				}
 				this.currState = this.prevState
+				this.clock.play()
 				break;
 			default:
 				break;
@@ -303,6 +329,7 @@ class MyGameController {
 		this.theme.displayScene()
 		//this.board.display()
 		//this.animator.display()
+		this.clock.display()
 	}
 	
 }

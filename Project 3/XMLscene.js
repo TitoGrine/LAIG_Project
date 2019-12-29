@@ -195,11 +195,19 @@ class XMLscene extends CGFscene {
 		// Check key values
 		this.checkKeys();
 
+        if (!this.time) {
+            this.time = t;
+            return;
+        }
+
+		let deltaT = t - this.time;
+        this.time = t;
+
 		// Updates animations
 		if(this.sceneInited){
 			this.graph.updateAnimations(t);
 		}
-		this.gameController.update(t)
+		this.gameController.update(deltaT)
 
 	}
 
