@@ -51,7 +51,7 @@ class BasicAnimation extends Animation{
 	 * @param {Current time when the function is called} time 
 	 */
 	update(elapsed_time){
-        super.update(elapsed_time);
+        // super.update(elapsed_time);
         
         let delta = elapsed_time / (this.span * 1000);
 
@@ -66,7 +66,7 @@ class BasicAnimation extends Animation{
             let animation_matrix = mat4.create();
             mat4.translate(animation_matrix, animation_matrix, animation_translation);
 
-            console.log(animation_matrix)
+            // console.log(animation_matrix)
 
             this.pieces[i].updateAnimation(animation_matrix);
         }
