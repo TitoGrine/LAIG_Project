@@ -77,6 +77,7 @@ class MyPrologInterface {
 		let requestString = `movePlayer(${boardProlog},${player},${strMove})`;
 		let reply = await this.getPrologRequest(requestString)
 		let newBoard = this.parseBoardHandler(reply)
+		console.log(newBoard)
 		return this.boardDifferences(board, newBoard)
 	}
 
@@ -217,9 +218,12 @@ class MyPrologInterface {
 			}
 		*/
 		// If the line was inverted, calculcate correct indexes
-		if(inverted)
+		if(inverted){
 			for(let j = 0; j < lineDiffs.length; j++)
 				lineDiffs[j] = [length - lineDiffs[j][0], length - lineDiffs[j][1]]
+			newLine.reverse()
+			oldLine.reverse()
+		}
 
 		return lineDiffs;
 	}
