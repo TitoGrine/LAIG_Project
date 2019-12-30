@@ -224,7 +224,7 @@ class MyGameController {
 		this.curr_time = time
 
 		this.animator.update(elapsed_time)
-		// this.clock.update(elapsed_time)
+		this.clock.update(elapsed_time)
 	}
 
 	highlightPossible(set){
@@ -377,7 +377,9 @@ class MyGameController {
 				this.prologInterface.setBoard(prevBoard)
 
 				this.scene.setPickEnabled(true)
-				if(!this.gameSequence.isEmpty() || this.gameMode == mode.PvB)
+				if(this.gameMode == mode.PvP)
+					this.nextPlayerProc()
+				else if(!this.gameSequence.isEmpty() || this.gameMode == mode.PvB)
 					this.nextPlayerProc("undo")
 				else
 					this.nextPlayerProc()
@@ -416,7 +418,7 @@ class MyGameController {
 		this.theme.displayScene()
 		//this.board.display()
 		this.animator.display()
-		// this.clock.display()
+		this.clock.display()
 	}
 	
 }
