@@ -30,7 +30,7 @@ class BasicAnimation extends Animation{
         }
     }
     
-    addMoves(moves){
+    addMoves(moves, type){
         super.addMoves(moves);
         
         this.pieces = [];
@@ -42,7 +42,7 @@ class BasicAnimation extends Animation{
             this.init_tiles.push(moves[i][1]);
             this.dest_tiles.push(moves[i][2]);
         }
-
+		this.type = type
         this.createAnimationMatrix();
 	}
 
@@ -92,7 +92,7 @@ class BasicAnimation extends Animation{
             board.move(this.pieces[i], this.init_tiles[i], this.dest_tiles[i]);
         }
 
-        this.pieces[0].tile.toggle();
-        
+		if(this.type == "player")
+       		this.pieces[0].tile.toggle();
 	}
 }

@@ -183,7 +183,7 @@ class MyGameController {
 				this.nextState(null)
 			}
 			else{
-				this.currMove = new MyGameMove(this.board, this.moves)
+				this.currMove = new MyGameMove(this.board, this.moves, this.players[this.currPlayer])
 				this.gameSequence.addMove(this.currMove)
 				this.nextState(null)
 			}
@@ -298,7 +298,7 @@ class MyGameController {
 				// TODO: prov(??)
 				this.highlightPossible(false)
 				this.moves = await this.prologInterface.movePlayer(this.currPlayer, [this.initialPick.column, this.initialPick.row, position[0], position[1]])
-				this.currMove = new MyGameMove(this.board, this.moves)
+				this.currMove = new MyGameMove(this.board, this.moves, this.players[this.currPlayer])
 				this.gameSequence.addMove(this.currMove)
 				this.nextState(null)
 				break;
@@ -361,7 +361,7 @@ class MyGameController {
 						this.currState = states.MOVE
 						this.prologInterface.moveBot(this.currPlayer, this.difficulty[this.currPlayer])
 						this.moves = await this.prologInterface.getBotMove()
-						this.currMove = new MyGameMove(this.board, this.moves)
+						this.currMove = new MyGameMove(this.board, this.moves, this.players[this.currPlayer])
 						this.gameSequence.addMove(this.currMove)
 						this.nextState(null)
 					}

@@ -3,7 +3,8 @@
  * 
  */
 class MyGameMove {
-	constructor(board, moves) {
+	constructor(board, moves, type) {
+		this.type = type
 		this.board = board
 		this.prologBoard = this.board.board2NumberBoard()
 		this.moves = []
@@ -14,6 +15,10 @@ class MyGameMove {
 
 	getMoves(){
 		return this.moves
+	}
+
+	getType(){
+		return this.type
 	}
 
 	animate(){

@@ -32,13 +32,13 @@ class MyAnimator {
         this.animation = animation;
         this.listener = listener;
 
-        let moves = this.game_sequence.getLastMove().getMoves();
+		let gameMove = this.game_sequence.getLastMove()
 
         //console.log(moves);
 
         this.span = this.animation.getSpan() * 1000;
         
-        this.animation.addMoves(moves);
+        this.animation.addMoves(gameMove.getMoves(), gameMove.getType());
     }
     
 	reset(){
