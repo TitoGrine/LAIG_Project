@@ -48,14 +48,14 @@ class MyPrologInterface {
 		let reply  = await this.getPrologRequest(requestString)
 		this.newBoard = this.parseBoardHandler(reply)
 	}
-
-	async getPlayerPoints(player) {
+	
+	getPlayerPoints(player) {
 		let strBoard =  JSON.stringify(this.newBoard)
 		let boardProlog = strBoard.replace(/0|1|2|3|4/g, this.js2prolog);
 		let requestString = `points(${boardProlog},${player})`;
-		return await this.getPrologRequest(requestString)
+		return this.getPrologRequest(requestString)
 	}
-	
+
 	// hasValidMoves(board, player) {
 	// 	let strBoard =  JSON.stringify(board)
 	// 	let boardProlog = strBoard.replace(/0|1|2|3|4/g, this.js2prolog);

@@ -1,3 +1,5 @@
+const ON_CLOCK = false
+
 const states = Object.freeze({
     MENU: 1,
     CHOOSE_PIECE: 2,
@@ -30,11 +32,12 @@ class MyGameController {
 		this.animator = new MyAnimator(scene, this, this.gameSequence)
  
 		this.clock = new Clock(scene, 10, () => {this.playerTimeout()})
+		this.score = new Score(scene, this.prologInterface)
 
 		this.numPasses = 0
 		this.currState = states.MENU
 		this.prevState = states.MENU
-		this.gameMode = mode.PvP
+		this.gameMode = mode.BvB
 
 		// TODO: mudar para classe
 		this.currPlayer = 0
@@ -148,6 +151,7 @@ class MyGameController {
 	
 	// // TODO: para já
 	async nextPlayerProc(promise){
+		await this.score.getPoints()
 		if(this.players[this.currPlayer] == "player"){
 			this.currState = states.CHOOSE_PIECE
 
@@ -176,18 +180,17 @@ class MyGameController {
 			return
 		}
 
-
-			this.currState = states.MOVE
-			this.moves = await this.prologInterface.getBotMove()
-			if(this.moves.length == 0){
-				this.currState = states.PASS
-				this.nextState(null)
-			}
-			else{
-				this.currMove = new MyGameMove(this.board, this.moves, this.players[this.currPlayer])
-				this.gameSequence.addMove(this.currMove)
-				this.nextState(null)
-			}
+		this.currState = states.MOVE
+		this.moves = await this.prologInterface.getBotMove()
+		if(this.moves.length == 0){
+			this.currState = states.PASS
+			this.nextState(null)
+		}
+		else{
+			this.currMove = new MyGameMove(this.board, this.moves, this.players[this.currPlayer])
+			this.gameSequence.addMove(this.currMove)
+			this.nextState(null)
+		}
 	}
 
 	undo(){
@@ -224,7 +227,8 @@ class MyGameController {
 		this.curr_time = time
 
 		this.animator.update(elapsed_time)
-		this.clock.update(elapsed_time)
+		if(ON_CLOCK)
+			this.clock.update(elapsed_time)
 	}
 
 	highlightPossible(set){
@@ -332,6 +336,7 @@ class MyGameController {
 			case states.MOVE:
 				this.numPasses = 0
 				this.prevState = this.currState
+				this.score.askForPoints()
 
 				this.nextPlayer()
 				let promise
@@ -365,9 +370,9 @@ class MyGameController {
 			case states.END:
 				this.clock.stop()
 				console.log("Game End")
-				let points0 = await this.prologInterface.getPlayerPoints(0)
-				let points1 = await this.prologInterface.getPlayerPoints(1)
-				console.log("Result: " + points0 + " - "+ points1)
+				// let points0 = await this.prologInterface.getPlayerPoints(0)
+				// let points1 = await this.prologInterface.getPlayerPoints(1)
+				// console.log("Result: " + points0 + " - "+ points1)
 				
 				break;
 			case states.UNDO:
@@ -375,6 +380,7 @@ class MyGameController {
 				this.resetHighlights(true)
 				let prevBoard = this.gameSequence.undo().getPrevBoard()
 				this.prologInterface.setBoard(prevBoard)
+				this.score.askForPoints()
 
 				this.scene.setPickEnabled(true)
 				if(this.gameMode == mode.PvP)
@@ -390,6 +396,8 @@ class MyGameController {
 				this.clock.pause()
 				this.board.makeBoardSurface(this.prologInterface.getBoard())
 				if(this.prevState == states.MENU){
+					this.score.askForPoints()
+					await this.score.getPoints()
 					if(this.players[this.currPlayer] == 'player'){
 						this.possMoves = eval(await this.prologInterface.getPlayerMoves(this.currPlayer))
 						this.getInitialPos()
@@ -418,7 +426,9 @@ class MyGameController {
 		this.theme.displayScene()
 		//this.board.display()
 		this.animator.display()
-		this.clock.display()
+		if(ON_CLOCK)
+			this.clock.display()
+		this.score.display()
 	}
 	
 }
