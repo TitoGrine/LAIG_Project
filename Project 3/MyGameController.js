@@ -151,7 +151,7 @@ class MyGameController {
 		let this_promise = promise
 		if(this_promise == null || this_promise == undefined){
 			this.nextPlayer()
-			this_promise = this.prologInterface.getPlayerMoves(this.board.board2NumberBoard(), this.currPlayer)
+			this_promise = this.prologInterface.getPlayerMoves(this.currPlayer)
 		}
 
 		this.possMoves = eval(await this_promise)
@@ -188,7 +188,7 @@ class MyGameController {
 		this.curr_time = time
 
 		this.animator.update(elapsed_time)
-		this.clock.update(elapsed_time)
+		// this.clock.update(elapsed_time)
 	}
 
 	highlightPossible(set){
@@ -231,7 +231,7 @@ class MyGameController {
 			case states.MENU:
 				this.prevState = this.currState
 				// TODO: mudar depois
-				this.boardProlog = await this.prologInterface.initializeBoard(this.dimensions.rows, this.dimensions.columns)
+				await this.prologInterface.initializeBoard(this.dimensions.rows, this.dimensions.columns)
 				this.currState = states.LOAD
 				
 				// TODO: provisorio
@@ -274,7 +274,7 @@ class MyGameController {
 				this.clock.pause()
 				// TODO: prov(??)
 				this.highlightPossible(false)
-				this.moves = await this.prologInterface.movePlayer(this.board.board2NumberBoard(), this.currPlayer, [this.initialPick.column, this.initialPick.row, position[0], position[1]])
+				this.moves = await this.prologInterface.movePlayer(this.currPlayer, [this.initialPick.column, this.initialPick.row, position[0], position[1]])
 				this.currMove = new MyGameMove(this.board)
 				this.currMove.addMoves(this.moves)
 				this.gameSequence.addMove(this.currMove)
@@ -286,12 +286,9 @@ class MyGameController {
 				this.prevState = this.currState
 
 				this.nextPlayer()
-				// TODO: passar isto para cima para ir calculando enquanto anima
-				let promise = this.prologInterface.getPlayerMoves(this.board.board2NumberBoard(), this.currPlayer)
-				// BUUUUUUUUUUUUUUG
-				// Tem aqui aquele bug pois ele começa a calcular os movimentos com o board no estado anterior
+				let promise = this.prologInterface.getPlayerMoves(this.currPlayer)
+
 				this.animator.start(new BasicAnimation(this.scene, 3), () => {this.nextPlayerProc(promise)})
-				// this.nextPlayerProc(promise)
 				break;
 			case states.PASS:
 				this.prevState = this.currState
@@ -306,9 +303,8 @@ class MyGameController {
 			case states.END:
 				this.clock.stop()
 				console.log("Game End")
-				let pBoard = this.board.board2NumberBoard()
-				let points0 = await this.prologInterface.getPlayerPoints(pBoard, 0)
-				let points1 = await this.prologInterface.getPlayerPoints(pBoard, 1)
+				let points0 = await this.prologInterface.getPlayerPoints(0)
+				let points1 = await this.prologInterface.getPlayerPoints(1)
 				console.log("Result: " + points0 + " - "+ points1)
 				
 				break;
@@ -318,9 +314,9 @@ class MyGameController {
 				break;
 			case states.LOAD:
 				this.clock.pause()
-				this.board.makeBoardSurface(this.boardProlog)
+				this.board.makeBoardSurface(this.prologInterface.getBoard())
 				if(this.prevState == states.MENU && this.players[0] == 'player'){
-					this.possMoves = eval(await this.prologInterface.getPlayerMoves(this.board.board2NumberBoard(), 0))
+					this.possMoves = eval(await this.prologInterface.getPlayerMoves(0))
 					this.getInitialPos()
 					this.currState = states.CHOOSE_PIECE
 					this.clock.play()
@@ -338,7 +334,7 @@ class MyGameController {
 		this.theme.displayScene()
 		//this.board.display()
 		this.animator.display()
-		this.clock.display()
+		// this.clock.display()
 	}
 	
 }

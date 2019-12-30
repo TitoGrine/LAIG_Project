@@ -46,11 +46,11 @@ class MyPrologInterface {
 	async initializeBoard(rows, columns) {
 		let requestString = `init_board(${rows},${columns})`;
 		let reply  = await this.getPrologRequest(requestString)
-		return this.parseBoardHandler(reply)
+		this.newBoard = this.parseBoardHandler(reply)
 	}
 
-	async getPlayerPoints(board, player) {
-		let strBoard =  JSON.stringify(board)
+	async getPlayerPoints(player) {
+		let strBoard =  JSON.stringify(this.newBoard)
 		let boardProlog = strBoard.replace(/0|1|2|3|4/g, this.js2prolog);
 		let requestString = `points(${boardProlog},${player})`;
 		return await this.getPrologRequest(requestString)
@@ -63,31 +63,32 @@ class MyPrologInterface {
 	// 	this.getPrologRequest(requestString, this.parseReply)
 	// }
 
-	getPlayerMoves(board, player) {
-		let strBoard =  JSON.stringify(board)
+	getPlayerMoves(player) {
+		let strBoard =  JSON.stringify(this.newBoard)
 		let boardProlog = strBoard.replace(/0|1|2|3|4/g, this.js2prolog);
 		let requestString = `playerMoves(${boardProlog},${player})`;
 		return this.getPrologRequest(requestString)
 	}
 
-	async movePlayer(board, player, move) {
-		let strBoard =  JSON.stringify(board)
+	async movePlayer(player, move) {
+		let prev = this.newBoard
+		let strBoard =  JSON.stringify(this.newBoard)
 		let strMove =  JSON.stringify(move)
 		let boardProlog = strBoard.replace(/0|1|2|3|4/g, this.js2prolog);
 		let requestString = `movePlayer(${boardProlog},${player},${strMove})`;
 		let reply = await this.getPrologRequest(requestString)
-		let newBoard = this.parseBoardHandler(reply)
-		console.log(newBoard)
-		return this.boardDifferences(board, newBoard)
+		this.newBoard = this.parseBoardHandler(reply)
+		return this.boardDifferences(prev, this.newBoard)
 	}
 
-	async moveBot(board, player, difficulty) {
-		let strBoard =  JSON.stringify(board)
+	async moveBot(player, difficulty) {
+		let prev = this.newBoard
+		let strBoard =  JSON.stringify(this.newBoard)
 		let boardProlog = strBoard.replace(/0|1|2|3|4/g, this.js2prolog);
 		let requestString = `moveBot(${boardProlog},${player},${difficulty})`;
 		let reply = await this.getPrologRequest(requestString)
-		let newBoard = this.parseBoardHandler(reply)
-		return this.boardDifferences(board, newBoard)
+		this.newBoard = this.parseBoardHandler(reply)
+		return this.boardDifferences(prev, this.newBoard)
 	}
 
 	quit() {
@@ -102,6 +103,9 @@ class MyPrologInterface {
 		return eval(replyParsed)
 	}
 
+	getBoard(){
+		return this.newBoard
+	}
 
 	js2prolog (x) {
 		switch (x) {
