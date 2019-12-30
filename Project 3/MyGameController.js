@@ -36,7 +36,7 @@ class MyGameController {
 		this.gameMode = mode.PvP
 
 		// TODO: mudar para classe
-		this.players = ['bot', 'bot']
+		this.players = ['player', 'bot']
 		this.currPlayer = 0
 
 		this.difficulty = [3, 4]
@@ -154,6 +154,11 @@ class MyGameController {
 			let this_promise = promise
 			if(this_promise == null || this_promise == undefined){
 				this.nextPlayer()
+				if(this.currPlayer != "player"){
+					this.prologInterface.moveBot(this.currPlayer, this.difficulty[this.currPlayer])
+					this.nextPlayerProc()
+					return
+				}
 				this_promise = this.prologInterface.getPlayerMoves(this.currPlayer)
 			}
 
@@ -320,6 +325,11 @@ class MyGameController {
 				else{
 					if(this.players[this.currPlayer] != "player"){
 						this.nextPlayer()
+						if(this.players[this.currPlayer] == "player"){
+							let promise = this.prologInterface.getPlayerMoves(this.currPlayer)
+							this.nextPlayerProc(promise)
+							return
+						}
 						this.prologInterface.moveBot(this.currPlayer, this.difficulty[this.currPlayer])
 					}
 					this.nextPlayerProc()
