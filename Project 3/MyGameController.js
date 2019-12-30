@@ -34,7 +34,7 @@ class MyGameController {
 		this.numPasses = 0
 		this.currState = states.MENU
 		this.prevState = states.MENU
-		this.gameMode = mode.PvB
+		this.gameMode = mode.PvP
 
 		// TODO: mudar para classe
 		this.currPlayer = 0
@@ -192,6 +192,7 @@ class MyGameController {
 
 	undo(){
 		if(!this.gameSequence.isEmpty() && mode.BvB != this.gameMode){
+			this.prevState = this.currState
 			this.currState = states.UNDO
 			this.nextState()
 		}
@@ -200,13 +201,17 @@ class MyGameController {
 	playerTimeout(){
 		this.scene.setPickEnabled(false)
 		console.log("End of turn: next player")
+		this.resetHighlights(false)
+		this.nextPlayerProc()
+	}
+
+	resetHighlights(prev){
 		this.highlightPossible(false)
-		if (this.currState==states.CHOOSE_FINAL){
+		if ((prev ? this.prevState : this.currState)==states.CHOOSE_FINAL){
 			let piece = this.board.getPiece(this.initialPick.column, this.initialPick.row)
 			this.initialPick = {column:0 , row: 0}
 			piece.toggle()
 		}
-		this.nextPlayerProc()
 	}
 
 	update(time){
@@ -367,6 +372,7 @@ class MyGameController {
 				break;
 			case states.UNDO:
 				this.scene.setPickEnabled(false)
+				this.resetHighlights(true)
 				let prevBoard = this.gameSequence.undo().getPrevBoard()
 				this.prologInterface.setBoard(prevBoard)
 
