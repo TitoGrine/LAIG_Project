@@ -81,12 +81,18 @@ class MyPrologInterface {
 		return this.boardDifferences(prev, this.newBoard)
 	}
 
-	async moveBot(player, difficulty) {
-		let prev = this.newBoard
+	moveBot(player, difficulty) {
 		let strBoard =  JSON.stringify(this.newBoard)
 		let boardProlog = strBoard.replace(/0|1|2|3|4/g, this.js2prolog);
 		let requestString = `moveBot(${boardProlog},${player},${difficulty})`;
-		let reply = await this.getPrologRequest(requestString)
+		this.botPromise = this.getPrologRequest(requestString)
+	}
+
+	async getBotMove(){
+		let prev = this.newBoard
+		let reply = await this.botPromise
+		if("false" == reply)
+			return []
 		this.newBoard = this.parseBoardHandler(reply)
 		return this.boardDifferences(prev, this.newBoard)
 	}

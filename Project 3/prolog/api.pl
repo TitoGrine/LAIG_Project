@@ -57,6 +57,6 @@ playerMove(Board, Player, Move, NewBoard) :-
 % Player: 0 or 1
 % Difficulty: 0 .. 4
 botMove(Board, Player, Difficulty, NewBoard) :-
-	choose_move(Board, [Player, bot], NewMove, Difficulty - _),
-	move(Board, NewMove, NewBoard, Player).
+	(choose_move(Board, [Player, bot], NewMove, Difficulty - _),
+	move(Board, NewMove, NewBoard, Player)) ; NewBoard = false.
 

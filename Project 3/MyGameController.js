@@ -36,8 +36,10 @@ class MyGameController {
 		this.gameMode = mode.PvP
 
 		// TODO: mudar para classe
-		this.players = ['player', 'player']
+		this.players = ['bot', 'bot']
 		this.currPlayer = 0
+
+		this.difficulty = [3, 4]
 
 		this.initialPick = {column: 0, row: 0}
 		this.dimensions = {columns: 4, rows: 4}
@@ -146,24 +148,40 @@ class MyGameController {
 	
 	// // TODO: para já
 	async nextPlayerProc(promise){
-		this.currState = states.CHOOSE_PIECE
+		if(this.players[this.currPlayer] == "player"){
+			this.currState = states.CHOOSE_PIECE
 
-		let this_promise = promise
-		if(this_promise == null || this_promise == undefined){
-			this.nextPlayer()
-			this_promise = this.prologInterface.getPlayerMoves(this.currPlayer)
+			let this_promise = promise
+			if(this_promise == null || this_promise == undefined){
+				this.nextPlayer()
+				this_promise = this.prologInterface.getPlayerMoves(this.currPlayer)
+			}
+
+			this.possMoves = eval(await this_promise)
+			this.scene.setPickEnabled(true)
+			if(this.possMoves.length == 0){
+				this.currState = states.PASS
+				this.nextState(null)
+			}
+			else{
+				this.getInitialPos()
+				this.clock.restart()
+			}
+			return
 		}
 
-		this.possMoves = eval(await this_promise)
-		this.scene.setPickEnabled(true)
-		if(this.possMoves.length == 0){
-			this.currState = states.PASS
-			this.nextState(null)
-		}
-		else{
-			this.getInitialPos()
-			this.clock.restart()
-		}
+
+			this.currState = states.MOVE
+			this.moves = await this.prologInterface.getBotMove()
+			if(this.moves.length == 0){
+				this.currState = states.PASS
+				this.nextState(null)
+			}
+			else{
+				this.currMove = new MyGameMove(this.board, this.moves)
+				this.gameSequence.addMove(this.currMove)
+				this.nextState(null)
+			}
 	}
 
 	playerTimeout(){
@@ -239,8 +257,8 @@ class MyGameController {
 				this.nextState(null)
 				break;
 			case states.CHOOSE_PIECE:
-				this.numPasses = 0
 				this.prevState = this.currState
+				// TODO: ver isto, acho q desncessario
 				if(this.promise != null){
 					this.possMoves = eval(await this.promise);
 					this.promise = null
@@ -275,20 +293,22 @@ class MyGameController {
 				// TODO: prov(??)
 				this.highlightPossible(false)
 				this.moves = await this.prologInterface.movePlayer(this.currPlayer, [this.initialPick.column, this.initialPick.row, position[0], position[1]])
-				this.currMove = new MyGameMove(this.board)
-				this.currMove.addMoves(this.moves)
+				this.currMove = new MyGameMove(this.board, this.moves)
 				this.gameSequence.addMove(this.currMove)
 				this.nextState(null)
-
 				break;
 			case states.MOVE:
-
+				this.numPasses = 0
 				this.prevState = this.currState
 
 				this.nextPlayer()
-				let promise = this.prologInterface.getPlayerMoves(this.currPlayer)
+				let promise
+				if(this.players[this.currPlayer] == 'player')
+					promise = this.prologInterface.getPlayerMoves(this.currPlayer)
+				else
+					this.prologInterface.moveBot(this.currPlayer, this.difficulty[this.currPlayer])
 
-				this.animator.start(new BasicAnimation(this.scene, 3), () => {this.nextPlayerProc(promise)})
+				this.animator.start(new BasicAnimation(this.scene, 1), () => {this.nextPlayerProc(promise)})
 				break;
 			case states.PASS:
 				this.prevState = this.currState
@@ -297,8 +317,13 @@ class MyGameController {
 					this.currState = states.END
 					this.nextState(null)
 				}
-				else
+				else{
+					if(this.players[this.currPlayer] != "player"){
+						this.nextPlayer()
+						this.prologInterface.moveBot(this.currPlayer, this.difficulty[this.currPlayer])
+					}
 					this.nextPlayerProc()
+				}
 				break;
 			case states.END:
 				this.clock.stop()
@@ -315,11 +340,21 @@ class MyGameController {
 			case states.LOAD:
 				this.clock.pause()
 				this.board.makeBoardSurface(this.prologInterface.getBoard())
-				if(this.prevState == states.MENU && this.players[0] == 'player'){
-					this.possMoves = eval(await this.prologInterface.getPlayerMoves(0))
-					this.getInitialPos()
-					this.currState = states.CHOOSE_PIECE
-					this.clock.play()
+				if(this.prevState == states.MENU){
+					if(this.players[this.currPlayer] == 'player'){
+						this.possMoves = eval(await this.prologInterface.getPlayerMoves(this.currPlayer))
+						this.getInitialPos()
+						this.currState = states.CHOOSE_PIECE
+						this.clock.play()
+					}
+					else {
+						this.currState = states.MOVE
+						this.prologInterface.moveBot(this.currPlayer, this.difficulty[this.currPlayer])
+						this.moves = await this.prologInterface.getBotMove()
+						this.currMove = new MyGameMove(this.board, this.moves)
+						this.gameSequence.addMove(this.currMove)
+						this.nextState(null)
+					}
 					return
 				}
 				this.currState = this.prevState

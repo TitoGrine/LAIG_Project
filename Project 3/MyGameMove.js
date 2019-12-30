@@ -3,12 +3,8 @@
  * 
  */
 class MyGameMove {
-	constructor(board) {
-		// TODO: depois isto n vai ser assim tão simples de dar pop pq vai ser alterado
+	constructor(board, moves) {
 		this.board = board
-	}
-
-	addMoves(moves){
 		this.prologBoard = this.board.board2NumberBoard()
 		this.moves = []
 		// TODO: ver se separado para controlar animações ou feito por submobvimentos (como está)
