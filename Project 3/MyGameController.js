@@ -12,8 +12,9 @@ const states = Object.freeze({
 
 const mode = Object.freeze({
     PvP: 1,
-    PvB: 2,
-    BvB: 3,
+	PvB: 2,
+	BvP: 3,
+    BvB: 4,
 });
 
 /**
@@ -36,7 +37,6 @@ class MyGameController {
 		this.gameMode = mode.PvB
 
 		// TODO: mudar para classe
-		this.players = ['bot', 'player']
 		this.currPlayer = 0
 
 		this.difficulty = [3, 4]
@@ -152,8 +152,9 @@ class MyGameController {
 			this.currState = states.CHOOSE_PIECE
 
 			let this_promise = promise
-			if(this_promise == null || this_promise == undefined){
-				this.nextPlayer()
+			if(this_promise == null || this_promise == undefined || this_promise == "undo"){
+				if(this_promise != "undo")
+					this.nextPlayer()
 				if(this.players[this.currPlayer] != "player"){
 					this.prologInterface.moveBot(this.currPlayer, this.difficulty[this.currPlayer])
 					this.nextPlayerProc()
@@ -255,6 +256,19 @@ class MyGameController {
 		}
 	}
 
+	gameMode2array(){
+		switch (this.gameMode) {
+			case mode.PvP:
+				return ["player", "player"]
+			case mode.PvB:
+				return ["player", "bot"]
+			case mode.BvP:
+				return ["bot", "player"]
+			case mode.BvB:
+				return ["bot", "bot"]
+		}
+	}
+
 	async nextState(position){
 
 		switch (this.currState) {
@@ -263,6 +277,7 @@ class MyGameController {
 				// TODO: mudar depois
 				await this.prologInterface.initializeBoard(this.dimensions.rows, this.dimensions.columns)
 				this.currState = states.LOAD
+				this.players = this.gameMode2array()
 				
 				// TODO: provisorio
 				// -> Load
@@ -356,7 +371,10 @@ class MyGameController {
 				this.prologInterface.setBoard(prevBoard)
 
 				this.scene.setPickEnabled(true)
-				this.nextPlayerProc()
+				if(!this.gameSequence.isEmpty() || this.gameMode == mode.PvB)
+					this.nextPlayerProc("undo")
+				else
+					this.nextPlayerProc()
 				break;
 			case states.MOVIE:
 				break;
