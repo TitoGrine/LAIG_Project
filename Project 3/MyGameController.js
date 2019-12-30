@@ -33,10 +33,10 @@ class MyGameController {
 		this.numPasses = 0
 		this.currState = states.MENU
 		this.prevState = states.MENU
-		this.gameMode = mode.PvP
+		this.gameMode = mode.PvB
 
 		// TODO: mudar para classe
-		this.players = ['player', 'bot']
+		this.players = ['bot', 'player']
 		this.currPlayer = 0
 
 		this.difficulty = [3, 4]
@@ -154,7 +154,7 @@ class MyGameController {
 			let this_promise = promise
 			if(this_promise == null || this_promise == undefined){
 				this.nextPlayer()
-				if(this.currPlayer != "player"){
+				if(this.players[this.currPlayer] != "player"){
 					this.prologInterface.moveBot(this.currPlayer, this.difficulty[this.currPlayer])
 					this.nextPlayerProc()
 					return
@@ -189,6 +189,13 @@ class MyGameController {
 			}
 	}
 
+	undo(){
+		if(!this.gameSequence.isEmpty() && mode.BvB != this.gameMode){
+			this.currState = states.UNDO
+			this.nextState()
+		}
+	}
+
 	playerTimeout(){
 		this.scene.setPickEnabled(false)
 		console.log("End of turn: next player")
@@ -211,7 +218,7 @@ class MyGameController {
 		this.curr_time = time
 
 		this.animator.update(elapsed_time)
-		this.clock.update(elapsed_time)
+		// this.clock.update(elapsed_time)
 	}
 
 	highlightPossible(set){
@@ -344,6 +351,12 @@ class MyGameController {
 				
 				break;
 			case states.UNDO:
+				this.scene.setPickEnabled(false)
+				let prevBoard = this.gameSequence.undo().getPrevBoard()
+				this.prologInterface.setBoard(prevBoard)
+
+				this.scene.setPickEnabled(true)
+				this.nextPlayerProc()
 				break;
 			case states.MOVIE:
 				break;
@@ -379,7 +392,7 @@ class MyGameController {
 		this.theme.displayScene()
 		//this.board.display()
 		this.animator.display()
-		this.clock.display()
+		// this.clock.display()
 	}
 	
 }

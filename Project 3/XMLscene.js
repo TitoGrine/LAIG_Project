@@ -186,6 +186,8 @@ class XMLscene extends CGFscene {
 		// Check for key codes e.g. in ​https://keycode.info/
 		if (this.gui.isKeyPressed("KeyM"))
 			this.graph.nextMaterial();
+		else if(this.gui.isKeyPressed("KeyU"))
+			this.gameController.undo()
 	}
 
 	/**

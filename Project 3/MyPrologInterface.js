@@ -113,6 +113,10 @@ class MyPrologInterface {
 		return this.newBoard
 	}
 
+	setBoard(board){
+		this.newBoard = board
+	}
+
 	js2prolog (x) {
 		switch (x) {
 			case '0':
