@@ -211,7 +211,7 @@ class MyGameController {
 		this.curr_time = time
 
 		this.animator.update(elapsed_time)
-		// this.clock.update(elapsed_time)
+		this.clock.update(elapsed_time)
 	}
 
 	highlightPossible(set){
@@ -379,7 +379,7 @@ class MyGameController {
 		this.theme.displayScene()
 		//this.board.display()
 		this.animator.display()
-		// this.clock.display()
+		this.clock.display()
 	}
 	
 }
