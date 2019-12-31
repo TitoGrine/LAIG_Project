@@ -41,9 +41,11 @@ class XMLscene extends CGFscene {
 		this.materialsStack = []; 
 
 		this.displayAxis = true;
-		this.displayLights = true;
+		this.displayLights = false;
 
 		this.gameController = new MyGameController(this)
+
+		this.replaying = new RedMeansRecording(this);
 
 		this.setUpdatePeriod(100);
 		this.setPickEnabled(true);
@@ -86,7 +88,7 @@ class XMLscene extends CGFscene {
                     this.lights[i].setSpotDirection(light[9][0] - light[2][0], light[9][1] - light[2][1], light[9][2]- light[2][2]);
                 }
 
-                this.lights[i].setVisible(true);
+                this.lights[i].setVisible(this.displayLights);
                 if (light[0])
                     this.lights[i].enable();
                 else
@@ -126,8 +128,8 @@ class XMLscene extends CGFscene {
 		this.camera = this.graph.views[this.graph.defView];
 		
 		this.interface.setActiveCamera(this.camera);
-		this.interface.addLightsGUI();
-        this.interface.addCamerasGUI();
+		//this.interface.addLightsGUI();
+        //this.interface.addCamerasGUI();
 		
 		this.sceneInited = true;
 
@@ -186,6 +188,9 @@ class XMLscene extends CGFscene {
 		// Check for key codes e.g. in ​https://keycode.info/
 		if (this.gui.isKeyPressed("KeyM"))
 			this.graph.nextMaterial();
+
+		if (this.gui.isKeyPressed("KeyF"))
+			this.gameController.startFilm();
 	}
 
 	/**
@@ -199,8 +204,12 @@ class XMLscene extends CGFscene {
 		if(this.sceneInited){
 			this.graph.updateAnimations(t);
 		}
-		this.gameController.update(t)
 
+		this.gameController.update(t);
+
+		if(this.gameController.replaying){
+			this.replaying.setTimeFactor(t);
+		}
 	}
 
 	/**
@@ -248,6 +257,12 @@ class XMLscene extends CGFscene {
 
 			// Displays the scene (MySceneGraph function).
 			this.gameController.display()
+
+			if(this.gameController.replaying){
+				this.gl.disable(this.gl.DEPTH_TEST);
+				this.replaying.display();
+				this.gl.enable(this.gl.DEPTH_TEST);
+			}
         }
 
         this.popMatrix();

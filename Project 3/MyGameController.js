@@ -6,7 +6,7 @@ const states = Object.freeze({
 	PASS: 5,
 	END: 6,
 	UNDO: 7,
-	MOVIE: 8,
+	FILM: 8,
 	LOAD: 9,
 });
 
@@ -36,7 +36,7 @@ class MyGameController {
 		this.gameMode = mode.PvP
 
 		// TODO: mudar para classe
-		this.players = ['player', 'bot']
+		this.players = ['player', 'player']
 		this.currPlayer = 0
 
 		this.difficulty = [3, 4]
@@ -46,6 +46,7 @@ class MyGameController {
 
 		this.promise = null;
 		this.misClicks = 0
+		this.pressedFKey = false;
 
 		this.possMoves = []
 		this.moveSet = new Set()
@@ -53,7 +54,7 @@ class MyGameController {
 		this.curr_time = 0
 
 		this.currMove = null
-
+		this.replaying = false
 	}
 
 	setBoard(){
@@ -155,7 +156,7 @@ class MyGameController {
 			if(this_promise == null || this_promise == undefined){
 				this.nextPlayer()
 				if(this.currPlayer != "player"){
-					this.prologInterface.moveBot(this.currPlayer, this.difficulty[this.currPlayer])
+					//this.prologInterface.moveBot(this.currPlayer, this.difficulty[this.currPlayer])
 					this.nextPlayerProc()
 					return
 				}
@@ -177,7 +178,7 @@ class MyGameController {
 
 
 			this.currState = states.MOVE
-			this.moves = await this.prologInterface.getBotMove()
+			//this.moves = await this.prologInterface.getBotMove()
 			if(this.moves.length == 0){
 				this.currState = states.PASS
 				this.nextState(null)
@@ -201,6 +202,52 @@ class MyGameController {
 		this.nextPlayerProc()
 	}
 
+	afterAnimation() {
+		if(this.pressedFKey){
+			this.pressedFKey = false
+			this.startFilm()
+		}
+
+		return
+	}
+
+	startFilm() {
+
+		if(this.currState == states.MOVE){
+			this.pressedFKey = true
+			return
+		}
+		this.alted_position = null
+
+		this.clock.pause()
+
+		this.replaying = true
+
+		this.moveIndex = 0
+		this.misClicks = 0
+		this.board.resetBoard()
+		this.highlightPossible(false)
+		this.film_game_sequence = new MyGameSequence()
+		
+		this.alted_state = this.currState
+		this.currState = states.FILM
+		this.nextState(null)
+	}
+
+	endFilm() {
+		this.currState = this.alted_state
+
+		let promise
+		if(this.players[this.currPlayer] == 'player')
+			promise = this.prologInterface.getPlayerMoves(this.currPlayer)
+		else
+		this.prologInterface.moveBot(this.currPlayer, this.difficulty[this.currPlayer])
+
+		this.nextPlayerProc(promise)
+
+		this.replaying = false
+	}
+
 	update(time){
 		if(!this.curr_time){
 			this.curr_time = time;
@@ -211,7 +258,7 @@ class MyGameController {
 		this.curr_time = time
 
 		this.animator.update(elapsed_time)
-		this.clock.update(elapsed_time)
+		//this.clock.update(elapsed_time)
 	}
 
 	highlightPossible(set){
@@ -313,7 +360,7 @@ class MyGameController {
 				else
 					this.prologInterface.moveBot(this.currPlayer, this.difficulty[this.currPlayer])
 
-				this.animator.start(new BasicAnimation(this.scene, 1), () => {this.nextPlayerProc(promise)})
+				this.animator.start(this.gameSequence, new BasicAnimation(this.scene, 1), () => {this.nextPlayerProc(promise); this.afterAnimation()})
 				break;
 			case states.PASS:
 				this.prevState = this.currState
@@ -345,7 +392,23 @@ class MyGameController {
 				break;
 			case states.UNDO:
 				break;
-			case states.MOVIE:
+			case states.FILM:
+				
+				if(this.gameSequence.getNumberMoves() == this.moveIndex){
+					this.endFilm()
+					break
+				}
+
+				await new Promise(r => setTimeout(r, 500))
+
+				// TODO: prov(??)
+				this.highlightPossible(false)
+				let move = this.gameSequence.getMove(this.moveIndex)
+				console.log(move)
+				this.film_game_sequence.addMove(move)
+
+				this.animator.start(this.film_game_sequence, new BasicAnimation(this.scene, 1), () => {this.moveIndex++; this.nextState(null); this.afterAnimation()})
+				
 				break;
 			case states.LOAD:
 				this.clock.pause()
@@ -379,7 +442,7 @@ class MyGameController {
 		this.theme.displayScene()
 		//this.board.display()
 		this.animator.display()
-		this.clock.display()
+		//this.clock.display()
 	}
 	
 }

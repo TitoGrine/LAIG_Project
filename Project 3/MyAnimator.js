@@ -5,10 +5,9 @@
  * 
  */
 class MyAnimator {
-	constructor(scene, orchestrator, game_sequence) {
+	constructor(scene, orchestrator) {
         this.scene = scene;
         this.game_orchestrator = orchestrator;
-        this.game_sequence = game_sequence;
         this.animation = null;
         this.current_time = 0;
         this.span = 0;
@@ -28,13 +27,12 @@ class MyAnimator {
         }
 	}
 
-	start(animation, listener){
+	start(game_sequence, animation, listener){
         this.animation = animation;
         this.listener = listener;
+        this.game_sequence = game_sequence;
 
 		let gameMove = this.game_sequence.getLastMove()
-
-        //console.log(moves);
 
         this.span = this.animation.getSpan() * 1000;
         

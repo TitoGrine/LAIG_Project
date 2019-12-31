@@ -11,6 +11,10 @@ class Animation {
 
 	addMoves(moves){
 		this.moves = moves;
+
+		if(moves.length){
+			moves[0][0].toggle_off();
+		}
 	}
 
 	getSpan() {
@@ -28,6 +32,8 @@ class Animation {
 	 * Apply animation function requires implementation
 	 */
 	apply(){
-		throw 'Animation: Implement apply function';
+
+		if(this.type == "player")
+			this.moves[0][2].toggle_off();
 	}
 }

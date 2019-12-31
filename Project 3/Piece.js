@@ -15,6 +15,8 @@ class Piece extends CGFobject {
 
 		this.id = id
 		this.type = type
+        this.starting_row = row;
+        this.starting_column = column;
         this.row = row;
 		this.column = column;
 
@@ -51,6 +53,14 @@ class Piece extends CGFobject {
 		this.id = id
     }
 
+    toggle_on(){
+        this.toggled = true;
+    }
+
+    toggle_off(){
+        this.toggled = false;
+    }
+
     toggle(){
         this.toggled = !this.toggled;
     }
@@ -61,6 +71,11 @@ class Piece extends CGFobject {
     
     updateAnimation(animation){
         this.animation = animation;
+    }
+
+    reset(){
+        this.row = this.starting_row;
+		this.column = this.starting_column;
     }
 	    
     display(){

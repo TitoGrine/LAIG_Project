@@ -165,7 +165,21 @@ class Board extends CGFobject {
 
 	isHighlighted(){
 		return this.highlight
-	}
+    }
+    
+    resetBoard(){
+        for(let row = 0; row < this.rows + 2; row++){
+            for(let column = 0; column < this.columns + 2; column++){
+                let piece = this.getPiece(column, row)
+
+                if(piece){
+                    let starting_tile = this.getTile(piece.starting_column, piece.starting_row)
+                    let current_tile = this.getTile(column, row)
+                    this.move(piece, current_tile, starting_tile)
+                }
+            }
+        }
+    }
 	
     display(){
 		if(!this.boardInit)

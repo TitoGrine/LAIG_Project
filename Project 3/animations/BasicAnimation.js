@@ -32,7 +32,7 @@ class BasicAnimation extends Animation{
     
     addMoves(moves, type){
         super.addMoves(moves);
-        
+    
         this.pieces = [];
         this.init_tiles = [];
         this.dest_tiles = [];
@@ -42,6 +42,7 @@ class BasicAnimation extends Animation{
             this.init_tiles.push(moves[i][1]);
             this.dest_tiles.push(moves[i][2]);
         }
+
 		this.type = type
         this.createAnimationMatrix();
 	}
@@ -61,8 +62,10 @@ class BasicAnimation extends Animation{
 
     updateAnimations(delta){
 
+        let effective_delta = Math.min(delta, 1.0); // Stops piece from overflowing
+
         for(let i = 0; i < this.pieces.length; i++){
-            let animation_translation = [this.translations[i][0] * delta, Math.sin(this.translations[i][1] * delta), this.translations[i][2] * delta];
+            let animation_translation = [this.translations[i][0] * effective_delta, Math.sin(this.translations[i][1] * effective_delta), this.translations[i][2] * effective_delta];
             let animation_matrix = mat4.create();
             mat4.translate(animation_matrix, animation_matrix, animation_translation);
 
@@ -87,12 +90,13 @@ class BasicAnimation extends Animation{
 	 */
 	apply(board){
 
+        super.apply()
+
         for(let i = this.pieces.length - 1; i >= 0; i--){
             this.pieces[i].updateAnimation(identity);
             board.move(this.pieces[i], this.init_tiles[i], this.dest_tiles[i]);
         }
 
-		if(this.type == "player")
-       		this.pieces[0].tile.toggle();
+		
 	}
 }

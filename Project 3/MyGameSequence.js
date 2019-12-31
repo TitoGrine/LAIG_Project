@@ -11,8 +11,19 @@ class MyGameSequence {
 		this.gameMoves.push(move)
 	}
 
+	getMove(moveIndex){
+		if(moveIndex >= 0 && moveIndex < this.gameMoves.length)
+			return this.gameMoves[moveIndex]
+		else
+			return null
+	}
+
 	getLastMove(){
-		return this.gameMoves.slice(-1).pop();
+		return this.gameMoves.slice(-1).pop()
+	}
+
+	getNumberMoves(){
+		return this.gameMoves.length
 	}
 
 	undo(){

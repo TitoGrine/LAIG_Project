@@ -64,11 +64,16 @@ class Tile extends CGFobject {
 		return this.highlight
 	}
 
+	toggle_on(){
+        this.toggled = true;
+    }
+
+    toggle_off(){
+        this.toggled = false;
+    }
 
     toggle(){
         this.toggled = !this.toggled;
-        // if(this.piece)
-        //   this.piece.togglePiece();
 	}
 	
 	setHighlight(bool){

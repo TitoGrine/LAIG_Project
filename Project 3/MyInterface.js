@@ -21,9 +21,9 @@ class MyInterface extends CGFinterface {
         this.gui = new dat.GUI();
 
 		// Display Axis CheckBox
-		this.gui.add(this.scene, 'displayAxis').name('Axis');  
+		//this.gui.add(this.scene, 'displayAxis').name('Axis');  
 		// CheckBox to set the lights as visible 
-		this.gui.add(this.scene, 'displayLights').name('Lights Visible').onChange(this.scene.turnOffLights.bind(this.scene));
+		//this.gui.add(this.scene, 'displayLights').name('Lights Visible').onChange(this.scene.turnOffLights.bind(this.scene));
 
 		this.initKeys();
 		
