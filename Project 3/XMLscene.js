@@ -133,8 +133,7 @@ class XMLscene extends CGFscene {
 
 		// TODO: tirar depois
 		// Menu -> Load
-		this.gameController.setBoard()
-		this.gameController.nextState(null)
+		this.gameController.init()
 	}
 
 	/**

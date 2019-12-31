@@ -1,4 +1,4 @@
-const ON_CLOCK = false
+const ON_CLOCK = true
 
 const states = Object.freeze({
     MENU: 1,
@@ -30,14 +30,12 @@ class MyGameController {
 		this.theme = new MySceneGraph('board.xml', scene)
 		this.gameSequence = new MyGameSequence()
 		this.animator = new MyAnimator(scene, this, this.gameSequence)
- 
-		this.clock = new Clock(scene, 10, () => {this.playerTimeout()})
-		this.score = new Score(scene, this.prologInterface)
+	
 
 		this.numPasses = 0
 		this.currState = states.MENU
 		this.prevState = states.MENU
-		this.gameMode = mode.BvB
+		this.gameMode = mode.PvP
 
 		// TODO: mudar para classe
 		this.currPlayer = 0
@@ -59,6 +57,13 @@ class MyGameController {
 
 	}
 
+	init(){
+		this.clock = new Clock(this.scene, 10, () => {this.playerTimeout()})
+		this.score = new Score(this.scene, this.prologInterface)
+
+		this.setBoard()
+		this.nextState(null)
+	}
 	setBoard(){
 		// TODO: mudar
 		this.board = this.theme.components['board'].component.children[0]

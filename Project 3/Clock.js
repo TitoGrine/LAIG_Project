@@ -18,6 +18,8 @@ class Clock extends CGFobject{
 		this.currTimeMs = time * 1000
 		this.state = clock_states.STOP
 		this.listener = listener
+		this.font = new MyFont(scene, "TIMER: ")
+
 	}
 
 	getCurrTime(){
@@ -64,6 +66,12 @@ class Clock extends CGFobject{
 	
 	display(){
 		// TODO: fazer
-		console.log("Curr Time: " + this.getCurrTime())
+		this.scene.pushMatrix()
+		this.scene.translate(0, -2, 0)
+		this.font.setString("TIMER: " + this.getCurrTime())
+		this.font.display()
+		this.scene.popMatrix()
+
+		// console.log("Curr Time: " + this.getCurrTime())
 	}
 }
