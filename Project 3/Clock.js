@@ -11,14 +11,20 @@ const clock_states = Object.freeze({
  * 
  */
 class Clock extends CGFobject{
-	constructor(scene, time, listener) {
+	constructor(scene, time, listener, font) {
 		super(scene)
 
 		this.initialTime = time;
 		this.currTimeMs = time * 1000
 		this.state = clock_states.STOP
 		this.listener = listener
-		this.font = new MyFont(scene, "TIMER: ")
+
+		this.x = font.x
+		this.y = font.y
+		this.height = font.height
+		this.width = font.width
+
+		this.font = new MyFont(scene, "TIMER: ", this.x, this.y - 2 * this.height, this.width, this.height)
 
 	}
 

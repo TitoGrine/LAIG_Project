@@ -4,10 +4,15 @@
  * 
  */
 class MyFont extends CGFobject{
-	constructor(scene, string) {
+	constructor(scene, string, x, y, width, height) {
 		super(scene)
 
 		this.string = string
+		this.width = width
+		this.height = height
+		this.x = x
+		this.y = y
+		this.buildString()
 
 		this.appearance = new CGFappearance(this.scene);
 		this.appearance.setAmbient(0.3, 0.3, 0.3, 1);
@@ -21,8 +26,9 @@ class MyFont extends CGFobject{
 		this.appearance.setTexture(this.texture);
 		
 		// TODO: ver se assim ou mesmo com appearance
-		this.background = new MyRectangle(scene, 'camera', 0, 1, 4, 5);
-		// this.background = new MyRectangle(this.scene, 'camera', 0.5, 1, -1.0, -0.5);
+		// this.background = new MyRectangle(scene, 'bg', 0, 1, 4, 5);
+		// this.background = new MyRectangle(this.scene, 'bg', -1., -0.9, .8, 1.);
+
 
 		this.textShader = new CGFshader(this.scene.gl, "shaders/font.vert","shaders/font.frag");
 		
@@ -31,6 +37,7 @@ class MyFont extends CGFobject{
 
 	setString(string){
 		this.string = string
+		this.buildString()
 	}
 
 	char2coords(char) {
@@ -170,6 +177,12 @@ class MyFont extends CGFobject{
 		}
 	}	
 
+	buildString(){
+		this.backs = []
+		for(let i = 0; i < this.string.length; i++)
+			this.backs.push(new MyRectangle(this.scene, 'bg' + i, this.x + i * this.width, this.x + this.width + i * this.width, this.y - this.height , this.y))
+	}
+
 	display(){
 
 		this.appearance.apply();
@@ -177,15 +190,14 @@ class MyFont extends CGFobject{
 	
 		this.scene.setActiveShaderSimple(this.textShader);
 		for (let i = 0; i < this.string.length; i++) {
-			this.scene.activeShader.setUniformsValues({'charCoords': this.char2coords(this.string.charAt(i))});
-			
-			this.background.display();
-			this.scene.translate(1, 0, 0);
+			let coords = this.char2coords(this.string.charAt(i))
+			this.scene.activeShader.setUniformsValues({'charCoords': coords});
+			this.backs[i].display();
 		}
-	
-		this.scene.setActiveShaderSimple(this.scene.defaultShader);
 
-		this.scene.popMatrix();
+		this.scene.setActiveShader(this.scene.defaultShader)
+        
+        this.scene.popMatrix()
 
 	}
 }

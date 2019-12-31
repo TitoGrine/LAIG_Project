@@ -19,6 +19,13 @@ const mode = Object.freeze({
     BvB: 4,
 });
 
+const fontSpecs = Object.freeze({
+    x: -0.98,
+	y: -0.68,
+	height: 0.09,
+	width: 0.045,
+});
+
 /**
  * Game Controller class 
  * 
@@ -58,8 +65,8 @@ class MyGameController {
 	}
 
 	init(){
-		this.clock = new Clock(this.scene, 10, () => {this.playerTimeout()})
-		this.score = new Score(this.scene, this.prologInterface)
+		this.clock = new Clock(this.scene, 10, () => {this.playerTimeout()}, fontSpecs)
+		this.score = new Score(this.scene, this.prologInterface, fontSpecs)
 
 		this.setBoard()
 		this.nextState(null)
@@ -431,9 +438,12 @@ class MyGameController {
 		this.theme.displayScene()
 		//this.board.display()
 		this.animator.display()
+		// this.scene.gl.disable(this.scene.gl.DEPTH_TEST);
 		if(ON_CLOCK)
 			this.clock.display()
 		this.score.display()
+		// this.scene.gl.enable(this.scene.gl.DEPTH_TEST);
+
 	}
 	
 }

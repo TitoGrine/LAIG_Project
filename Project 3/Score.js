@@ -4,16 +4,19 @@
  * 
  */
 class Score extends CGFobject{
-	constructor(scene, prologInterface) {
+	constructor(scene, prologInterface, font) {
 		super(scene)
 
 		this.points0 = 0
 		this.points1 = 0
 		
 		this.prologInterface  = prologInterface
-
-		this.fontPoints0 = new MyFont(scene, "WHITE: ")
-		this.fontPoints1 = new MyFont(scene, "BLACK: ")
+		this.x = font.x
+		this.y = font.y
+		this.height = font.height
+		this.width = font.width
+		this.fontPoints0 = new MyFont(scene, "WHITE: ", this.x, this.y, this.width, this.height)
+		this.fontPoints1 = new MyFont(scene, "BLACK: ", this.x, this.y - this.height, this.width, this.height)
 	}
 
 	askForPoints(){
@@ -31,12 +34,9 @@ class Score extends CGFobject{
 	}
 
 	display(){
-		this.scene.pushMatrix()
 		this.fontPoints0.display()
-    	this.scene.translate(0, -1, 0);
 		this.fontPoints1.display()
 
-		this.scene.popMatrix()
 		// TODO: fazer
 		// console.log("Player 0 points: " + this.points0)
 		// console.log("Player 1 points: " + this.points1)
