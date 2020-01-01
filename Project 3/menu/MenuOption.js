@@ -9,19 +9,24 @@ class MenuOption extends MyFont{
 
 		this.action = action
 		this.id = id
+		this.selectable = true
 	}
 
 	pressed(){
 		this.action()
 	}
 
+	setSelectable(bool){
+		this.selectable = bool
+	}
 
 	display(){
-		this.scene.registerForPick(this.id, this)
+		if(this.selectable)
+			this.scene.registerForPick(this.id, this)
 		
 		super.display()
 		
-		this.scene.clearPickRegistration()
-
+		if(this.selectable)
+			this.scene.clearPickRegistration()
 	}
 }
