@@ -156,7 +156,7 @@ class MyGameController {
 			if(this_promise == null || this_promise == undefined){
 				this.nextPlayer()
 				if(this.currPlayer != "player"){
-					//this.prologInterface.moveBot(this.currPlayer, this.difficulty[this.currPlayer])
+					this.prologInterface.moveBot(this.currPlayer, this.difficulty[this.currPlayer])
 					this.nextPlayerProc()
 					return
 				}
@@ -178,7 +178,7 @@ class MyGameController {
 
 
 			this.currState = states.MOVE
-			//this.moves = await this.prologInterface.getBotMove()
+			this.moves = await this.prologInterface.getBotMove()
 			if(this.moves.length == 0){
 				this.currState = states.PASS
 				this.nextState(null)
@@ -258,7 +258,7 @@ class MyGameController {
 		this.curr_time = time
 
 		this.animator.update(elapsed_time)
-		//this.clock.update(elapsed_time)
+		this.clock.update(elapsed_time)
 	}
 
 	highlightPossible(set){
@@ -442,7 +442,7 @@ class MyGameController {
 		this.theme.displayScene()
 		//this.board.display()
 		this.animator.display()
-		//this.clock.display()
+		this.clock.display()
 	}
 	
 }
