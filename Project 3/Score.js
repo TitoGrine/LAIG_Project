@@ -15,8 +15,8 @@ class Score extends CGFobject{
 		this.y = font.y
 		this.height = font.height
 		this.width = font.width
-		this.fontPoints0 = new MyFont(scene, "WHITE: ", font.texture, this.x, this.y, this.width, this.height)
-		this.fontPoints1 = new MyFont(scene, "BLACK: ", font.texture, this.x, this.y - this.height, this.width, this.height)
+		this.fontPoints0 = new MyFont(scene, "WHITE: ", font.texture, this.x, this.y, this.width, this.height, true)
+		this.fontPoints1 = new MyFont(scene, "BLACK: ", font.texture, this.x, this.y - this.height, this.width, this.height, true)
 	}
 
 	askForPoints(){

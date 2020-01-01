@@ -19,7 +19,7 @@ class Menu extends CGFobject{
 
 		this.options = []
 
-		this.title	= new MyFont(scene, title, font, this.x, this.y, this.dim / 2, this.dim, [0.03, 0.6, 0.8])
+		this.title	= new MyFont(scene, title, font, this.x, this.y, this.dim / 2, this.dim, false, [0.03, 0.6, 0.8])
 		for(let i = 0; i < options.length; i++)
 			this.options.push(new MenuOption(scene, this.baseID + i, options[i], font, this.x, this.y - this.dim - i * this.dimOption, this.dimOption / 2, this.dimOption, actions[i], this.background, i == options.length - 1 ? null : this.foreground))
 	}

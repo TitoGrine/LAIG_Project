@@ -4,7 +4,7 @@
  * 
  */
 class MyFont extends CGFobject{
-	constructor(scene, string, font, x, y, width, height, background, foreground) {
+	constructor(scene, string, font, x, y, width, height, onscreen, background, foreground) {
 		super(scene)
 
 		this.string = string
@@ -37,6 +37,7 @@ class MyFont extends CGFobject{
 		
 		this.textShader.setUniformsValues({'dims': [16, 16]});
 		this.textShader.setUniformsValues({'background': this.background, 'foreground' : this.foreground});
+		this.textShader.setUniformsValues({'onScreen' : onscreen ? 1. : 0.});
 		
 	}
 

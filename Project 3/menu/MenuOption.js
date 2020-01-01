@@ -5,7 +5,7 @@
  */
 class MenuOption extends MyFont{
 	constructor(scene, id, string, font, x, y, width, height, action, background, foreground) {
-		super(scene, string, font, x, y, width, height, background, foreground)
+		super(scene, string, font, x, y, width, height, false, background, foreground)
 
 		this.action = action
 		this.id = id

@@ -98,7 +98,16 @@ class MenuController extends CGFobject {
 	}
 
 	display(){
-		if(this.gameController.currState == states.MENU)
-			this.actualMenu.display()
+		if(this.gameController.currState != states.MENU)
+			return
+
+		// TODO: para já
+		this.scene.pushMatrix()
+		this.scene.translate(20, 10, 20)
+		this.scene.rotate(Math.PI / 4, 0, 1, 0)
+		this.scene.rotate(-Math.PI / 8, 1, 0, 0)
+		this.scene.scale(10, 10, 1)
+		this.actualMenu.display()
+		this.scene.popMatrix()
 	}
 }
