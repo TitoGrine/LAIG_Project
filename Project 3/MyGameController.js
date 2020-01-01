@@ -230,27 +230,16 @@ class MyGameController {
 		}
 	}
 
-	afterAnimation() {
-		if(this.pressedFKey){
-			this.pressedFKey = false
-			this.startFilm()
-		}
-
-		return
-	}
-
-	startFilm() {
-
-		if(this.currState == states.MOVE){
-			this.pressedFKey = true
+	startFilm(interrupt = false) {
+		
+		if(this.currState == states.MOVE || this.currState == states.FILM){
 			return
 		}
-		this.alted_position = null
-
+		
 		this.clock.pause()
-
 		this.replaying = true
-
+		
+		
 		this.moveIndex = 0
 		this.misClicks = 0
 		this.board.resetBoard()
@@ -261,19 +250,20 @@ class MyGameController {
 		this.currState = states.FILM
 		this.nextState(null)
 	}
-
+	
 	endFilm() {
+		console.log('Queue')
+		this.replaying = false
 		this.currState = this.alted_state
+		this.film_game_sequence = null
 
 		let promise
 		if(this.players[this.currPlayer] == 'player')
 			promise = this.prologInterface.getPlayerMoves(this.currPlayer)
 		else
-		this.prologInterface.moveBot(this.currPlayer, this.difficulty[this.currPlayer])
+			this.prologInterface.moveBot(this.currPlayer, this.difficulty[this.currPlayer])
 
 		this.nextPlayerProc(promise)
-
-		this.replaying = false
 	}
 
 	update(time){
@@ -404,7 +394,7 @@ class MyGameController {
 				else
 					this.prologInterface.moveBot(this.currPlayer, this.difficulty[this.currPlayer])
 
-				this.animator.start(this.gameSequence, new BasicAnimation(this.scene, 1), () => {this.nextPlayerProc(promise); this.afterAnimation()})
+				this.animator.start(this.gameSequence, new BasicAnimation(this.scene, 1), () => {this.nextPlayerProc(promise)})
 				break;
 			case states.PASS:
 				this.prevState = this.currState
@@ -464,7 +454,7 @@ class MyGameController {
 				console.log(move)
 				this.film_game_sequence.addMove(move)
 
-				this.animator.start(this.film_game_sequence, new BasicAnimation(this.scene, 1), () => {this.moveIndex++; this.nextState(null); this.afterAnimation()})
+				this.animator.start(this.film_game_sequence, new BasicAnimation(this.scene, 1), () => {this.moveIndex++; this.nextState(null)})
 				
 				break;
 			case states.LOAD:
