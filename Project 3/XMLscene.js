@@ -135,8 +135,7 @@ class XMLscene extends CGFscene {
 
 		// TODO: tirar depois
 		// Menu -> Load
-		this.gameController.setBoard()
-		this.gameController.nextState(null)
+		this.gameController.init()
 	}
 
 	/**
@@ -188,9 +187,10 @@ class XMLscene extends CGFscene {
 		// Check for key codes e.g. in ​https://keycode.info/
 		if (this.gui.isKeyPressed("KeyM"))
 			this.graph.nextMaterial();
-
-		if (this.gui.isKeyPressed("KeyF"))
+		else if (this.gui.isKeyPressed("KeyF"))
 			this.gameController.startFilm();
+		else if(this.gui.isKeyPressed("KeyU"))
+			this.gameController.undo();
 	}
 
 	/**

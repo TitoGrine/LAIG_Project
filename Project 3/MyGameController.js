@@ -1,3 +1,5 @@
+const ON_CLOCK = true
+
 const states = Object.freeze({
     MENU: 1,
     CHOOSE_PIECE: 2,
@@ -12,8 +14,16 @@ const states = Object.freeze({
 
 const mode = Object.freeze({
     PvP: 1,
-    PvB: 2,
-    BvB: 3,
+	PvB: 2,
+	BvP: 3,
+    BvB: 4,
+});
+
+const fontSpecs = Object.freeze({
+    x: -0.98,
+	y: 0.98,
+	height: 0.09,
+	width: 0.045,
 });
 
 /**
@@ -27,8 +37,7 @@ class MyGameController {
 		this.theme = new MySceneGraph('board.xml', scene)
 		this.gameSequence = new MyGameSequence()
 		this.animator = new MyAnimator(scene, this, this.gameSequence)
- 
-		this.clock = new Clock(scene, 10, () => {this.playerTimeout()})
+	
 
 		this.numPasses = 0
 		this.currState = states.MENU
@@ -36,7 +45,6 @@ class MyGameController {
 		this.gameMode = mode.PvP
 
 		// TODO: mudar para classe
-		this.players = ['player', 'player']
 		this.currPlayer = 0
 
 		this.difficulty = [3, 4]
@@ -57,6 +65,13 @@ class MyGameController {
 		this.replaying = false
 	}
 
+	init(){
+		this.clock = new Clock(this.scene, 10, () => {this.playerTimeout()}, fontSpecs)
+		this.score = new Score(this.scene, this.prologInterface, fontSpecs)
+
+		this.setBoard()
+		this.nextState(null)
+	}
 	setBoard(){
 		// TODO: mudar
 		this.board = this.theme.components['board'].component.children[0]
@@ -149,13 +164,15 @@ class MyGameController {
 	
 	// // TODO: para já
 	async nextPlayerProc(promise){
+		await this.score.getPoints()
 		if(this.players[this.currPlayer] == "player"){
 			this.currState = states.CHOOSE_PIECE
 
 			let this_promise = promise
-			if(this_promise == null || this_promise == undefined){
-				this.nextPlayer()
-				if(this.currPlayer != "player"){
+			if(this_promise == null || this_promise == undefined || this_promise == "undo"){
+				if(this_promise != "undo")
+					this.nextPlayer()
+				if(this.players[this.currPlayer] != "player"){
 					this.prologInterface.moveBot(this.currPlayer, this.difficulty[this.currPlayer])
 					this.nextPlayerProc()
 					return
@@ -176,30 +193,41 @@ class MyGameController {
 			return
 		}
 
+		this.currState = states.MOVE
+		this.moves = await this.prologInterface.getBotMove()
+		if(this.moves.length == 0){
+			this.currState = states.PASS
+			this.nextState(null)
+		}
+		else{
+			this.currMove = new MyGameMove(this.board, this.moves, this.players[this.currPlayer])
+			this.gameSequence.addMove(this.currMove)
+			this.nextState(null)
+		}
+	}
 
-			this.currState = states.MOVE
-			this.moves = await this.prologInterface.getBotMove()
-			if(this.moves.length == 0){
-				this.currState = states.PASS
-				this.nextState(null)
-			}
-			else{
-				this.currMove = new MyGameMove(this.board, this.moves, this.players[this.currPlayer])
-				this.gameSequence.addMove(this.currMove)
-				this.nextState(null)
-			}
+	undo(){
+		if(!this.gameSequence.isEmpty() && mode.BvB != this.gameMode){
+			this.prevState = this.currState
+			this.currState = states.UNDO
+			this.nextState()
+		}
 	}
 
 	playerTimeout(){
 		this.scene.setPickEnabled(false)
 		console.log("End of turn: next player")
+		this.resetHighlights(false)
+		this.nextPlayerProc()
+	}
+
+	resetHighlights(prev){
 		this.highlightPossible(false)
-		if (this.currState==states.CHOOSE_FINAL){
+		if ((prev ? this.prevState : this.currState)==states.CHOOSE_FINAL){
 			let piece = this.board.getPiece(this.initialPick.column, this.initialPick.row)
 			this.initialPick = {column:0 , row: 0}
 			piece.toggle()
 		}
-		this.nextPlayerProc()
 	}
 
 	afterAnimation() {
@@ -258,7 +286,8 @@ class MyGameController {
 		this.curr_time = time
 
 		this.animator.update(elapsed_time)
-		this.clock.update(elapsed_time)
+		if(ON_CLOCK)
+			this.clock.update(elapsed_time)
 	}
 
 	highlightPossible(set){
@@ -295,6 +324,19 @@ class MyGameController {
 		}
 	}
 
+	gameMode2array(){
+		switch (this.gameMode) {
+			case mode.PvP:
+				return ["player", "player"]
+			case mode.PvB:
+				return ["player", "bot"]
+			case mode.BvP:
+				return ["bot", "player"]
+			case mode.BvB:
+				return ["bot", "bot"]
+		}
+	}
+
 	async nextState(position){
 
 		switch (this.currState) {
@@ -303,6 +345,7 @@ class MyGameController {
 				// TODO: mudar depois
 				await this.prologInterface.initializeBoard(this.dimensions.rows, this.dimensions.columns)
 				this.currState = states.LOAD
+				this.players = this.gameMode2array()
 				
 				// TODO: provisorio
 				// -> Load
@@ -352,6 +395,7 @@ class MyGameController {
 			case states.MOVE:
 				this.numPasses = 0
 				this.prevState = this.currState
+				this.score.askForPoints()
 
 				this.nextPlayer()
 				let promise
@@ -385,12 +429,25 @@ class MyGameController {
 			case states.END:
 				this.clock.stop()
 				console.log("Game End")
-				let points0 = await this.prologInterface.getPlayerPoints(0)
-				let points1 = await this.prologInterface.getPlayerPoints(1)
-				console.log("Result: " + points0 + " - "+ points1)
+				// let points0 = await this.prologInterface.getPlayerPoints(0)
+				// let points1 = await this.prologInterface.getPlayerPoints(1)
+				// console.log("Result: " + points0 + " - "+ points1)
 				
 				break;
 			case states.UNDO:
+				this.scene.setPickEnabled(false)
+				this.resetHighlights(true)
+				let prevBoard = this.gameSequence.undo().getPrevBoard()
+				this.prologInterface.setBoard(prevBoard)
+				this.score.askForPoints()
+
+				this.scene.setPickEnabled(true)
+				if(this.gameMode == mode.PvP)
+					this.nextPlayerProc()
+				else if(!this.gameSequence.isEmpty() || this.gameMode == mode.PvB)
+					this.nextPlayerProc("undo")
+				else
+					this.nextPlayerProc()
 				break;
 			case states.FILM:
 				
@@ -414,6 +471,8 @@ class MyGameController {
 				this.clock.pause()
 				this.board.makeBoardSurface(this.prologInterface.getBoard())
 				if(this.prevState == states.MENU){
+					this.score.askForPoints()
+					await this.score.getPoints()
 					if(this.players[this.currPlayer] == 'player'){
 						this.possMoves = eval(await this.prologInterface.getPlayerMoves(this.currPlayer))
 						this.getInitialPos()
@@ -442,7 +501,16 @@ class MyGameController {
 		this.theme.displayScene()
 		//this.board.display()
 		this.animator.display()
-		this.clock.display()
+		// this.scene.gl.disable(this.scene.gl.DEPTH_TEST);
+		
+		
+		if(!this.replaying){
+			if(ON_CLOCK)
+				this.clock.display()
+
+			this.score.display()}
+		// this.scene.gl.enable(this.scene.gl.DEPTH_TEST);
+
 	}
 	
 }

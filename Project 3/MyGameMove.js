@@ -21,6 +21,14 @@ class MyGameMove {
 		return this.type
 	}
 
+	getPrevBoard(){
+		return this.prologBoard
+	}
+
+	getBoard(){
+		return this.board
+	}
+
 	animate(){
 		//console.log('TODO: moving')
 		//for(let i = this.moves.length - 1; i >= 0; i--)

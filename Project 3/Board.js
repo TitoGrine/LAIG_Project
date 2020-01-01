@@ -15,9 +15,12 @@ class Board extends CGFobject {
         this.rows = 0
 		this.columns = 0
 		this.size = 0
+
+		this.x_dimensions = x_dimensions
+		this.y_dimensions = y_dimensions
 		
-        this.x_scale = x_dimensions;
-        this.y_scale = y_dimensions;
+        this.x_scale = 0
+        this.y_scale = 0
 
         this.geometry = geometry;
         this.color1 = color1;
@@ -47,8 +50,8 @@ class Board extends CGFobject {
 		this.columns = this.board[0].length - 2;
 
 		this.size = this.rows * this.columns;
-        this.x_scale /= (this.columns + 2)
-        this.y_scale /= (this.rows + 2)
+        this.x_scale = this.x_dimensions / (this.columns + 2)
+        this.y_scale = this.y_dimensions / (this.rows + 2)
 
 		
         this.square = new MyPlane(this.scene, 'square', 30, 30);
@@ -64,7 +67,7 @@ class Board extends CGFobject {
                 let state = row_state[column];
 				let objects = [];
 
-                if(state < 3){
+                if(state != 3){
                     objects.push(new Tile(this.scene, pos + 1, row, column, state == 2 ? [0.03, 0.6, 0.8] : [0.0, 0.8, 1.0], null));
                     if(state < 2){
 						objects.push(new Piece(this.scene, pos + 1, state, row, column, this.geometry, state ? this.color2 : this.color1))
@@ -80,24 +83,6 @@ class Board extends CGFobject {
 		}
 		this.boardInit = true
     }
-
-    // logPicking() {
-	// 	if (this.scene.pickMode == false) {
-	// 		if (this.scene.pickResults != null && this.scene.pickResults.length > 0) {
-	// 			for (var i = 0; i < this.scene.pickResults.length; i++) {
-    //                 let obj = this.scene.pickResults[i][0];
-    //                 if (obj) {
-    //                         var coords = obj[0].getCoords();
-    //                         this.movement.push(obj[0]);
-    //                         obj[0].toggle();
-	// 					    console.log("Picked object: " + obj + ", with coordenates " + coords);						
-    //                     }
-                    
-	// 			}
-	// 			this.scene.pickResults.splice(0, this.scene.pickResults.length);
-	// 		}
-	// 	}
-    // }
 	
 	
     move(piece, init_tile, dest_tile){
