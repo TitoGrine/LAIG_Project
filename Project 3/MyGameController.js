@@ -19,12 +19,7 @@ const mode = Object.freeze({
     BvB: 4,
 });
 
-const fontSpecs = Object.freeze({
-    x: -0.98,
-	y: -0.68,
-	height: 0.09,
-	width: 0.045,
-});
+let fontSpecs = {}
 
 /**
  * Game Controller class 
@@ -38,6 +33,13 @@ class MyGameController {
 		this.gameSequence = new MyGameSequence()
 		this.animator = new MyAnimator(scene, this, this.gameSequence)
 	
+		fontSpecs = Object.freeze({
+			x: -0.98,
+			y: -0.68,
+			height: 0.09,
+			width: 0.045,
+			texture: new CGFtexture(this.scene, "scenes/images/font.png"),
+		});
 
 		this.numPasses = 0
 		this.currState = states.MENU
@@ -67,6 +69,7 @@ class MyGameController {
 	init(){
 		this.clock = new Clock(this.scene, 10, () => {this.playerTimeout()}, fontSpecs)
 		this.score = new Score(this.scene, this.prologInterface, fontSpecs)
+		this.menuController = new MenuController(this.scene, this)
 
 		this.setBoard()
 		this.nextState(null)
@@ -149,10 +152,11 @@ class MyGameController {
 			// obj.toggle()
 			// console.log("tile: " + obj.getCoords()[0] + ", " + obj.getCoords()[1])
 			// do something with id knowing it is a tile
+		} else if (obj instanceof MenuOption){
+			obj.pressed() 
 		} else {
+			console.log("error")
 			console.log(obj)
-			obj()
-			// error ? 
 		}
 	}
 
@@ -280,13 +284,17 @@ class MyGameController {
 	gameMode2array(){
 		switch (this.gameMode) {
 			case mode.PvP:
-				return ["player", "player"]
+				this.players = ["player", "player"]
+				break;
 			case mode.PvB:
-				return ["player", "bot"]
+				this.players = ["player", "bot"]
+				break;
 			case mode.BvP:
-				return ["bot", "player"]
+				this.players = ["bot", "player"]
+				break;
 			case mode.BvB:
-				return ["bot", "bot"]
+				this.players = ["bot", "bot"]
+				break;
 		}
 	}
 
@@ -295,14 +303,12 @@ class MyGameController {
 		switch (this.currState) {
 			case states.MENU:
 				this.prevState = this.currState
-				// TODO: mudar depois
+				// Default
 				await this.prologInterface.initializeBoard(this.dimensions.rows, this.dimensions.columns)
-				this.currState = states.LOAD
-				this.players = this.gameMode2array()
+				this.gameMode2array()
+
+				// TODO: mudar depois
 				
-				// TODO: provisorio
-				// -> Load
-				this.nextState(null)
 				break;
 			case states.CHOOSE_PIECE:
 				this.prevState = this.currState
@@ -442,6 +448,7 @@ class MyGameController {
 		if(ON_CLOCK)
 			this.clock.display()
 		this.score.display()
+		this.menuController.display()
 		// this.scene.gl.enable(this.scene.gl.DEPTH_TEST);
 
 	}

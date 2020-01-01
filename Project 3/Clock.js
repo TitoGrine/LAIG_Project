@@ -24,7 +24,7 @@ class Clock extends CGFobject{
 		this.height = font.height
 		this.width = font.width
 
-		this.font = new MyFont(scene, "TIMER: ", this.x, this.y - 2 * this.height, this.width, this.height)
+		this.font = new MyFont(scene, "TIMER: ", font.texture,this.x, this.y - 2 * this.height, this.width, this.height)
 
 	}
 

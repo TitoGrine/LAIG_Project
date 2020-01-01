@@ -199,9 +199,8 @@ class XMLscene extends CGFscene {
 		// Updates animations
 		if(this.sceneInited){
 			this.graph.updateAnimations(t);
+			this.gameController.update(t)
 		}
-		this.gameController.update(t)
-
 	}
 
 	/**
