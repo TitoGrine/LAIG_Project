@@ -425,7 +425,7 @@ class MyGameController {
 						this.possMoves = eval(await this.prologInterface.getPlayerMoves(this.currPlayer))
 						this.getInitialPos()
 						this.currState = states.CHOOSE_PIECE
-						this.clock.play()
+						this.clock.restart()
 					}
 					else {
 						this.currState = states.MOVE

@@ -21,7 +21,7 @@ class MenuController extends CGFobject {
 		this.mainMenu = new Menu(this.scene, 300, fontSpecs.texture, "   FUSE   ", options, actions)
 
 		options = [	"    10 sec    ", "    30 sec    ", "    60 sec    ", "   no timer   ", "    <BACK>    "]
-		actions = [() => this.setTime(10), () => this.setTime(30), () =>  this.setTime(60), () => console.log("TODO: no timer"), () => this.actualMenu = this.mainMenu]
+		actions = [() => this.setTime(10), () => this.setTime(30), () =>  this.setTime(60), () => this.setTime(-1), () => this.actualMenu = this.mainMenu]
 		this.timeMenu = new Menu(this.scene, 310, fontSpecs.texture, "   TIME   ", options, actions)
 
 		options = [	"     Small    ", "    Medium    ", "     Large    ", "    <BACK>    "]
@@ -63,7 +63,6 @@ class MenuController extends CGFobject {
 	}
 
 	setTime(time){
-		// TODO: no timer
 		this.gameController.clock.setInitialTime(time)
 		this.actualMenu = this.mainMenu
 	}

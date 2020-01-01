@@ -42,6 +42,8 @@ class Clock extends CGFobject{
 	}
 
 	update(time){
+		if(this.initialTime < 0)
+			return
 		if(this.state == clock_states.PLAY){
 			this.currTimeMs  -= time
 			if(this.currTimeMs <= 0){
@@ -71,6 +73,8 @@ class Clock extends CGFobject{
 	}
 	
 	display(){
+		if(this.initialTime < 0)
+			return
 		// TODO: fazer
 		this.scene.pushMatrix()
 		this.scene.translate(0, -2, 0)
