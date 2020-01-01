@@ -217,6 +217,14 @@ class MyGameController {
 		}
 	}
 
+	restart(){
+		this.prevState = this.currState
+		this.currState = states.MENU
+		this.clock.stop()
+		this.gameSequence.restart()
+		this.nextState(null)
+	}
+
 	playerTimeout(){
 		this.scene.setPickEnabled(false)
 		console.log("End of turn: next player")
@@ -305,10 +313,7 @@ class MyGameController {
 				this.prevState = this.currState
 				// Default
 				await this.prologInterface.initializeBoard(this.dimensions.rows, this.dimensions.columns)
-				this.gameMode2array()
-
-				// TODO: mudar depois
-				
+				this.gameMode2array()				
 				break;
 			case states.CHOOSE_PIECE:
 				this.prevState = this.currState

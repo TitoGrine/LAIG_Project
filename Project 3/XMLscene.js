@@ -187,6 +187,8 @@ class XMLscene extends CGFscene {
 			this.graph.nextMaterial();
 		else if(this.gui.isKeyPressed("KeyU"))
 			this.gameController.undo()
+		else if(this.gui.isKeyPressed("KeyR"))
+			this.gameController.restart()
 	}
 
 	/**

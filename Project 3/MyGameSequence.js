@@ -34,6 +34,10 @@ class MyGameSequence {
 		return this.gameMoves.length == 0
 	}
 
+	restart(){
+		this.gameMoves = []
+	}
+
 	// TODO: Replay
 
 }
