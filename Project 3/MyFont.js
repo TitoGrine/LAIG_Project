@@ -4,7 +4,7 @@
  * 
  */
 class MyFont extends CGFobject{
-	constructor(scene, string, x, y, width, height) {
+	constructor(scene, string, font, x, y, width, height, onscreen, background, foreground) {
 		super(scene)
 
 		this.string = string
@@ -20,9 +20,12 @@ class MyFont extends CGFobject{
 		this.appearance.setSpecular(0.0, 0.0, 0.0, 1);
 		this.appearance.setShininess(120);
 		
+		this.background = background || [0.0, 0.0, 0.0]
+		this.foreground = foreground || [1.0, 1.0, 1.0]
+		
 		// font texture: 16 x 16 characters
 		// http://jens.ayton.se/oolite/files/font-tests/rgba/oolite-font.png
-		this.texture = new CGFtexture(this.scene, "scenes/images/font.png");
+		this.texture = font
 		this.appearance.setTexture(this.texture);
 		
 		// TODO: ver se assim ou mesmo com appearance
@@ -33,6 +36,9 @@ class MyFont extends CGFobject{
 		this.textShader = new CGFshader(this.scene.gl, "shaders/font.vert","shaders/font.frag");
 		
 		this.textShader.setUniformsValues({'dims': [16, 16]});
+		this.textShader.setUniformsValues({'background': this.background, 'foreground' : this.foreground});
+		this.textShader.setUniformsValues({'onScreen' : onscreen ? 1. : 0.});
+		
 	}
 
 	setString(string){
@@ -172,6 +178,20 @@ class MyFont extends CGFobject{
 				return [10, 3]
 			case "-":
 				return [13, 2]
+			case "!":
+				return [1, 2]
+			case "<":
+				return [12, 3]
+			case ">":
+				return [14, 3]
+			case "Ç":
+				return [7, 12]  
+			case "ç":
+				return [7, 14]
+			case "Ã":
+				return [3, 12]  
+			case "ã":
+				return [3, 14]
 			default:
 				return [0, 2]
 		}
@@ -188,7 +208,7 @@ class MyFont extends CGFobject{
 		this.appearance.apply();
 		this.scene.pushMatrix();
 	
-		this.scene.setActiveShaderSimple(this.textShader);
+		this.scene.setActiveShader(this.textShader);
 		for (let i = 0; i < this.string.length; i++) {
 			let coords = this.char2coords(this.string.charAt(i))
 			this.scene.activeShader.setUniformsValues({'charCoords': coords});

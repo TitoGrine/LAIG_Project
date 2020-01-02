@@ -19,12 +19,7 @@ const mode = Object.freeze({
     BvB: 4,
 });
 
-const fontSpecs = Object.freeze({
-    x: -0.98,
-	y: 0.98,
-	height: 0.09,
-	width: 0.045,
-});
+let fontSpecs = {}
 
 /**
  * Game Controller class 
@@ -38,6 +33,13 @@ class MyGameController {
 		this.gameSequence = new MyGameSequence()
 		this.animator = new MyAnimator(scene, this, this.gameSequence)
 	
+		fontSpecs = Object.freeze({
+			x: -0.98,
+			y: -0.68,
+			height: 0.09,
+			width: 0.045,
+			texture: new CGFtexture(this.scene, "scenes/images/font.png"),
+		});
 
 		this.numPasses = 0
 		this.currState = states.MENU
@@ -61,17 +63,21 @@ class MyGameController {
 
 		this.curr_time = 0
 
-		this.currMove = null
 		this.replaying = false
 	}
 
 	init(){
 		this.clock = new Clock(this.scene, 10, () => {this.playerTimeout()}, fontSpecs)
 		this.score = new Score(this.scene, this.prologInterface, fontSpecs)
+		this.menuController = new MenuController(this.scene, this)
+
+		this.undoLabel = new MenuOption(this.scene, 401, "UNDO", fontSpecs.texture, 0, 1, 0.5, 1., () => this.undo(), [1.0, 1.0, 0.], [1., 0., 0.])
+		this.restartLabel = new MenuOption(this.scene, 402, "RESTART", fontSpecs.texture, 0, 1, 0.5, 1, () => this.restart(), [1.0, 1.0, 0.], [1., 0., 0.])
 
 		this.setBoard()
 		this.nextState(null)
 	}
+
 	setBoard(){
 		// TODO: mudar
 		this.board = this.theme.components['board'].component.children[0]
@@ -150,10 +156,11 @@ class MyGameController {
 			// obj.toggle()
 			// console.log("tile: " + obj.getCoords()[0] + ", " + obj.getCoords()[1])
 			// do something with id knowing it is a tile
+		} else if (obj instanceof MenuOption){
+			obj.pressed() 
 		} else {
+			console.log("error")
 			console.log(obj)
-			obj()
-			// error ? 
 		}
 	}
 
@@ -164,6 +171,12 @@ class MyGameController {
 	
 	// // TODO: para já
 	async nextPlayerProc(promise){
+		if(this.currState == states.MENU){
+			this.restart()
+			return
+		}
+		this.undoLabel.setSelectable(true)
+
 		await this.score.getPoints()
 		if(this.players[this.currPlayer] == "player"){
 			this.currState = states.CHOOSE_PIECE
@@ -200,8 +213,8 @@ class MyGameController {
 			this.nextState(null)
 		}
 		else{
-			this.currMove = new MyGameMove(this.board, this.moves, this.players[this.currPlayer])
-			this.gameSequence.addMove(this.currMove)
+			let currMove = new MyGameMove(this.board, this.moves, this.players[this.currPlayer])
+			this.gameSequence.addMove(currMove)
 			this.nextState(null)
 		}
 	}
@@ -212,6 +225,18 @@ class MyGameController {
 			this.currState = states.UNDO
 			this.nextState()
 		}
+	}
+
+	restart(){
+		this.currPlayer = 0
+		this.numPasses = 0
+		this.initialPick.column = 0
+		this.initialPick.row = 0
+		this.prevState = this.currState
+		this.currState = states.MENU
+		this.clock.stop()
+		this.gameSequence.restart()
+		this.nextState(null)
 	}
 
 	playerTimeout(){
@@ -317,13 +342,17 @@ class MyGameController {
 	gameMode2array(){
 		switch (this.gameMode) {
 			case mode.PvP:
-				return ["player", "player"]
+				this.players = ["player", "player"]
+				break;
 			case mode.PvB:
-				return ["player", "bot"]
+				this.players = ["player", "bot"]
+				break;
 			case mode.BvP:
-				return ["bot", "player"]
+				this.players = ["bot", "player"]
+				break;
 			case mode.BvB:
-				return ["bot", "bot"]
+				this.players = ["bot", "bot"]
+				break;
 		}
 	}
 
@@ -332,14 +361,9 @@ class MyGameController {
 		switch (this.currState) {
 			case states.MENU:
 				this.prevState = this.currState
-				// TODO: mudar depois
+				// Default
 				await this.prologInterface.initializeBoard(this.dimensions.rows, this.dimensions.columns)
-				this.currState = states.LOAD
-				this.players = this.gameMode2array()
-				
-				// TODO: provisorio
-				// -> Load
-				this.nextState(null)
+				this.gameMode2array()				
 				break;
 			case states.CHOOSE_PIECE:
 				this.prevState = this.currState
@@ -376,13 +400,16 @@ class MyGameController {
 				this.currState = states.MOVE
 				this.clock.pause()
 				// TODO: prov(??)
+
 				this.highlightPossible(false)
 				this.moves = await this.prologInterface.movePlayer(this.currPlayer, [this.initialPick.column, this.initialPick.row, position[0], position[1]])
-				this.currMove = new MyGameMove(this.board, this.moves, this.players[this.currPlayer])
-				this.gameSequence.addMove(this.currMove)
+				let currMove = new MyGameMove(this.board, this.moves, this.players[this.currPlayer])
+				this.gameSequence.addMove(currMove)
 				this.nextState(null)
 				break;
 			case states.MOVE:
+				this.undoLabel.setSelectable(false)
+
 				this.numPasses = 0
 				this.prevState = this.currState
 				this.score.askForPoints()
@@ -467,14 +494,14 @@ class MyGameController {
 						this.possMoves = eval(await this.prologInterface.getPlayerMoves(this.currPlayer))
 						this.getInitialPos()
 						this.currState = states.CHOOSE_PIECE
-						this.clock.play()
+						this.clock.restart()
 					}
 					else {
 						this.currState = states.MOVE
 						this.prologInterface.moveBot(this.currPlayer, this.difficulty[this.currPlayer])
 						this.moves = await this.prologInterface.getBotMove()
-						this.currMove = new MyGameMove(this.board, this.moves, this.players[this.currPlayer])
-						this.gameSequence.addMove(this.currMove)
+						let currMove = new MyGameMove(this.board, this.moves, this.players[this.currPlayer])
+						this.gameSequence.addMove(currMove)
 						this.nextState(null)
 					}
 					return
@@ -493,12 +520,31 @@ class MyGameController {
 		this.animator.display()
 		// this.scene.gl.disable(this.scene.gl.DEPTH_TEST);
 		
-		
-		if(!this.replaying){
+		if(this.currState != states.MENU && !this.replaying){
 			if(ON_CLOCK)
 				this.clock.display()
+			this.score.display()
 
-			this.score.display()}
+			if(this.currState != mode.BvB){
+				this.scene.pushMatrix()
+				this.scene.translate(3.5, 0, 13)
+				this.scene.rotate(-Math.PI / 2, 1, 0, 0)
+				this.scene.scale(1.5, 1, 1)
+				this.undoLabel.display()
+				this.scene.popMatrix()
+			}
+
+
+			this.scene.pushMatrix()
+			this.scene.translate(13, 0, 7.5)
+			this.scene.rotate(Math.PI / 2, 0, 1, 0)
+			this.scene.rotate(-Math.PI / 2, 1, 0, 0)
+			this.scene.scale(1.5, 1, 1)
+			this.restartLabel.display()
+			this.scene.popMatrix()
+
+		}
+		this.menuController.display()
 		// this.scene.gl.enable(this.scene.gl.DEPTH_TEST);
 
 	}

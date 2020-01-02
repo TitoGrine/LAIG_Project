@@ -190,7 +190,9 @@ class XMLscene extends CGFscene {
 		else if (this.gui.isKeyPressed("KeyF"))
 			this.gameController.startFilm();
 		else if(this.gui.isKeyPressed("KeyU"))
-			this.gameController.undo();
+			this.gameController.undo()
+		else if(this.gui.isKeyPressed("KeyR"))
+			this.gameController.restart()
 	}
 
 	/**
@@ -203,9 +205,8 @@ class XMLscene extends CGFscene {
 		// Updates animations
 		if(this.sceneInited){
 			this.graph.updateAnimations(t);
+			this.gameController.update(t)
 		}
-
-		this.gameController.update(t);
 
 		if(this.gameController.replaying){
 			this.replaying.setTimeFactor(t);
