@@ -22,6 +22,7 @@ class Piece extends CGFobject {
 
         this.geometry = geometry;
         this.material = material;
+        this.toggle_color = new Toggle(scene, material).getToggleColor();
 		this.toggled = false;
 
         this.tile = Tile;
@@ -33,11 +34,6 @@ class Piece extends CGFobject {
 		// TODO: depois por como parametro e dar para mudar
 		this.selectable = true
 
-        this.toggle_color = new CGFappearance(this.scene);
-		this.toggle_color.setAmbient(1.0, 0.0, 0.0, 1);
-		this.toggle_color.setDiffuse(1.0, 0.0, 0.0, 1);
-		this.toggle_color.setSpecular(0.0, 0.0, 0.0, 1);
-        this.toggle_color.setShininess(10);
     }
 
     // Doesn nothing: Texture coordinates of NURB objects can't be changed

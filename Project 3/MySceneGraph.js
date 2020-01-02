@@ -45,11 +45,29 @@ class MySceneGraph {
         // File reading 
         this.reader = new CGFXMLreader();
 
-    /*  FOR TESTING NURB SURFACES */
-        this.plane = new MyPlane(this.scene, 'plane', 10, 10);
-        this.piece = new Piece(this.scene, 1, 1, 1.0);
-        this.circle = new MyCircle(this.scene, 30, 5);
+        this.def_piece_color1 = new CGFappearance(this.scene);
+		this.def_piece_color1.setAmbient(0.0, 0.0, 0.0, 1);
+		this.def_piece_color1.setDiffuse(0.0, 0.0, 0.0, 1);
+		this.def_piece_color1.setSpecular(0.0, 0.0, 0.0, 1);
+        this.def_piece_color1.setShininess(10);
 
+        this.def_piece_color2 = new CGFappearance(this.scene);
+		this.def_piece_color2.setAmbient(1.0, 1.0, 1.0, 1);
+		this.def_piece_color2.setDiffuse(1.0, 1.0, 1.0, 1);
+		this.def_piece_color2.setSpecular(0.0, 0.0, 0.0, 1);
+        this.def_piece_color2.setShininess(10);
+
+        this.def_inner_tile_color = new CGFappearance(this.scene);
+		this.def_inner_tile_color.setAmbient(0.0, 0.8, 1.0, 1);
+		this.def_inner_tile_color.setDiffuse(0.0, 0.8, 1.0, 1);
+		this.def_inner_tile_color.setSpecular(0.0, 0.0, 0.0, 1);
+        this.def_inner_tile_color.setShininess(10);
+
+        this.def_outer_tile_color = new CGFappearance(this.scene);
+		this.def_outer_tile_color.setAmbient(0.03, 0.6, 0.8, 1);
+		this.def_outer_tile_color.setDiffuse(0.03, 0.6, 0.8, 1);
+		this.def_outer_tile_color.setSpecular(0.0, 0.0, 0.0, 1);
+        this.def_outer_tile_color.setShininess(10);
         
         /*
          * Read the contents of the xml file, and refer to this class for loading and error handlers.
@@ -685,8 +703,10 @@ class MySceneGraph {
         var children = materialsNode.children;
 
         this.materials = [];
-        this.piece_material1 = null;
-        this.piece_material2 = null;
+        this.piece_color1 = this.def_piece_color1;
+        this.piece_color2 = this.def_piece_color2;
+        this.outer_tile_color = this.def_outer_tile_color;
+        this.inner_tile_color = this.def_inner_tile_color;
 
         var grandChildren = [];
         var nodeNames = [];
@@ -763,9 +783,13 @@ class MySceneGraph {
 			provMaterial.setTextureWrap('REPEAT', 'REPEAT');
 
             if(materialID == "piece_color1")
-                this.piece_material1 = provMaterial;
+                this.piece_color1 = provMaterial;
             else if(materialID == "piece_color2")
-                this.piece_material2 =  provMaterial;
+                this.piece_color2 =  provMaterial;
+            else if(materialID == "outer_tile_color")
+                this.outer_tile_color =  provMaterial;
+            else if(materialID == "inner_tile_color")
+                this.inner_tile_color =  provMaterial;
             else
                 this.materials[materialID] = provMaterial;
 
@@ -1418,7 +1442,7 @@ class MySceneGraph {
 				
                 // Initialize and save Board
                 // TODO: CHANGE the rows and columns
-				var board = new Board(this.scene, primitiveId, x_scale, y_scale, this.geometries[0], this.piece_material1, this.piece_material2);
+				var board = new Board(this.scene, primitiveId, x_scale, y_scale, this.geometries[0], [this.piece_color1, this.piece_color2, this.outer_tile_color, this.inner_tile_color]);
  
 				this.primitives[primitiveId] = board;
 			}

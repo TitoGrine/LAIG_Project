@@ -1,3 +1,10 @@
+const material_indexes = Object.freeze({
+    PIECE1: 0,
+    PIECE2: 1,
+    OUTER_TILE: 2,
+    INNER_TILE: 3,
+});
+
 /**
  * MyPlane
  * @constructor
@@ -7,7 +14,7 @@
  * @param {Number of columns} columns 
  */
 class Board extends CGFobject {
-	constructor(scene, id, x_dimensions, y_dimensions, geometry, color1, color2) {
+	constructor(scene, id, x_dimensions, y_dimensions, geometry, materials) {
         super(scene);
 		this.id = id;
 
@@ -23,8 +30,10 @@ class Board extends CGFobject {
         this.y_scale = 0
 
         this.geometry = geometry;
-        this.color1 = color1;
-        this.color2 = color2;
+        this.piece_color1 = materials[material_indexes.PIECE1];
+        this.piece_color2 = materials[material_indexes.PIECE2];
+        this.outer_tile_color = materials[material_indexes.OUTER_TILE];
+        this.inner_tile_color = materials[material_indexes.INNER_TILE];
 
 		this.highlight = false
 
@@ -68,9 +77,9 @@ class Board extends CGFobject {
 				let objects = [];
 
                 if(state != 3){
-                    objects.push(new Tile(this.scene, pos + 1, row, column, state == 2 ? [0.03, 0.6, 0.8] : [0.0, 0.8, 1.0], null));
+                    objects.push(new Tile(this.scene, pos + 1, row, column, state == 2 ? this.inner_tile_color : this.outer_tile_color, null));
                     if(state < 2){
-						objects.push(new Piece(this.scene, pos + 1, state, row, column, this.geometry, state ? this.color2 : this.color1))
+						objects.push(new Piece(this.scene, pos + 1, state, row, column, this.geometry, state ? this.piece_color2 : this.piece_color1))
                         objects[0].addPiece(objects[1]);
                     }
 				}

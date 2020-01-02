@@ -8,10 +8,12 @@
  */
 class Tile extends CGFobject {
 
-	constructor(scene, id, row, column, rgb, Piece) {
+	constructor(scene, id, row, column, tile_color, Piece) {
 		super(scene);
 		this.scene = scene
 		this.id = id
+
+		console.log('AMBIENT: ' + tile_color.ambient)
 		
         this.row = row;
         this.column = column;
@@ -25,25 +27,18 @@ class Tile extends CGFobject {
 
         this.plane = new MyPlane(this.scene, 'plane', 30, 30);
 
-        this.color = new CGFappearance(this.scene);
-		this.color.setAmbient(rgb[0], rgb[1], rgb[2], 1);
-		this.color.setDiffuse(rgb[0], rgb[1], rgb[2], 1);
-		this.color.setSpecular(0.0, 0.0, 0.0, 1);
-		this.color.setShininess(10);		
-
-        this.toggle_color = new CGFappearance(this.scene);
-		this.toggle_color.setAmbient(1.0, 0.0, 0.0, 1);
-		this.toggle_color.setDiffuse(1.0, 0.0, 0.0, 1);
-		this.toggle_color.setSpecular(0.0, 0.0, 0.0, 1);
-		this.toggle_color.setShininess(10);
+		this.color = tile_color;		
+        this.toggle_color = new Toggle(scene, tile_color).getToggleColor();
 		
+		this.highlight_color = new Toggle(scene, tile_color).getHighlightColor();
+		/*
 		// TODO: refactor
 		this.highlight_color = new CGFappearance(this.scene);
 		this.highlight_color.setAmbient(1.0, 0.84, 0.0, 1);
 		this.highlight_color.setDiffuse(1.0, 0.84, 0.0, 1);
 		this.highlight_color.setSpecular(0.0, 0.84, 0.0, 1);
 		this.highlight_color.setShininess(10);
-		
+		*/
     }
 
     // Doesn nothing: Texture coordinates of NURB objects can't be changed
