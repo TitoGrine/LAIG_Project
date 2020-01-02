@@ -40,7 +40,7 @@ class MyAnimator {
     }
     
 	reset(){
-        this.animation.apply(this.game_orchestrator.board);
+		this.animation.apply(this.game_orchestrator.board);
         
         this.animation = null;
         this.current_time = 0;

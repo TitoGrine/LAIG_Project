@@ -28,12 +28,13 @@ class MenuController extends CGFobject {
 		actions = [() => this.setDimensions(3,3), () => this.setDimensions(4,4), () =>  this.setDimensions(6,6), () => this.actualMenu = this.mainMenu]
 		this.sizeMenu = new Menu(this.scene, 320, fontSpecs.texture, "   SIZE   ", options, actions)
 
-		// TODO: fazer este
-		this.sceneMenu = new Menu(this.scene, 330, fontSpecs.texture, "  SCENE  ", ["    <BACK>    "], [() => this.actualMenu = this.mainMenu])
+		options = [	"   Scene  1   ", "   Scene  2   ", "    <BACK>    "]
+		actions = [() => this.setTheme("scene.xml"), () => this.setTheme("board.xml"), () => this.actualMenu = this.mainMenu]
+		this.sceneMenu = new Menu(this.scene, 330, fontSpecs.texture, "  SCENE:  ", options, actions)
 
 		options = [	"Human vs Human", "Human vs  Bot ", " Bot  vs Human", " Bot  vs  Bot ", "    <BACK>    "]
 		actions = [() => this.setGameMode(1), () => this.setGameMode(2), () =>  this.setGameMode(3), () =>  this.setGameMode(4), () => this.actualMenu = this.mainMenu]
-		this.modeMenu = new Menu(this.scene, 340, fontSpecs.texture, "GAME  MODE", options, actions)
+		this.modeMenu = new Menu(this.scene, 340, fontSpecs.texture,  "GAME  MODE", options, actions)
 
 		options = [	"  Very  Easy  ","     Easy     ","    Normal    ","     Hard     ","  Very  Hard  ","    <BACK>    "]
 		actions = [() => this.setDifficulty(0), () => this.setDifficulty(1), () => this.setDifficulty(2), () => this.setDifficulty(3), () => this.setDifficulty(4), () => this.actualMenu = this.modeMenu]
@@ -42,6 +43,8 @@ class MenuController extends CGFobject {
 	}
 
 	play(){
+		if(this.gameController.gameMode == 4)
+			this.gameController.clock.setInitialTime(-1)
 		this.gameController.currState = states.LOAD
 		this.gameController.nextState(null)
 	}
@@ -65,6 +68,10 @@ class MenuController extends CGFobject {
 	setTime(time){
 		this.gameController.clock.setInitialTime(time)
 		this.actualMenu = this.mainMenu
+	}
+
+	setTheme(theme){
+		this.gameController.theme = new MySceneGraph(theme, this.scene)
 	}
 
 	async setDimensions(columns, rows){

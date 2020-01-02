@@ -24,11 +24,13 @@ class Board extends CGFobject {
 
         this.geometry = geometry;
         this.color1 = color1;
-        this.color2 = color2;
+		this.color2 = color2;
+		
+        this.square = new MyPlane(this.scene, 'square', 30, 30);
+        this.piece_holder = new MyPlane(this.scene, 'holder', 30, 30);
+        this.side = new MyPlane(this.scene, 'side', 30, 30);
 
 		this.highlight = false
-
-		this.movement = [];
 
 		this.boardInit = false
     }
@@ -53,10 +55,6 @@ class Board extends CGFobject {
         this.x_scale = this.x_dimensions / (this.columns + 2)
         this.y_scale = this.y_dimensions / (this.rows + 2)
 
-		
-        this.square = new MyPlane(this.scene, 'square', 30, 30);
-        this.piece_holder = new MyPlane(this.scene, 'holder', 30, 30);
-        this.side = new MyPlane(this.scene, 'side', 30, 30);
         this.tiles = [];
 		let pos = 0
         for(let row = 0; row < this.rows + 2; row++){
@@ -82,7 +80,26 @@ class Board extends CGFobject {
             this.tiles.push(aux_row);
 		}
 		this.boardInit = true
-    }
+	}
+	
+	reloadBoard(tiles){
+		this.tiles = tiles
+
+		this.rows = this.tiles.length - 2;
+		this.columns = this.tiles[0].length - 2;
+
+		this.size = this.rows * this.columns;
+        this.x_scale = this.x_dimensions / (this.columns + 2)
+		this.y_scale = this.y_dimensions / (this.rows + 2)
+		
+		this.boardInit = true
+	}
+
+	saveBoard(){
+		return this.tiles
+	}
+
+
 	
 	
     move(piece, init_tile, dest_tile){

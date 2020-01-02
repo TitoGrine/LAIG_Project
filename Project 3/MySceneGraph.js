@@ -29,7 +29,8 @@ class MySceneGraph {
         this.loadedOk = null;
 
         // Establish bidirectional references between scene and graph.
-        this.scene = scene;
+		this.scene = scene;
+		this.scene.sceneInited = false
         scene.graph = this;
 
         this.nodes = [];
@@ -200,10 +201,10 @@ class MySceneGraph {
 
         // <geomtries>
         if ((index = nodeNames.indexOf("geometries")) == -1)
-            return "tag <transformations> missing";
+            return "tag <geometries> missing";
         else {
-            if (index != TRANSFORMATIONS_INDEX)
-                this.onXMLMinorError("tag <transformations> out of order");
+            if (index != GEOMETRIES_INDEX)
+                this.onXMLMinorError("tag <geometries> out of order");
 
             //Parse transformations block
             if ((error = this.parseGeometries(nodes[index])) != null)
