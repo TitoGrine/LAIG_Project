@@ -73,6 +73,7 @@ class MyGameController {
 
 		this.undoLabel = new MenuOption(this.scene, 401, "UNDO", fontSpecs.texture, 0, 1, 0.5, 1., () => this.undo(), [1.0, 1.0, 0.], [1., 0., 0.])
 		this.restartLabel = new MenuOption(this.scene, 402, "RESTART", fontSpecs.texture, 0, 1, 0.5, 1, () => this.restart(), [1.0, 1.0, 0.], [1., 0., 0.])
+		this.filmLabel = new MenuOption(this.scene, 403, "®", fontSpecs.texture, 0, 1, 1, 2, () => this.startFilm(), [0.0, 0.0, 0.], [1., 0., 0.])
 
 		this.setBoard()
 		this.nextState(null)
@@ -525,16 +526,6 @@ class MyGameController {
 				this.clock.display()
 			this.score.display()
 
-			if(this.currState != mode.BvB){
-				this.scene.pushMatrix()
-				this.scene.translate(3.5, 0, 13)
-				this.scene.rotate(-Math.PI / 2, 1, 0, 0)
-				this.scene.scale(1.5, 1, 1)
-				this.undoLabel.display()
-				this.scene.popMatrix()
-			}
-
-
 			this.scene.pushMatrix()
 			this.scene.translate(13, 0, 7.5)
 			this.scene.rotate(Math.PI / 2, 0, 1, 0)
@@ -543,6 +534,24 @@ class MyGameController {
 			this.restartLabel.display()
 			this.scene.popMatrix()
 
+			if(this.gameMode != mode.BvB){
+				this.scene.pushMatrix()
+				this.scene.translate(12, 0, 12)
+				this.scene.rotate(Math.PI / 4, 0, 1, 0)
+				this.scene.rotate(-Math.PI / 2, 1, 0, 0)
+				this.scene.scale(1.5, 1, 1)
+				this.filmLabel.display()
+				this.scene.popMatrix()
+
+				if(this.currState != states.END){
+					this.scene.pushMatrix()
+					this.scene.translate(3.5, 0, 13)
+					this.scene.rotate(-Math.PI / 2, 1, 0, 0)
+					this.scene.scale(1.5, 1, 1)
+					this.undoLabel.display()
+					this.scene.popMatrix()
+				}
+			}			
 		}
 		this.menuController.display()
 		// this.scene.gl.enable(this.scene.gl.DEPTH_TEST);

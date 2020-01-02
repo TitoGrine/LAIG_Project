@@ -192,6 +192,8 @@ class MyFont extends CGFobject{
 				return [3, 12]  
 			case "ã":
 				return [3, 14]
+			case "®":
+				return [14, 10]
 			default:
 				return [0, 2]
 		}
