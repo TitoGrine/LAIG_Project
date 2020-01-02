@@ -36,6 +36,7 @@ class XMLscene extends CGFscene {
         this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
 
 		this.axis = new CGFaxis(this);
+		this.timer = false;
 		
 		this.texturesStack = [];
 		this.materialsStack = []; 
@@ -129,7 +130,7 @@ class XMLscene extends CGFscene {
 		
 		this.interface.setActiveCamera(this.camera);
 		//this.interface.addLightsGUI();
-        //this.interface.addCamerasGUI();
+        this.interface.addCamerasGUI();
 		
 		this.sceneInited = true;
 

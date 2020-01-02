@@ -7,7 +7,7 @@
  * @param {KeyframeAnimation ID} id
  * @param {Array with the keyframes} keyframes 
  */
-class KeyframeAnimation extends Animation {
+class KeyframeAnimation extends XMLAnimation {
 	constructor(scene, id, keyframes) {
 		super(scene, id);
 

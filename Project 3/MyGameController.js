@@ -34,7 +34,7 @@ class MyGameController {
 	constructor(scene) {
 		this.scene = scene
 		this.prologInterface = new MyPrologInterface(8081)
-		this.theme = new MySceneGraph('board.xml', scene)
+		this.theme = new MySceneGraph('gallery.xml', scene)
 		this.gameSequence = new MyGameSequence()
 		this.animator = new MyAnimator(scene, this, this.gameSequence)
 	
@@ -276,7 +276,7 @@ class MyGameController {
 		this.curr_time = time
 
 		this.animator.update(elapsed_time)
-		if(ON_CLOCK)
+		if(this.scene.timer && ON_CLOCK)
 			this.clock.update(elapsed_time)
 	}
 

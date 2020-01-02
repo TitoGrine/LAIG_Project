@@ -25,6 +25,8 @@ class MyInterface extends CGFinterface {
 		// CheckBox to set the lights as visible 
 		//this.gui.add(this.scene, 'displayLights').name('Lights Visible').onChange(this.scene.turnOffLights.bind(this.scene));
 
+		this.gui.add(this.scene, 'timer').name('Timer');
+
 		this.initKeys();
 		
         return true;
