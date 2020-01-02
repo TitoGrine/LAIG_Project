@@ -34,7 +34,7 @@ class MyGameController {
 	constructor(scene) {
 		this.scene = scene
 		this.prologInterface = new MyPrologInterface(8081)
-		this.theme = new MySceneGraph('gallery.xml', scene)
+		this.theme = new MySceneGraph('board.xml', scene)
 		this.gameSequence = new MyGameSequence()
 		this.animator = new MyAnimator(scene, this, this.gameSequence)
 	

@@ -12,8 +12,6 @@ class Tile extends CGFobject {
 		super(scene);
 		this.scene = scene
 		this.id = id
-
-		console.log('AMBIENT: ' + tile_color.ambient)
 		
         this.row = row;
         this.column = column;

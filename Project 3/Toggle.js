@@ -13,9 +13,9 @@ class Toggle {
         return (negative == 0.0 || negative == 1.0) ? this.default_toggle[index] : negative;
     }
 
-    _color_tone(color_value, factor){
+    _color_tone(color_value){
 
-        let tone = color_value + ((color_value) * factor);
+        let tone = color_value * (1.0 - color_value) + (1.0 - color_value) * (color_value > 0.5 ? -1.0 : 1.0);
 
         return (tone == 0.0 || tone == 1.0) ? color_value : tone;
     }
@@ -40,9 +40,9 @@ class Toggle {
         let specular = this.material.specular
 
         this.highlight_color = new CGFappearance(this.scene);
-		this.highlight_color.setAmbient(this._color_tone(ambient[0], 0.8), this._color_tone(ambient[1], 0.2), this._color_tone(ambient[2], 0.2), 1);
-		this.highlight_color.setDiffuse(this._color_tone(diffuse[0], 0.8), this._color_tone(diffuse[1], 0.2), this._color_tone(diffuse[2], 0.2), 1);
-		this.highlight_color.setSpecular(this._color_tone(specular[0], 0.8), this._color_tone(specular[1], 0.2), this._color_tone(specular[2], 0.2), 1);
+		this.highlight_color.setAmbient(this._color_tone(ambient[0]), this._color_tone(ambient[1]), this._color_tone(ambient[2]), 1);
+		this.highlight_color.setDiffuse(this._color_tone(diffuse[0]), this._color_tone(diffuse[1]), this._color_tone(diffuse[2]), 1);
+		this.highlight_color.setSpecular(this._color_tone(specular[0]), this._color_tone(specular[1]), this._color_tone(specular[2]), 1);
         this.highlight_color.setShininess(this.material.shininess);
     }
 
