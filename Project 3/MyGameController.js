@@ -69,7 +69,9 @@ class MyGameController {
 	init(){
 		this.clock = new Clock(this.scene, 10, () => {this.playerTimeout()}, fontSpecs)
 		this.score = new Score(this.scene, this.prologInterface, fontSpecs)
-		this.menuController = new MenuController(this.scene, this)
+		let menu = this.getMenu()
+		menu.setGameController(this)
+		// this.menuController = new MenuController(this.scene, this)
 
 		this.undoLabel = new MenuOption(this.scene, 401, "UNDO", fontSpecs.texture, 0, 1, 0.5, 1., () => this.undo(), [1.0, 1.0, 0.], [1., 0., 0.])
 		this.restartLabel = new MenuOption(this.scene, 402, "RESTART", fontSpecs.texture, 0, 1, 0.5, 1, () => this.restart(), [1.0, 1.0, 0.], [1., 0., 0.])
@@ -82,6 +84,10 @@ class MyGameController {
 	setBoard(){
 		// TODO: mudar
 		this.board = this.theme.components['board'].component.children[0]
+	}
+
+	getMenu(){
+		return this.theme.components['menu'].component.children[0]
 	}
 
 	calculatePos([column, row]){
@@ -553,7 +559,7 @@ class MyGameController {
 				}
 			}			
 		}
-		this.menuController.display()
+		// this.menuController.display()
 		// this.scene.gl.enable(this.scene.gl.DEPTH_TEST);
 
 	}

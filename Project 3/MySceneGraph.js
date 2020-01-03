@@ -1165,7 +1165,7 @@ class MySceneGraph {
             grandChildren = children[i].children;
 
 			// Validate the primitive type
-			var validPrimitives = ['rectangle', 'triangle', 'cylinder', 'sphere', 'torus', 'plane', 'patch', 'cylinder2', 'board']
+			var validPrimitives = ['rectangle', 'triangle', 'cylinder', 'sphere', 'torus', 'plane', 'patch', 'cylinder2', 'board', 'menu']
 			
             if (grandChildren.length != 1 || !validPrimitives.includes(grandChildren[0].nodeName)) {
                 return "There must be exactly 1 primitive type (" + validPrimitives + ")"
@@ -1421,6 +1421,40 @@ class MySceneGraph {
 				var board = new Board(this.scene, primitiveId, x_scale, y_scale, this.geometries[0], this.piece_material1, this.piece_material2);
  
 				this.primitives[primitiveId] = board;
+			}
+			else if (primitiveType == 'menu'){
+				var greatgrandChildren = [];
+				greatgrandChildren = grandChildren[0].children;
+				let colors = [null, null, null, null]
+
+                for (var j = 0; j < greatgrandChildren.length; j++){
+					var aux = this.parseColor(greatgrandChildren[j], "attribute \"" + greatgrandChildren[j].nodeName + "\" of the primitive with ID = " + primitiveId);
+					if (!Array.isArray(aux))
+						return aux;
+
+					switch (greatgrandChildren[j].nodeName) {
+						case 'options_bg':							
+							colors[0] = aux
+							break;
+						case 'options_fg':
+							colors[1] = aux
+							break;
+						case 'title_bg':
+							colors[2] = aux
+							break;
+						case 'title_fg':
+							colors[3] = aux
+							break;
+
+					}
+				}
+
+               
+                // Initialize and save Menu
+                // TODO: CHANGE the rows and columns
+				let menu = new MenuController(this.scene, colors[0], colors[1], colors[2], colors[3]);
+ 
+				this.primitives[primitiveId] = menu;
 			}
 
 			// Does not reach this point

@@ -20,8 +20,8 @@ class MyFont extends CGFobject{
 		this.appearance.setSpecular(0.0, 0.0, 0.0, 1);
 		this.appearance.setShininess(120);
 		
-		this.background = background || [0.0, 0.0, 0.0]
-		this.foreground = foreground || [1.0, 1.0, 1.0]
+		this.background = background || [0.0, 0.0, 0.0, 1.0]
+		this.foreground = foreground || [1.0, 1.0, 1.0, 1.0]
 		
 		// font texture: 16 x 16 characters
 		// http://jens.ayton.se/oolite/files/font-tests/rgba/oolite-font.png

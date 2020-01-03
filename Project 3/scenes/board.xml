@@ -1,5 +1,5 @@
 <lxs>
-    <scene root="board" axis_length="5"/>
+    <scene root="root" axis_length="5"/>
 
     <views default="defaultCamera">
         <perspective id="defaultCamera" near="0.2" far="600" angle="45">
@@ -82,9 +82,28 @@
         <primitive id="game_board">
             <board x_scale="10" y_scale="10"/>
         </primitive>
+		<primitive id="menu">
+            <menu>
+				<options_bg r="0.0" g="0.8" b="1.0" a="1.0" />
+				<options_fg r="0.95" g="0.95" b="0.95" a="1.0" />
+				<title_bg r="0.3" g="0.6" b="0.8" a="1.0" />
+			</menu>
+        </primitive>
     </primitives>
 
     <components>
+		<component id="root">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="board" />
+                <componentref id="menu" />
+            </children>
+        </component>
         <component id="board">
             <transformation>
             </transformation>
@@ -96,5 +115,21 @@
                 <primitiveref id="game_board" />
             </children>
         </component>
+		<component id="menu">
+            <transformation>
+	            <translate x="20.0" y="10.0" z="20.0" />
+                <rotate axis="y" angle="45" />
+                <rotate axis="x" angle="-22.5" />
+				<scale x="10.0" y="10.0" z="1.0" />
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="default_texture" length_t="1.0" length_s="1.0"/>
+            <children>
+                <primitiveref id="menu" />
+            </children>
+        </component>
+		
     </components>
 </lxs>
