@@ -93,18 +93,25 @@ class MyGameController {
 	}
 
 	setLabels(){
-		this.undoLabel1 = this.theme.components['undo1'].component.children[0]
-		this.undoLabel1.setAction(401, () => this.undo())
-		this.undoLabel1.setGameController(button.undo, this)
+		this.undoLabels = []
+		let undoLabel = this.theme.components['undo1'].component.children[0]
+		undoLabel.setAction(401, () => this.undo())
+		undoLabel.setGameController(button.undo, this)
+		this.undoLabels.push(undoLabel)
 
-		this.restartLabel1 = this.theme.components['restart1'].component.children[0]
-		this.restartLabel1.setAction(402, () => this.restart())
-		this.restartLabel1.setGameController(button.restart, this)
+		let restartLabel = this.theme.components['restart1'].component.children[0]
+		restartLabel.setAction(402, () => this.restart())
+		restartLabel.setGameController(button.restart, this)
 
 
-		this.filmLabel1 = this.theme.components['film1'].component.children[0]
-		this.filmLabel1.setAction(403, () => this.startFilm())
-		this.filmLabel1.setGameController(button.replay, this)
+		let filmLabel = this.theme.components['film1'].component.children[0]
+		filmLabel.setAction(403, () => this.startFilm())
+		filmLabel.setGameController(button.replay, this)
+	}
+
+	setUndosSelectable(bool){
+		for(let i = 0; i < this.undoLabels.length; i++)
+			this.undoLabels[i].setSelectable(bool)
 	}
 
 	calculatePos([column, row]){
@@ -199,7 +206,7 @@ class MyGameController {
 			this.restart()
 			return
 		}
-		this.undoLabel1.setSelectable(true)
+		this.setUndosSelectable(true)
 
 		await this.score.getPoints()
 		if(this.players[this.currPlayer] == "player"){
@@ -432,7 +439,7 @@ class MyGameController {
 				this.nextState(null)
 				break;
 			case states.MOVE:
-				this.undoLabel1.setSelectable(false)
+				this.setUndosSelectable(false)
 
 				this.numPasses = 0
 				this.prevState = this.currState
