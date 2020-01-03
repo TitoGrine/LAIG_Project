@@ -19,6 +19,12 @@ const mode = Object.freeze({
     BvB: 4,
 });
 
+const button = Object.freeze({
+    undo: 1,
+	replay: 2,
+	restart: 3,
+});
+
 let fontSpecs = {}
 
 /**
@@ -69,15 +75,11 @@ class MyGameController {
 	init(){
 		this.clock = new Clock(this.scene, 10, () => {this.playerTimeout()}, fontSpecs)
 		this.score = new Score(this.scene, this.prologInterface, fontSpecs)
+		
+		this.setBoard()
+		this.setLabels()
 		let menu = this.getMenu()
 		menu.setGameController(this)
-		// this.menuController = new MenuController(this.scene, this)
-
-		this.undoLabel = new MenuOption(this.scene, 401, "UNDO", fontSpecs.texture, 0, 1, 0.5, 1., () => this.undo(), [1.0, 1.0, 0.], [1., 0., 0.])
-		this.restartLabel = new MenuOption(this.scene, 402, "RESTART", fontSpecs.texture, 0, 1, 0.5, 1, () => this.restart(), [1.0, 1.0, 0.], [1., 0., 0.])
-		this.filmLabel = new MenuOption(this.scene, 403, "®", fontSpecs.texture, 0, 1, 1, 2, () => this.startFilm(), [0.0, 0.0, 0.], [1., 0., 0.])
-
-		this.setBoard()
 		this.nextState(null)
 	}
 
@@ -88,6 +90,21 @@ class MyGameController {
 
 	getMenu(){
 		return this.theme.components['menu'].component.children[0]
+	}
+
+	setLabels(){
+		this.undoLabel1 = this.theme.components['undo1'].component.children[0]
+		this.undoLabel1.setAction(401, () => this.undo())
+		this.undoLabel1.setGameController(button.undo, this)
+
+		this.restartLabel1 = this.theme.components['restart1'].component.children[0]
+		this.restartLabel1.setAction(402, () => this.restart())
+		this.restartLabel1.setGameController(button.restart, this)
+
+
+		this.filmLabel1 = this.theme.components['film1'].component.children[0]
+		this.filmLabel1.setAction(403, () => this.startFilm())
+		this.filmLabel1.setGameController(button.replay, this)
 	}
 
 	calculatePos([column, row]){
@@ -182,7 +199,7 @@ class MyGameController {
 			this.restart()
 			return
 		}
-		this.undoLabel.setSelectable(true)
+		this.undoLabel1.setSelectable(true)
 
 		await this.score.getPoints()
 		if(this.players[this.currPlayer] == "player"){
@@ -415,7 +432,7 @@ class MyGameController {
 				this.nextState(null)
 				break;
 			case states.MOVE:
-				this.undoLabel.setSelectable(false)
+				this.undoLabel1.setSelectable(false)
 
 				this.numPasses = 0
 				this.prevState = this.currState
@@ -530,34 +547,7 @@ class MyGameController {
 		if(this.currState != states.MENU && !this.replaying){
 			if(ON_CLOCK)
 				this.clock.display()
-			this.score.display()
-
-			this.scene.pushMatrix()
-			this.scene.translate(13, 0, 7.5)
-			this.scene.rotate(Math.PI / 2, 0, 1, 0)
-			this.scene.rotate(-Math.PI / 2, 1, 0, 0)
-			this.scene.scale(1.5, 1, 1)
-			this.restartLabel.display()
-			this.scene.popMatrix()
-
-			if(this.gameMode != mode.BvB){
-				this.scene.pushMatrix()
-				this.scene.translate(12, 0, 12)
-				this.scene.rotate(Math.PI / 4, 0, 1, 0)
-				this.scene.rotate(-Math.PI / 2, 1, 0, 0)
-				this.scene.scale(1.5, 1, 1)
-				this.filmLabel.display()
-				this.scene.popMatrix()
-
-				if(this.currState != states.END){
-					this.scene.pushMatrix()
-					this.scene.translate(3.5, 0, 13)
-					this.scene.rotate(-Math.PI / 2, 1, 0, 0)
-					this.scene.scale(1.5, 1, 1)
-					this.undoLabel.display()
-					this.scene.popMatrix()
-				}
-			}			
+			this.score.display()		
 		}
 		// this.menuController.display()
 		// this.scene.gl.enable(this.scene.gl.DEPTH_TEST);

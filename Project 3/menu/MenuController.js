@@ -4,11 +4,13 @@
  * 
  */
 class MenuController extends CGFobject {
-	constructor(scene, options_bg, options_fg, title_bg, title_fg) {
+	constructor(scene, font, options_bg, options_fg, title_bg, title_fg) {
 		super(scene)
 		this.gameController = null
 		this.actualMenu = null
 		this.curr = 0
+
+		this.fontText = font
 
 		this.options_bg = options_bg
 		this.options_fg = options_fg
@@ -24,26 +26,26 @@ class MenuController extends CGFobject {
 	buildMenus(){
 		let options = ["     mode     ", "     time     ", "  board size  ", " choose scene ", "    <PLAY>    "]
 		let actions = [() => this.actualMenu = this.modeMenu, () => this.actualMenu = this.timeMenu, () => this.actualMenu = this.sizeMenu, () => this.actualMenu = this.sceneMenu, () => this.play()]
-		this.mainMenu = new Menu(this.scene, 300, fontSpecs.texture, "   FUSE   ", options, actions, this.options_bg, this.options_fg, this.title_bg, this.title_fg)
+		this.mainMenu = new Menu(this.scene, 300, this.fontText, "   FUSE   ", options, actions, this.options_bg, this.options_fg, this.title_bg, this.title_fg)
 
 		options = [	"    10 sec    ", "    30 sec    ", "    60 sec    ", "   no timer   ", "    <BACK>    "]
 		actions = [() => this.setTime(10), () => this.setTime(30), () =>  this.setTime(60), () => this.setTime(-1), () => this.actualMenu = this.mainMenu]
-		this.timeMenu = new Menu(this.scene, 310, fontSpecs.texture, "   TIME   ", options, actions, this.options_bg, this.options_fg, this.title_bg, this.title_fg)
+		this.timeMenu = new Menu(this.scene, 310, this.fontText, "   TIME   ", options, actions, this.options_bg, this.options_fg, this.title_bg, this.title_fg)
 
 		options = [	"     Small    ", "    Medium    ", "     Large    ", "    <BACK>    "]
 		actions = [() => this.setDimensions(3,3), () => this.setDimensions(4,4), () =>  this.setDimensions(6,6), () => this.actualMenu = this.mainMenu]
-		this.sizeMenu = new Menu(this.scene, 320, fontSpecs.texture, "   SIZE   ", options, actions, this.options_bg, this.options_fg, this.title_bg, this.title_fg)
+		this.sizeMenu = new Menu(this.scene, 320, this.fontText, "   SIZE   ", options, actions, this.options_bg, this.options_fg, this.title_bg, this.title_fg)
 
 		// TODO: fazer este
-		this.sceneMenu = new Menu(this.scene, 330, fontSpecs.texture, "  SCENE  ", ["    <BACK>    "], [() => this.actualMenu = this.mainMenu], this.options_bg, this.options_fg, this.title_bg, this.title_fg)
+		this.sceneMenu = new Menu(this.scene, 330, this.fontText, "  SCENE  ", ["    <BACK>    "], [() => this.actualMenu = this.mainMenu], this.options_bg, this.options_fg, this.title_bg, this.title_fg)
 
 		options = [	"Human vs Human", "Human vs  Bot ", " Bot  vs Human", " Bot  vs  Bot ", "    <BACK>    "]
 		actions = [() => this.setGameMode(1), () => this.setGameMode(2), () =>  this.setGameMode(3), () =>  this.setGameMode(4), () => this.actualMenu = this.mainMenu]
-		this.modeMenu = new Menu(this.scene, 340, fontSpecs.texture, "GAME  MODE", options, actions, this.options_bg, this.options_fg, this.title_bg, this.title_fg)
+		this.modeMenu = new Menu(this.scene, 340, this.fontText, "GAME  MODE", options, actions, this.options_bg, this.options_fg, this.title_bg, this.title_fg)
 
 		options = [	"  Very  Easy  ","     Easy     ","    Normal    ","     Hard     ","  Very  Hard  ","    <BACK>    "]
 		actions = [() => this.setDifficulty(0), () => this.setDifficulty(1), () => this.setDifficulty(2), () => this.setDifficulty(3), () => this.setDifficulty(4), () => this.actualMenu = this.modeMenu]
-		this.diffMenu = new Menu(this.scene, 350, fontSpecs.texture, "DIFFICULTY", options, actions, this.options_bg, this.options_fg, this.title_bg, this.title_fg)
+		this.diffMenu = new Menu(this.scene, 350, this.fontText, "DIFFICULTY", options, actions, this.options_bg, this.options_fg, this.title_bg, this.title_fg)
 
 		this.actualMenu = this.mainMenu
 	}

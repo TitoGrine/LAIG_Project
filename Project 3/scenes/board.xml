@@ -40,6 +40,7 @@
 
     <textures>
         <texture id="default_texture" file="scenes/images/default_texture.jpg"/>
+		<texture id="font_texture" file="scenes/images/font.png"/>
     </textures>
 
     <materials>
@@ -83,11 +84,29 @@
             <board x_scale="10" y_scale="10"/>
         </primitive>
 		<primitive id="menu">
-            <menu>
+            <menu font="font_texture">
 				<options_bg r="0.0" g="0.8" b="1.0" a="1.0" />
 				<options_fg r="0.95" g="0.95" b="0.95" a="1.0" />
 				<title_bg r="0.3" g="0.6" b="0.8" a="1.0" />
 			</menu>
+        </primitive>
+		<primitive id="undo">
+            <label string="UNDO" font="font_texture">
+				<background r="1.0" g="1.0" b="0.0" a="1.0" />
+				<foreground r="1." g="0.0" b="0.0" a="1.0" />
+			</label>
+        </primitive>
+		<primitive id="restart">
+            <label string="RESTART" font="font_texture">
+				<background r="1.0" g="1.0" b="0.0" a="1.0" />
+				<foreground r="1." g="0.0" b="0.0" a="1.0" />
+			</label>
+        </primitive>
+		<primitive id="film">
+            <label string="®" font="font_texture">
+				<background r="0.0" g="0.0" b="0.0" a="0.0" /> <!-- transparent -->
+				<foreground r="1." g="0.0" b="0.0" a="1.0" />
+			</label>
         </primitive>
     </primitives>
 
@@ -102,6 +121,9 @@
             <children>
                 <componentref id="board" />
                 <componentref id="menu" />
+                <componentref id="undo1" />
+				<componentref id="restart1" />
+				<componentref id="film1" />
             </children>
         </component>
         <component id="board">
@@ -125,11 +147,54 @@
             <materials>
                 <material id="defaultMaterial" />
             </materials>
-            <texture id="default_texture" length_t="1.0" length_s="1.0"/>
+            <texture id="none"/>
             <children>
                 <primitiveref id="menu" />
             </children>
         </component>
-		
+		<component id="undo1">
+            <transformation>
+	            <translate x="3.5" y="0.0" z="13.0" />
+                <rotate axis="x" angle="-90" />
+				<scale x="1.5" y="1.0" z="1.0" />
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="undo" />
+            </children>
+        </component>
+		<component id="restart1">
+            <transformation>
+	            <translate x="13" y="0.0" z="7.5" />
+                <rotate axis="y" angle="90" />
+                <rotate axis="x" angle="-90" />
+				<scale x="1.5" y="1.0" z="1.0" />
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="restart" />
+            </children>
+        </component>
+		<component id="film1">
+            <transformation>
+	            <translate x="11.5" y="0.0" z="12" />
+                <rotate axis="y" angle="45" />
+                <rotate axis="x" angle="-90" />
+				<scale x="3" y="1.5" z="1.0" />
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="film" />
+            </children>
+        </component>
     </components>
 </lxs>

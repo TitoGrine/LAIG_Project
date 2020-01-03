@@ -1165,7 +1165,7 @@ class MySceneGraph {
             grandChildren = children[i].children;
 
 			// Validate the primitive type
-			var validPrimitives = ['rectangle', 'triangle', 'cylinder', 'sphere', 'torus', 'plane', 'patch', 'cylinder2', 'board', 'menu']
+			var validPrimitives = ['rectangle', 'triangle', 'cylinder', 'sphere', 'torus', 'plane', 'patch', 'cylinder2', 'board', 'menu', 'label']
 			
             if (grandChildren.length != 1 || !validPrimitives.includes(grandChildren[0].nodeName)) {
                 return "There must be exactly 1 primitive type (" + validPrimitives + ")"
@@ -1423,6 +1423,13 @@ class MySceneGraph {
 				this.primitives[primitiveId] = board;
 			}
 			else if (primitiveType == 'menu'){
+				var font = this.reader.getString(grandChildren[0], 'font');
+				// Ignore primitive if the ID is missing
+				if(font == "" || font == null){
+					this.onXMLMinorError("ignored primitive " + primitiveId + "because of invalid font");
+					continue;
+				}
+
 				var greatgrandChildren = [];
 				greatgrandChildren = grandChildren[0].children;
 				let colors = [null, null, null, null]
@@ -1451,10 +1458,47 @@ class MySceneGraph {
 
                
                 // Initialize and save Menu
-                // TODO: CHANGE the rows and columns
-				let menu = new MenuController(this.scene, colors[0], colors[1], colors[2], colors[3]);
+				let menu = new MenuController(this.scene, this.textures[font], colors[0], colors[1], colors[2], colors[3]);
  
 				this.primitives[primitiveId] = menu;
+			}
+			else if (primitiveType == 'label'){
+				var font = this.reader.getString(grandChildren[0], 'font');
+				// Ignore primitive if the ID is missing
+				if(font == "" || font == null){
+					this.onXMLMinorError("ignored primitive " + primitiveId + "because of invalid font");
+					continue;
+				}
+
+				var text = this.reader.getString(grandChildren[0], 'string');
+				// Ignore primitive if the ID is missing
+				if(text == "" || text == null){
+					this.onXMLMinorError("ignored primitive " + primitiveId + "because of invalid string text");
+					continue;
+				}
+
+				var greatgrandChildren = [];
+				greatgrandChildren = grandChildren[0].children;
+				let colors = [null, null]
+
+                for (var j = 0; j < greatgrandChildren.length; j++){
+					var aux = this.parseColor(greatgrandChildren[j], "attribute \"" + greatgrandChildren[j].nodeName + "\" of the primitive with ID = " + primitiveId);
+					if (!Array.isArray(aux))
+						return aux;
+
+					switch (greatgrandChildren[j].nodeName) {
+						case 'background':							
+							colors[0] = aux
+							break;
+						case 'foreground':
+							colors[1] = aux
+							break;
+					}
+				}
+
+                // Initialize and save label
+				let label = new Label(this.scene, null, text, this.textures[font], 0, 1, 0.5, 1., null, colors[0], colors[1])
+				this.primitives[primitiveId] = label;
 			}
 
 			// Does not reach this point

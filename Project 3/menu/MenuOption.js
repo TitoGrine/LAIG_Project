@@ -20,6 +20,11 @@ class MenuOption extends MyFont{
 		this.selectable = bool
 	}
 
+	setAction(id, action){
+		this.id = id
+		this.action = action
+	}
+
 	display(){
 		if(this.selectable)
 			this.scene.registerForPick(this.id, this)
