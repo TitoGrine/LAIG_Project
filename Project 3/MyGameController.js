@@ -34,7 +34,7 @@ class MyGameController {
 	constructor(scene) {
 		this.scene = scene
 		this.prologInterface = new MyPrologInterface(8081)
-		this.theme = new MySceneGraph('board.xml', scene)
+		this.theme = new MySceneGraph('vaporwave.xml', scene)
 		this.gameSequence = new MyGameSequence()
 		this.animator = new MyAnimator(scene, this, this.gameSequence)
 	
@@ -394,7 +394,7 @@ class MyGameController {
 				else
 					this.prologInterface.moveBot(this.currPlayer, this.difficulty[this.currPlayer])
 
-				this.animator.start(this.gameSequence, new BasicAnimation(this.scene, 1), () => {this.nextPlayerProc(promise)})
+				this.animator.start(this.gameSequence, this.board.getAnimation(), () => {this.nextPlayerProc(promise)})
 				break;
 			case states.PASS:
 				this.prevState = this.currState
@@ -454,7 +454,7 @@ class MyGameController {
 				console.log(move)
 				this.film_game_sequence.addMove(move)
 
-				this.animator.start(this.film_game_sequence, new BasicAnimation(this.scene, 1), () => {this.moveIndex++; this.nextState(null)})
+				this.animator.start(this.film_game_sequence, this.board.getAnimation(), () => {this.moveIndex++; this.nextState(null)})
 				
 				break;
 			case states.LOAD:

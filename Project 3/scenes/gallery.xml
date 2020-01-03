@@ -308,13 +308,6 @@
             <specular  r="0.297254" g="0.30829" b="0.306678" a="1.0" />
         </material>
 
-        <material id="darkWoodMaterial" shininess="50.0"> <!-- Base Wood Color --> 
-            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient  r="0.27" g="0.19" b="0.13" a="0.5" />
-            <diffuse  r="0.27" g="0.19" b="0.13" a="0.9" />
-            <specular r="0.27" g="0.19" b="0.13" a="0.1" />
-        </material>
-
         <material id="piece_color1" shininess="50.0"> 
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="1.0" g="1.0" b="1.0" a="1.0" />

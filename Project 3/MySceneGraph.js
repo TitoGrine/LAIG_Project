@@ -1133,7 +1133,7 @@ class MySceneGraph {
             grandChildren = children[i].children;
 
             // Validate the geometry type
-			var validGeometries = ['checker'];
+			var validGeometries = ['checker', 'crystal'];
 			
             if (grandChildren.length != 1 || !validGeometries.includes(grandChildren[0].nodeName)) {
                 return "There must be exactly 1 geometry type (" + validGeometries + "), choosen geometry was " + grandChildren[0].nodeName;
@@ -1149,7 +1149,15 @@ class MySceneGraph {
                 var checker = new Checker(this.scene);
 
 				this.geometries[geometryID] = checker;
-			}
+			} else if (geometryType == 'crystal') {
+
+				// Initialize and save Checker geometry
+                var crystal = new Crystal(this.scene);
+
+				this.geometries[geometryID] = crystal;
+			} else {
+                return "Geometry " + geometryType + " is not supported.";
+            }
         
         }
     }
@@ -1189,7 +1197,7 @@ class MySceneGraph {
             grandChildren = children[i].children;
 
 			// Validate the primitive type
-			var validPrimitives = ['rectangle', 'triangle', 'cylinder', 'sphere', 'torus', 'plane', 'patch', 'cylinder2', 'board']
+			var validPrimitives = ['rectangle', 'triangle', 'cylinder', 'sphere', 'torus', 'plane', 'patch', 'cylinder2', 'crystal', 'board']
 			
             if (grandChildren.length != 1 || !validPrimitives.includes(grandChildren[0].nodeName)) {
                 return "There must be exactly 1 primitive type (" + validPrimitives + ")"
@@ -1446,7 +1454,12 @@ class MySceneGraph {
  
 				this.primitives[primitiveId] = board;
 			}
+            else if (primitiveType == 'crystal'){
 
+				var crystal = new MyCrystal(this.scene, primitiveId);
+ 
+				this.primitives[primitiveId] = crystal;
+			}
 			// Does not reach this point
 			else{
 				this.onXMLMinorError("ignored primitive with ID = " + primitiveId + ". \"" + primitiveType + "\" is not a valid primitive type");

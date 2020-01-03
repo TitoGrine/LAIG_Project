@@ -14,7 +14,7 @@ const material_indexes = Object.freeze({
  * @param {Number of columns} columns 
  */
 class Board extends CGFobject {
-	constructor(scene, id, x_dimensions, y_dimensions, geometry, materials) {
+	constructor(scene, id, x_dimensions, z_dimensions, geometry, materials) {
         super(scene);
 		this.id = id;
 
@@ -24,10 +24,10 @@ class Board extends CGFobject {
 		this.size = 0
 
 		this.x_dimensions = x_dimensions
-		this.y_dimensions = y_dimensions
+		this.z_dimensions = z_dimensions
 		
         this.x_scale = 0
-        this.y_scale = 0
+        this.z_scale = 0
 
         this.geometry = geometry;
         this.piece_color1 = materials[material_indexes.PIECE1];
@@ -46,6 +46,10 @@ class Board extends CGFobject {
         return row * (this.columns + 2) + column;
     }
 
+    getAnimation(span) {
+        return this.geometry.getAnimation(span)
+    }
+
     /**
      * Creates the NURB surface corresponding to a plane centered in the XZ plane,
      * facing the +Y direction. It then creates a NURB Object using that surface,
@@ -60,7 +64,8 @@ class Board extends CGFobject {
 
 		this.size = this.rows * this.columns;
         this.x_scale = this.x_dimensions / (this.columns + 2)
-        this.y_scale = this.y_dimensions / (this.rows + 2)
+        this.y_scale = Math.min(this.x_dimensions, this.z_dimensions) / 12.0;
+        this.z_scale = this.z_dimensions / (this.rows + 2)
 
 		
         this.square = new MyPlane(this.scene, 'square', 30, 30);
@@ -181,7 +186,7 @@ class Board extends CGFobject {
 
         this.scene.pushMatrix();
 
-        this.scene.scale(this.x_scale, 1.0, this.y_scale);
+        this.scene.scale(this.x_scale, this.y_scale, this.z_scale);
 
         this.scene.pushMatrix();
         this.scene.translate(1 + this.columns/2.0, 1.0, 1 + this.rows/2.0);

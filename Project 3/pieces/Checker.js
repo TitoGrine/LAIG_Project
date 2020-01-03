@@ -19,6 +19,10 @@ class Checker extends CGFobject {
     updateTexCoords(lengthS, lengthT){
 
     }
+
+    getAnimation(span){
+        return new BasicAnimation(this.scene, span)
+    }
     
     display(){
         this.scene.pushMatrix();

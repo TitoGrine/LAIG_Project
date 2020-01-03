@@ -78,14 +78,11 @@ class Piece extends CGFobject {
 		if (this.selectable)
 			this.scene.registerForPick(this.id, this)
 //			this.scene.registerForPick(this.id, this.toggle.bind(this))
-
-
 			
         this.scene.pushMatrix();
         (this.toggled ? this.toggle_color.apply() : this.material.apply());
-        this.scene.multMatrix(this.animation);
-        //console.log(this.animation);
         this.scene.translate(this.column, 0.0, this.row);
+        this.scene.multMatrix(this.animation);
         this.geometry.display();
 		this.scene.popMatrix();
 		
