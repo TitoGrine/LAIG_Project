@@ -114,23 +114,40 @@ class MyGameController {
 		let sceneMenu = this.theme.components['menu_scene1'].component.children[0]
 		sceneMenu.setGameController(this)
 		this.sceneMenus.push(sceneMenu)
+
+		this.sceneMenus = []
+		let sceneMenuChildren = this.theme.components['menu_scenes'].component.children
+		for(let i = 0; i < sceneMenuChildren.length; i++){
+			// TODO: ver se precisa de ser assim ou tem de se alterar id dentro
+			sceneMenuChildren[i].component.children[0].setGameController(this)
+			this.sceneMenus.push(sceneMenuChildren[i].component.children[0])
+		}
 	}
 
 	setLabels(){
 		this.undoLabels = []
-		let undoLabel = this.theme.components['undo1'].component.children[0]
-		undoLabel.setAction(401, () => this.undo())
-		undoLabel.setGameController(button.undo, this)
-		this.undoLabels.push(undoLabel)
+		let undosChildren = this.theme.components['undos'].component.children
+		for(let i = 0; i < undosChildren.length; i++){
+			// TODO: ver se precisa de ser assim ou podeem ser todos 401
+			undosChildren[i].component.children[0].setAction(400 + i, () => this.undo())
+			undosChildren[i].component.children[0].setGameController(button.undo, this)
+			this.undoLabels.push(undosChildren[i].component.children[0])
+		}
 
-		let restartLabel = this.theme.components['restart1'].component.children[0]
-		restartLabel.setAction(402, () => this.restart())
-		restartLabel.setGameController(button.restart, this)
+		let restartLabels = this.theme.components['restarts'].component.children
+		for(let i = 0; i < undosChildren.length; i++){
+			// TODO: ver se precisa de ser assim ou podeem ser todos 401
+			restartLabels[i].component.children[0].setAction(410 + i, () => this.restart())
+			restartLabels[i].component.children[0].setGameController(button.restart, this)
+		}
 
 
-		let filmLabel = this.theme.components['film1'].component.children[0]
-		filmLabel.setAction(403, () => this.startFilm())
-		filmLabel.setGameController(button.replay, this)
+		let filmLabels = this.theme.components['films'].component.children
+		for(let i = 0; i < undosChildren.length; i++){
+			// TODO: ver se precisa de ser assim ou podeem ser todos 401
+			filmLabels[i].component.children[0].setAction(420 + i, () => this.startFilm())
+			filmLabels[i].component.children[0].setGameController(button.replay, this)
+		}
 	}
 
 	setUndosSelectable(bool){

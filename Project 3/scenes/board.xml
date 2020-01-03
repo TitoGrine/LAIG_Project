@@ -128,10 +128,10 @@
             <children>
                 <componentref id="board" />
                 <componentref id="menu_controller" />
-                <componentref id="undo1" />
-				<componentref id="restart1" />
-				<componentref id="film1" />
-				<componentref id="menu_scene1" />
+                <componentref id="undos" />
+				<componentref id="restarts" />
+				<componentref id="films" />
+				<componentref id="menu_scenes" />
             </children>
         </component>
         <component id="board">
@@ -160,6 +160,19 @@
                 <primitiveref id="menu_controller" />
             </children>
         </component>
+
+		<component id="undos">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+			<!-- TODO: add aqui mais butoes -->
+                <componentref id="undo1" />
+            </children>
+        </component>
 		<component id="undo1">
             <transformation>
 	            <translate x="3.5" y="0.0" z="13.0" />
@@ -172,6 +185,19 @@
             <texture id="none"/>
             <children>
                 <primitiveref id="undo" />
+            </children>
+        </component>
+
+		<component id="restarts">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+						<!-- TODO: add aqui mais butoes -->
+                <componentref id="restart1" />
             </children>
         </component>
 		<component id="restart1">
@@ -189,6 +215,19 @@
                 <primitiveref id="restart" />
             </children>
         </component>
+
+		<component id="films">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+						<!-- TODO: add aqui mais butoes -->
+                <componentref id="film1" />
+            </children>
+        </component>
 		<component id="film1">
             <transformation>
 	            <translate x="11.5" y="0.0" z="12" />
@@ -202,6 +241,19 @@
             <texture id="none"/>
             <children>
                 <primitiveref id="film" />
+            </children>
+        </component>
+
+		<component id="menu_scenes">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+				<!-- TODO: add aqui mais butoes -->
+                <componentref id="menu_scene1" />
             </children>
         </component>
 		<component id="menu_scene1">
