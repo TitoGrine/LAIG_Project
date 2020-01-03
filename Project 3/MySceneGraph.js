@@ -29,7 +29,8 @@ class MySceneGraph {
         this.loadedOk = null;
 
         // Establish bidirectional references between scene and graph.
-        this.scene = scene;
+		this.scene = scene;
+		this.scene.sceneInited = false
         scene.graph = this;
 
         this.nodes = [];
@@ -200,10 +201,10 @@ class MySceneGraph {
 
         // <geomtries>
         if ((index = nodeNames.indexOf("geometries")) == -1)
-            return "tag <transformations> missing";
+            return "tag <geometries> missing";
         else {
-            if (index != TRANSFORMATIONS_INDEX)
-                this.onXMLMinorError("tag <transformations> out of order");
+            if (index != GEOMETRIES_INDEX)
+                this.onXMLMinorError("tag <geometries> out of order");
 
             //Parse transformations block
             if ((error = this.parseGeometries(nodes[index])) != null)
@@ -1165,7 +1166,7 @@ class MySceneGraph {
             grandChildren = children[i].children;
 
 			// Validate the primitive type
-			var validPrimitives = ['rectangle', 'triangle', 'cylinder', 'sphere', 'torus', 'plane', 'patch', 'cylinder2', 'board', 'menu', 'label']
+			var validPrimitives = ['rectangle', 'triangle', 'cylinder', 'sphere', 'torus', 'plane', 'patch', 'cylinder2', 'board', 'mainmenu', 'label', 'scenemenu']
 			
             if (grandChildren.length != 1 || !validPrimitives.includes(grandChildren[0].nodeName)) {
                 return "There must be exactly 1 primitive type (" + validPrimitives + ")"
@@ -1422,7 +1423,7 @@ class MySceneGraph {
  
 				this.primitives[primitiveId] = board;
 			}
-			else if (primitiveType == 'menu'){
+			else if (primitiveType == 'mainmenu' || primitiveType == 'scenemenu'){
 				var font = this.reader.getString(grandChildren[0], 'font');
 				// Ignore primitive if the ID is missing
 				if(font == "" || font == null){
@@ -1457,9 +1458,13 @@ class MySceneGraph {
 				}
 
                
-                // Initialize and save Menu
-				let menu = new MenuController(this.scene, this.textures[font], colors[0], colors[1], colors[2], colors[3]);
- 
+				// Initialize and save Menu
+				let menu = null
+				if(primitiveType == 'mainmenu')
+					menu = new MainMenuController(this.scene, this.textures[font], colors[0], colors[1], colors[2], colors[3]);
+				else
+					menu = new SceneMenuController(this.scene, this.textures[font], colors[0], colors[1], colors[2], colors[3]);
+					
 				this.primitives[primitiveId] = menu;
 			}
 			else if (primitiveType == 'label'){
@@ -1500,7 +1505,6 @@ class MySceneGraph {
 				let label = new Label(this.scene, null, text, this.textures[font], 0, 1, 0.5, 1., null, colors[0], colors[1])
 				this.primitives[primitiveId] = label;
 			}
-
 			// Does not reach this point
 			else{
 				this.onXMLMinorError("ignored primitive with ID = " + primitiveId + ". \"" + primitiveType + "\" is not a valid primitive type");

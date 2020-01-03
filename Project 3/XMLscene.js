@@ -128,8 +128,6 @@ class XMLscene extends CGFscene {
 		this.camera = this.graph.views[this.graph.defView];
 		
 		this.interface.setActiveCamera(this.camera);
-		//this.interface.addLightsGUI();
-        //this.interface.addCamerasGUI();
 		
 		this.sceneInited = true;
 

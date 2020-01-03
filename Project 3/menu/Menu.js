@@ -37,6 +37,11 @@ class Menu extends CGFobject{
 		this.title.setString(title)
 	}
 
+	setSelectable(bool){
+		for(let i = 0; i < this.options.length; i++)
+			this.options[i].setSelectable(bool)
+	}
+
 	display(){
 		this.title.display()
 		for(let i = 0; i < this.options.length; i++)
