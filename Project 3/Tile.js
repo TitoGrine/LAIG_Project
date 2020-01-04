@@ -37,8 +37,14 @@ class Tile extends CGFobject {
 		this.highlight_color.setSpecular(0.0, 0.84, 0.0, 1);
 		this.highlight_color.setShininess(10);
 		*/
-    }
+	}
 
+	setColor(color){
+		this.color = color;		
+        this.toggle_color = new Toggle(this.scene, color).getToggleColor();
+		this.highlight_color = new Toggle(this.scene, color).getHighlightColor();
+	}
+	
     // Doesn nothing: Texture coordinates of NURB objects can't be changed
     updateTexCoords(lengthS, lengthT){
 

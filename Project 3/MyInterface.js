@@ -27,7 +27,7 @@ class MyInterface extends CGFinterface {
 
 		this.initKeys();
 
-		if(!this.scene.GUI_initiated){
+		if(!this.scene.GUI_initiated && this.scene.graph){
 			this.addLightsGUI();
 			this.addCamerasGUI();
 			this.scene.GUI_initiated = true;	

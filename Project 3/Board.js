@@ -100,14 +100,35 @@ class Board extends CGFobject {
 	reloadBoard(tiles){
 		this.tiles = tiles
 
+		this.setNewAppearance()
+
 		this.rows = this.tiles.length - 2;
 		this.columns = this.tiles[0].length - 2;
 
 		this.size = this.rows * this.columns;
         this.x_scale = this.x_dimensions / (this.columns + 2)
-		this.y_scale = this.y_dimensions / (this.rows + 2)
+        this.y_scale = Math.min(this.x_dimensions, this.z_dimensions) / 12.0;
+        this.z_scale = this.z_dimensions / (this.rows + 2)
 		
 		this.boardInit = true
+	}
+
+	setNewAppearance(){
+		for(let i = 0; i < this.tiles.length; i++){
+			for(let j = 0; j < this.tiles[i].length; j++){
+				let state = this.tiles[i][j].length 
+				if((i == 0 || i == this.tiles.length - 1 || j == 0 || j == this.tiles[i].length - 1) && state > 0){
+					this.tiles[i][j][0].setColor(this.outer_tile_color)
+					if(state == 2)
+						this.tiles[i][j][1].setAppearance(this.geometry, this.tiles[i][j][1].getType() ? this.piece_color2 : this.piece_color1)
+				}
+				else if(state > 0){
+					this.tiles[i][j][0].setColor(this.inner_tile_color)
+					if(state == 2)
+						this.tiles[i][j][1].setAppearance(this.geometry, this.tiles[i][j][1].getType() ? this.piece_color2 : this.piece_color1)
+				}
+			}
+		}
 	}
 
 	saveBoard(){

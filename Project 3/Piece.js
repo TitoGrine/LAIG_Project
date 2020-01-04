@@ -34,7 +34,17 @@ class Piece extends CGFobject {
 		// TODO: depois por como parametro e dar para mudar
 		this.selectable = true
 
-    }
+	}
+
+	getType(){
+		return this.type
+	}
+
+	setAppearance(geometry, material){
+		this.geometry = geometry;
+        this.material = material;
+        this.toggle_color = new Toggle(this.scene, this.material).getToggleColor();
+	}
 
     // Doesn nothing: Texture coordinates of NURB objects can't be changed
     updateTexCoords(lengthS, lengthT){
