@@ -26,6 +26,12 @@ class MyInterface extends CGFinterface {
 		this.gui.add(this.scene, 'displayLights').name('Lights Visible').onChange(this.scene.turnOffLights.bind(this.scene));
 
 		this.initKeys();
+
+		if(!this.scene.GUI_initiated){
+			this.addLightsGUI();
+			this.addCamerasGUI();
+			this.scene.GUI_initiated = true;	
+		}
 		
         return true;
     }

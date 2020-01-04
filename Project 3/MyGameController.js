@@ -378,9 +378,9 @@ class MyGameController {
 
 		let elapsed_time = time - this.curr_time
 		this.curr_time = time
-		if(this.board.boardInit)
+		if(this.board && this.board.boardInit)
 			this.animator.update(elapsed_time)
-		if(ON_CLOCK)
+		if(ON_CLOCK && this.clock)
 			this.clock.update(elapsed_time)
 	}
 
