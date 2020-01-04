@@ -1543,13 +1543,14 @@ class MySceneGraph {
 				let label = new Label(this.scene, null, text, this.textures[font], 0, 1, 0.5, 1., null, colors[0], colors[1])
 				this.primitives[primitiveId] = label;
             
-			numPrimitives++;
 			}
 			else{
 				// Does not reach this point
 				this.onXMLMinorError("ignored primitive with ID = " + primitiveId + ". \"" + primitiveType + "\" is not a valid primitive type");
 				continue;
 			}
+			
+			numPrimitives++;
 		}
 		
 		if (numPrimitives == 0)
