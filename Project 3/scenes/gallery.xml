@@ -1647,7 +1647,7 @@
         
 		<component id="menu_controller">
             <transformation>
-	            <translate x="102.0" y="20.0" z="-25.2" />
+	            <translate x="102.5" y="20.0" z="-25.2" />
                 <rotate axis="y" angle="-90" />
                 <rotate axis="x" angle="-36.0" />
 				<scale x="8.0" y="8.0" z="1.0" />
