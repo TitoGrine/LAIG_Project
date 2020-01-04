@@ -131,6 +131,12 @@ class XMLscene extends CGFscene {
 		
 		this.sceneInited = true;
 
+		if(!this.GUI_initiated){
+			this.interface.addLightsGUI();
+			this.interface.addCamerasGUI();
+			this.GUI_initiated = true;	
+		}
+
 		// TODO: tirar depois
 		// Menu -> Load
 		this.gameController.init()
