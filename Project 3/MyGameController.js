@@ -35,8 +35,8 @@ class MyGameController {
 	constructor(scene) {
 		this.scene = scene
 		this.prologInterface = new MyPrologInterface(8081)
-		this.theme = new MySceneGraph('board.xml', scene)
-		// this.theme = new MySceneGraph('scene.xml', scene)
+		this.theme = new MySceneGraph('gallery.xml', scene)
+
 		this.gameSequence = new MyGameSequence()
 		this.animator = new MyAnimator(scene, this, this.gameSequence)
 	
@@ -129,23 +129,23 @@ class MyGameController {
 		let undosChildren = this.theme.components['undos'].component.children
 		for(let i = 0; i < undosChildren.length; i++){
 			// TODO: ver se precisa de ser assim ou podeem ser todos 401
-			undosChildren[i].component.children[0].setAction(400 + i, () => this.undo())
+			undosChildren[i].component.children[0].setAction(400, () => this.undo())
 			undosChildren[i].component.children[0].setGameController(button.undo, this)
 			this.undoLabels.push(undosChildren[i].component.children[0])
 		}
 
 		let restartLabels = this.theme.components['restarts'].component.children
-		for(let i = 0; i < undosChildren.length; i++){
+		for(let i = 0; i < restartLabels.length; i++){
 			// TODO: ver se precisa de ser assim ou podeem ser todos 401
-			restartLabels[i].component.children[0].setAction(410 + i, () => this.restart())
+			restartLabels[i].component.children[0].setAction(410, () => this.restart())
 			restartLabels[i].component.children[0].setGameController(button.restart, this)
 		}
 
 
 		let filmLabels = this.theme.components['films'].component.children
-		for(let i = 0; i < undosChildren.length; i++){
+		for(let i = 0; i < filmLabels.length; i++){
 			// TODO: ver se precisa de ser assim ou podeem ser todos 401
-			filmLabels[i].component.children[0].setAction(420 + i, () => this.startFilm())
+			filmLabels[i].component.children[0].setAction(420, () => this.startFilm())
 			filmLabels[i].component.children[0].setGameController(button.replay, this)
 		}
 	}
@@ -500,7 +500,7 @@ class MyGameController {
 				else
 					this.prologInterface.moveBot(this.currPlayer, this.difficulty[this.currPlayer])
 
-				this.animator.start(this.gameSequence, new BasicAnimation(this.scene, 1), () => {this.nextPlayerProc(promise)})
+				this.animator.start(this.gameSequence, this.board.getAnimation(), () => {this.nextPlayerProc(promise)})
 				break;
 			case states.PASS:
 				this.prevState = this.currState
@@ -563,7 +563,7 @@ class MyGameController {
 				console.log(move)
 				this.film_game_sequence.addMove(move)
 
-				this.animator.start(this.film_game_sequence, new BasicAnimation(this.scene, 1), () => {this.moveIndex++; this.nextState(null)})
+				this.animator.start(this.film_game_sequence, this.board.getAnimation(), () => {this.moveIndex++; this.nextState(null)})
 				
 				break;
 			case states.LOAD:

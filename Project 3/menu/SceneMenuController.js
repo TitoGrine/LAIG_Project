@@ -11,9 +11,9 @@ class SceneMenuController extends MenuController{
 	}
 
 	buildMenus(){
-		let options = [	"   Scene  1   ", "   Scene  2   "]
-		let actions = [() => this.gameController.changeTheme("scene.xml"), () => this.gameController.changeTheme("board.xml")]
-		this.menu = new Menu(this.scene, 410, this.fontText, "  SCENE:  ", options, actions, this.options_bg, this.options_fg, this.title_bg, this.title_fg)
+		let options = [" 1)  Gallery  ", " 2) Vaporwave "]
+		let actions = [() => this.gameController.changeTheme("gallery.xml"), () => this.gameController.changeTheme("vaporwave.xml")]
+		this.menu = new Menu(this.scene, 450, this.fontText, "  SCENE:  ", options, actions, this.options_bg, this.options_fg, this.title_bg, this.title_fg)
 	}
 
 	setSelectable(bool){
@@ -21,7 +21,7 @@ class SceneMenuController extends MenuController{
 	}
 	
 	display(){
-		if(this.gameController == null || this.gameController.currState == states.MENU && this.gameController.replaying)
+		if(this.gameController == null || this.gameController.currState == states.MENU || this.gameController.replaying)
 			return
 		this.menu.display()
 	}

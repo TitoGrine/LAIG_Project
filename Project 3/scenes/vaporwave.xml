@@ -1,0 +1,1082 @@
+<lxs>
+    <scene root="root" axis_length="5"/>
+
+    <views default="POV1">
+        <perspective id="POV1" near="0.2" far="600" angle="45">
+            <from x="20" y="17" z="45" />
+            <to x="20" y="0" z="20" />
+        </perspective>
+        <perspective id="POV2" near="0.2" far="600" angle="45">
+            <from x="35" y="17" z="30" />
+            <to x="10" y="0" z="30" />
+        </perspective>
+        <perspective id="POV3" near="0.2" far="600" angle="45">
+            <from x="20" y="17" z="15" />
+            <to x="20" y="0" z="40" />
+        </perspective>
+        <perspective id="POV4" near="0.2" far="600" angle="45">
+            <from x="5" y="17" z="30" />
+            <to x="30" y="0" z="30" />
+        </perspective>
+    </views>
+
+    <globals>
+        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+        <background r="0.0" g="0.0" b="0.0" a="1.0" />
+    </globals>
+
+    <lights>
+        <omni id="globalLight" enabled="1">
+            <location x="20" y="24" z="30" w="1.0"/>
+            <ambient r="0.0" g="0.0" b="0.0" a="0.4" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
+        </omni>
+
+        <omni id="dome1Light" enabled="1">
+            <location x="5" y="1" z="5" w="1.0"/>
+            <ambient  r="0.0" g="0.92" b="0.94" a="1.0" />
+            <diffuse  r="0.0" g="0.92" b="0.94" a="1.0" />
+            <specular r="0.0" g="0.92" b="0.94" a="1.0" />
+            <attenuation constant="0.0" linear="1.0" quadratic="0.0" />
+        </omni>
+        <omni id="dome2Light" enabled="1">
+            <location x="35" y="1" z="5" w="1.0"/>
+            <ambient  r="0.0" g="0.92" b="0.94" a="1.0" />
+            <diffuse  r="0.0" g="0.92" b="0.94" a="1.0" />
+            <specular r="0.0" g="0.92" b="0.94" a="1.0" />
+            <attenuation constant="0.0" linear="1.0" quadratic="0.0" />
+        </omni>
+        <omni id="dome3Light" enabled="1">
+            <location x="5" y="1" z="55" w="1.0"/>
+            <ambient  r="0.0" g="0.92" b="0.94" a="1.0" />
+            <diffuse  r="0.0" g="0.92" b="0.94" a="1.0" />
+            <specular r="0.0" g="0.92" b="0.94" a="1.0" />
+            <attenuation constant="0.0" linear="1.0" quadratic="0.0" />
+        </omni>
+        <omni id="dome4Light" enabled="1">
+            <location x="35" y="1" z="55" w="1.0"/>
+            <ambient  r="0.0" g="0.92" b="0.94" a="1.0" />
+            <diffuse  r="0.0" g="0.92" b="0.94" a="1.0" />
+            <specular r="0.0" g="0.92" b="0.94" a="1.0" />
+            <attenuation constant="0.0" linear="1.0" quadratic="0.0" />
+        </omni>
+
+        <spot id="stageLight" enabled="0" angle="45" exponent="1.0">
+            <location x="20" y="24" z="30" w="1.0"/>
+            <target x="20" y="0" z="30" />
+            <ambient r="0.0" g="0.0" b="0.0" a="0.4" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+            <attenuation constant="1.0" linear="0.0" quadratic="0.0" />
+        </spot>
+
+    </lights>
+
+    <textures>
+        <texture id="defaultTexture" file="scenes/images/default_texture.jpg"/>
+        <texture id="grainMetalTexture" file="scenes/images/grain_metal_texture.jpg"/>
+        <texture id="brushedMetalTexture" file="scenes/images/brushed_metal.jpg"/>
+        <texture id="feltTexture" file="scenes/images/felt_texture.jpg"/>
+		<texture id="font_texture" file="scenes/images/font.png"/>
+    </textures>
+
+    <materials>
+        <material id="defaultMaterial" shininess="50.0"> <!-- Ghost White -->
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="1.0" g="1.0" b="1.0" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="0.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="0.0" />
+        </material>
+
+        <material id="lightBlueMaterial" shininess="50.0"> <!-- Ghost White -->
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient  r="0.0" g="0.8" b="1.0" a="1.0" />
+            <diffuse  r="0.0" g="0.8" b="1.0" a="0.0" />
+            <specular r="0.0" g="0.8" b="1.0" a="0.0" />
+        </material>
+        <material id="neonPinkMaterial" shininess="50.0"> 
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient  r="0.59" g="0.05" b="0.45" a="1.0" />
+            <diffuse  r="0.59" g="0.05" b="0.45" a="0.0" />
+            <specular r="0.59" g="0.05" b="0.45" a="0.0" />
+        </material>
+        <material id="neonBlueMaterial" shininess="50.0"> 
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient  r="0.0" g="0.92" b="0.94" a="1.0" />
+            <diffuse  r="0.0" g="0.92" b="0.94" a="0.0" />
+            <specular r="0.0" g="0.92" b="0.94" a="0.0" />
+        </material>
+        <material id="darkPinkMaterial" shininess="50.0"> 
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient  r="0.38" g="0.02" b="0.35" a="1.0" />
+            <diffuse  r="0.38" g="0.02" b="0.35" a="0.0" />
+            <specular r="0.38" g="0.02" b="0.35" a="0.0" />
+        </material>
+        <material id="darkerPinkMaterial" shininess="50.0"> 
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient  r="0.26" g="0.04" b="0.27" a="1.0" />
+            <diffuse  r="0.26" g="0.04" b="0.27" a="0.0" />
+            <specular r="0.26" g="0.04" b="0.27" a="0.0" />
+        </material>
+        <material id="cyanMaterial" shininess="50.0"> 
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient  r="0.08" g="0.25" b="0.31" a="1.0" />
+            <diffuse  r="0.08" g="0.25" b="0.31" a="0.0" />
+            <specular r="0.08" g="0.25" b="0.31" a="0.0" />
+        </material>
+        <material id="industrialBlueMaterial" shininess="50.0"> 
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient  r="0.03" g="0.16" b="0.26" a="1.0" />
+            <diffuse  r="0.03" g="0.16" b="0.26" a="0.0" />
+            <specular r="0.03" g="0.16" b="0.26" a="0.0" />
+        </material>
+        <material id="deepBlueMaterial" shininess="50.0"> 
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient  r="0.0" g="0.01" b="0.2" a="1.0" />
+            <diffuse  r="0.0" g="0.01" b="0.2" a="0.0" />
+            <specular r="0.0" g="0.01" b="0.2" a="0.0" />
+        </material>
+        <material id="blueBlackMaterial" shininess="50.0"> 
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient  r="0.0" g="0.05" b="0.15" a="1.0" />
+            <diffuse  r="0.0" g="0.05" b="0.15" a="0.0" />
+            <specular r="0.0" g="0.05" b="0.15" a="0.0" />
+        </material>
+
+        <material id="piece_color1" shininess="50.0"> 
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient  r="0.59" g="0.05" b="0.45" a="1.0" />
+            <diffuse  r="0.59" g="0.05" b="0.45" a="1.0" />
+            <specular r="0.59" g="0.05" b="0.45" a="1.0" />
+        </material>
+
+        <material id="piece_color2" shininess="50.0"> 
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient  r="0.49" g="0.07" b="1.0" a="1.0" />
+            <diffuse  r="0.49" g="0.07" b="1.0" a="1.0" />
+            <specular r="0.49" g="0.07" b="1.0" a="1.0" />
+        </material>
+
+        <material id="inner_tile_color" shininess="50.0">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient  r="0.02" g="0.68" b="0.62" a="1.0" />
+            <diffuse  r="0.02" g="0.68" b="0.62" a="1.0" />
+            <specular r="0.0" g="0.0" b="0.0" a="0.0" />
+        </material>
+        
+        <material id="outer_tile_color" shininess="50.0"> 
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient  r="0.02" g="0.35" b="0.68" a="1.0" />
+            <diffuse  r="0.02" g="0.35" b="0.68" a="1.0" />
+            <specular r="0.0" g="0.0" b="0.0" a="0.0" />
+        </material>
+    </materials>
+
+    <transformations>
+        <transformation id="neutral">
+            <translate x="0.0" y="0.0" z="0.0" />
+        </transformation>
+
+        <transformation id="board_transf">
+            <translate x="16.0" y="5.0" z="26.0" />
+        </transformation>
+    </transformations>
+
+    <animations>
+    </animations>
+
+    <geometries>
+        <geometry>
+            <crystal />
+        </geometry>
+    </geometries>
+
+    <primitives>
+        <primitive id="game_board">
+            <board x_scale="8" y_scale="8"/>
+        </primitive>
+
+        
+		<primitive id="menu_controller">
+            <mainmenu font="font_texture">
+				<options_bg r="0.0" g="0.01" b="0.2" a="1.0" />
+				<options_fg r="0.49" g="0.07" b="1.0" a="1.0" />
+				<title_bg r="0.0" g="0.05" b="0.15" a="1.0" />
+			</mainmenu>
+        </primitive>
+		<primitive id="undo">
+            <label string="UNDO" font="font_texture">
+				<background r="0.0" g="0.03" b="0.10" a="1.0" />
+				<foreground r="0.49" g="0.07" b="1.0" a="1.0"/>
+			</label>
+        </primitive>
+		<primitive id="restart">
+            <label string="RESTART" font="font_texture">
+				<background r="0.0" g="0.03" b="0.10" a="1.0" />
+				<foreground r="0.49" g="0.07" b="1.0" a="1.0"/>
+			</label>
+        </primitive>
+		<primitive id="film">
+            <label string="®" font="font_texture">
+				<background r="0.0" g="0.0" b="0.0" a="0.0" /> <!-- transparent -->
+				<foreground r="0.59" g="0.05" b="0.45" a="1.0" />
+			</label>
+        </primitive>
+		<primitive id="scene_menu">
+            <scenemenu font="font_texture">
+				<options_bg r="0.0" g="0.01" b="0.2" a="1.0" />
+				<options_fg r="0.49" g="0.07" b="1.0" a="1.0" />
+				<title_bg r="0.0" g="0.05" b="0.15" a="1.0" />
+			</scenemenu>
+        </primitive>
+
+        <primitive id="crystal_dome">
+            <crystal />
+        </primitive>
+
+        <primitive id="table_top">
+            <plane npartsU='50' npartsV='50' />
+        </primitive>
+        <primitive id="table_top_border">
+            <plane npartsU='50' npartsV='50' />
+        </primitive>
+        <primitive id="table_triangle1">
+            <triangle   x1="13.0" y1="5.0" z1="22.5"
+                        x2="20.0" y2="0.0" z2="30.0"
+                        x3="27.0" y3="5.0" z3="22.5" />
+        </primitive>
+        <primitive id="table_triangle2">
+            <triangle   x1="27.0" y1="5.0" z1="22.5"
+                        x2="20.0" y2="0.0" z2="30.0"
+                        x3="27.0" y3="5.0" z3="37.5" />
+        </primitive>
+        <primitive id="table_triangle3">
+            <triangle   x1="27.0" y1="5.0" z1="37.5"
+                        x2="20.0" y2="0.0" z2="30.0"
+                        x3="13.0" y3="5.0" z3="37.5" />
+        </primitive>
+        <primitive id="table_triangle4">
+            <triangle   x1="13.0" y1="5.0" z1="37.5"
+                        x2="20.0" y2="0.0" z2="30.0"
+                        x3="13.0" y3="5.0" z3="22.5" />
+        </primitive>
+
+        <primitive id="floor">
+            <plane npartsU='50' npartsV='50' />
+        </primitive>
+
+        <primitive id="north_triangle_ceiling">
+            <triangle   x1="30.0" y1="30.0" z1="10.0"
+                        x2="20.0" y2="25.0" z2="30.0"
+                        x3="10.0" y3="30.0" z3="10.0" />
+        </primitive>
+        <primitive id="south_triangle_ceiling">
+            <triangle   x1="10.0" y1="30.0" z1="50.0"
+                        x2="20.0" y2="25.0" z2="30.0"
+                        x3="30.0" y3="30.0" z3="50.0" />
+        </primitive>
+        <primitive id="west_triangle_ceiling">
+            <triangle   x1="10.0" y1="30.0" z1="10.0"
+                        x2="20.0" y2="25.0" z2="30.0"
+                        x3="10.0" y3="30.0" z3="50.0" />
+        </primitive>
+        <primitive id="east_triangle_ceiling">
+            <triangle   x1="30.0" y1="30.0" z1="50.0"
+                        x2="20.0" y2="25.0" z2="30.0"
+                        x3="30.0" y3="30.0" z3="10.0" />
+        </primitive>
+
+        <primitive id="top_triangle_wall1">
+            <triangle   x1="10.0" y1="30.0" z1="50.0"
+                        x2="-10.0" y2="15.0" z2="30.0"
+                        x3="10.0" y3="30.0" z3="10.0" />
+        </primitive>
+        <primitive id="bottom_triangle_wall1">
+            <triangle   x1="0.0" y1="0.0" z1="0.0"
+                        x2="-10.0" y2="15.0" z2="30.0"
+                        x3="0.0" y3="0.0" z3="60.0" />
+        </primitive>
+        <primitive id="left_triangle_wall1">
+            <triangle   x1="0.0" y1="0.0" z1="60.0"
+                        x2="-10.0" y2="15.0" z2="30.0"
+                        x3="10.0" y3="30.0" z3="50.0" />
+        </primitive>
+        <primitive id="right_triangle_wall1">
+            <triangle   x1="10.0" y1="30.0" z1="10.0"
+                        x2="-10.0" y2="15.0" z2="30.0"
+                        x3="0.0" y3="0.0" z3="0.0" />
+        </primitive>
+
+        <primitive id="top_triangle_wall2">
+            <triangle   x1="10.0" y1="30.0" z1="10.0"
+                        x2="20.0" y2="15.0" z2="-10.0"
+                        x3="30.0" y3="30.0" z3="10.0" />
+        </primitive>
+        <primitive id="bottom_triangle_wall2">
+            <triangle   x1="40.0" y1="0.0" z1="0.0"
+                        x2="20.0" y2="15.0" z2="-10.0"
+                        x3="0.0" y3="0.0" z3="0.0" />
+        </primitive>
+        <primitive id="left_triangle_wall2">
+            <triangle   x1="0.0" y1="0.0" z1="0.0"
+                        x2="20.0" y2="15.0" z2="-10.0"
+                        x3="10.0" y3="30.0" z3="10.0" />
+        </primitive>
+        <primitive id="right_triangle_wall2">
+            <triangle   x1="30.0" y1="30.0" z1="10.0"
+                        x2="20.0" y2="15.0" z2="-10.0"
+                        x3="40.0" y3="0.0" z3="0.0" />
+        </primitive>
+
+        <primitive id="top_triangle_wall3">
+            <triangle   x1="30.0" y1="30.0" z1="10.0"
+                        x2="50.0" y2="15.0" z2="30.0"
+                        x3="30.0" y3="30.0" z3="50.0" />
+        </primitive>
+        <primitive id="bottom_triangle_wall3">
+            <triangle   x1="40.0" y1="0.0" z1="60.0"
+                        x2="50.0" y2="15.0" z2="30.0"
+                        x3="40.0" y3="0.0" z3="0.0" />
+        </primitive>
+        <primitive id="left_triangle_wall3">
+            <triangle   x1="30.0" y1="30.0" z1="50.0"
+                        x2="50.0" y2="15.0" z2="30.0"
+                        x3="40.0" y3="0.0" z3="60.0" />
+        </primitive>
+        <primitive id="right_triangle_wall3">
+            <triangle   x1="40.0" y1="0.0" z1="0.0"
+                        x2="50.0" y2="15.0" z2="30.0"
+                        x3="30.0" y3="30.0" z3="10.0" />
+        </primitive>
+
+        <primitive id="top_triangle_wall4">
+            <triangle   x1="30.0" y1="30.0" z1="50.0"
+                        x2="20.0" y2="15.0" z2="70.0"
+                        x3="10.0" y3="30.0" z3="50.0" />
+        </primitive>
+        <primitive id="bottom_triangle_wall4">
+            <triangle   x1="0.0" y1="0.0" z1="60.0"
+                        x2="20.0" y2="15.0" z2="70.0"
+                        x3="40.0" y3="0.0" z3="60.0" />
+        </primitive>
+        <primitive id="left_triangle_wall4">
+            <triangle   x1="10.0" y1="30.0" z1="50.0"
+                        x2="20.0" y2="15.0" z2="70.0"
+                        x3="0.0" y3="0.0" z3="60.0" />
+        </primitive>
+        <primitive id="right_triangle_wall4">
+            <triangle   x1="40.0" y1="0.0" z1="60.0"
+                        x2="20.0" y2="15.0" z2="70.0"
+                        x3="30.0" y3="30.0" z3="50.0" />
+        </primitive>
+    </primitives>
+
+    <components>
+        <component id="root">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="defaultTexture" length_t="1.0" length_s="1.0"/>
+            <children>
+                <componentref id="board" />
+                <componentref id="table" />
+                <componentref id="domes" />
+                <componentref id="room" />
+                
+                <componentref id="menu_controller" />
+                <componentref id="undos" />
+				<componentref id="restarts" />
+				<componentref id="films" />
+				<componentref id="menu_scenes" />
+            </children>
+        </component>
+
+        <component id="board">
+            <transformation>
+                <transformationref id="board_transf" />
+            </transformation>
+            <materials>
+                <material id="blueBlackMaterial" />
+            </materials>
+            <texture id="brushedMetalTexture" length_t="1.0" length_s="1.0"/>
+            <children>
+                <primitiveref id="game_board" />
+            </children>
+        </component>
+
+        
+		<component id="menu_controller">
+            <transformation>
+	            <translate x="19.8" y="10.0" z="35.5" />
+                <rotate axis="x" angle="-35" />
+				<scale x="10.0" y="10.0" z="1.0" />
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="menu_controller" />
+            </children>
+        </component>
+
+		<component id="undos">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+			<!-- TODO: add aqui mais butoes -->
+                <componentref id="undo1" />
+                <componentref id="undo2" />
+            </children>
+        </component>
+		<component id="undo1">
+            <transformation>
+	            <translate x="19.3" y="5.01" z="35.75" />
+                <rotate axis="x" angle="-90" />
+				<scale x="1.5" y="1.0" z="1.0" />
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="undo" />
+            </children>
+        </component>
+        <component id="undo2">
+            <transformation>
+	            <translate x="20.7" y="5.01" z="24.25" />
+                <rotate axis="y" angle="180" />
+                <rotate axis="x" angle="-90" />
+				<scale x="1.5" y="1.0" z="1.0" />
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="undo" />
+            </children>
+        </component>
+
+		<component id="restarts">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="restart1" />
+                <componentref id="restart2" />
+            </children>
+        </component>
+		<component id="restart1">
+            <transformation>
+	            <translate x="15.5" y="5.01" z="32.28" />
+                <rotate axis="y" angle="90" />
+                <rotate axis="x" angle="-90" />
+				<scale x="1.3" y="1.0" z="1.0" />
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="restart" />
+            </children>
+        </component>
+        <component id="restart2">
+            <transformation>
+	            <translate x="24.5" y="5.01" z="27.72" />
+                <rotate axis="y" angle="-90" />
+                <rotate axis="x" angle="-90" />
+				<scale x="1.3" y="1.0" z="1.0" />
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="restart" />
+            </children>
+        </component>
+
+		<component id="films">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+						<!-- TODO: add aqui mais butoes -->
+                <componentref id="film1" />
+                <componentref id="film2" />
+            </children>
+        </component>
+		<component id="film1">
+            <transformation>
+	            <translate x="18.3" y="5.01" z="36.25" />
+                <rotate axis="y" angle="45" />
+                <rotate axis="x" angle="-90" />
+				<scale x="3" y="1.5" z="1.0" />
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="film" />
+            </children>
+        </component>
+        <component id="film2">
+            <transformation>
+	            <translate x="21.7" y="5.01" z="23.75" />
+                <rotate axis="y" angle="225" />
+                <rotate axis="x" angle="-90" />
+				<scale x="3" y="1.5" z="1.0" />
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="film" />
+            </children>
+        </component>
+
+		<component id="menu_scenes">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+				<!-- TODO: add aqui mais butoes -->
+                <componentref id="menu_scene1" />
+                <componentref id="menu_scene2" />
+            </children>
+        </component>
+		<component id="menu_scene1">
+            <transformation>
+	            <translate x="19.75" y="3.0" z="15.0" />
+                <rotate axis="x" angle="-30" />
+				<scale x="10" y="10" z="1.0" />
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="scene_menu" />
+            </children>
+        </component>
+        <component id="menu_scene2">
+            <transformation>
+	            <translate x="19.75" y="3.0" z="45.0" />
+                <rotate axis="x" angle="30" />
+                <rotate axis="y" angle="180" />
+				<scale x="10" y="10" z="1.0" />
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="scene_menu" />
+            </children>
+        </component>
+
+        <component id="table">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="brushedMetalTexture" length_t="1.0" length_s="1.0"/>
+            <children>
+                <componentref id="table_top" />
+                <componentref id="table_top_border" />
+                <componentref id="table_triangle1" />
+                <componentref id="table_triangle2" />
+                <componentref id="table_triangle3" />
+                <componentref id="table_triangle4" />
+            </children>
+        </component>
+
+        <component id="table_top">
+            <transformation>
+                <translate x="20.0" y="5.0" z="30.0" />
+                <scale x="14.0" y="1.0" z="15.0" />
+            </transformation>
+            <materials>
+                <material id="deepBlueMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="table_top" />
+            </children>
+        </component>
+        <component id="table_top_border">
+            <transformation>
+                <translate x="20.0" y="5.001" z="30.0" />
+                <scale x="12.0" y="1.0" z="13.0" />
+            </transformation>
+            <materials>
+                <material id="lightBlueMaterial"/>
+            </materials>
+            <texture id="feltTexture" length_t="1.0" length_s="1.0"/>
+            <children>
+                <primitiveref id="table_top_border" />
+            </children>
+        </component>
+
+        <component id="table_triangle1">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="cyanMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="table_triangle1" />
+            </children>
+        </component>
+        <component id="table_triangle2">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="cyanMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="table_triangle2" />
+            </children>
+        </component>
+        <component id="table_triangle3">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="industrialBlueMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="table_triangle3" />
+            </children>
+        </component>
+        <component id="table_triangle4">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="industrialBlueMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="table_triangle4" />
+            </children>
+        </component>
+
+        <component id="domes">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="neonBlueMaterial" />
+            </materials>
+            <texture id="brushedMetalTexture" length_t="1.0" length_s="1.0"/>
+            <children>
+                <componentref id="dome1" />
+                <componentref id="dome2" />
+                <componentref id="dome3" />
+                <componentref id="dome4" />
+            </children>
+        </component>
+        <component id="dome1">
+            <transformation>
+                <translate x="5.0" y="1.0" z="5.0" />
+                <scale x="9.0" y="5.0" z="9.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="crystal_dome" />
+            </children>
+        </component>
+        <component id="dome2">
+            <transformation>
+                <translate x="35.0" y="1.0" z="5.0" />
+                <scale x="9.0" y="5.0" z="9.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="crystal_dome" />
+            </children>
+        </component>
+        <component id="dome3">
+            <transformation>
+                <translate x="5.0" y="1.0" z="55.0" />
+                <scale x="9.0" y="5.0" z="9.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="crystal_dome" />
+            </children>
+        </component>
+        <component id="dome4">
+            <transformation>
+                <translate x="35.0" y="1.0" z="55.0" />
+                <scale x="9.0" y="5.0" z="9.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="crystal_dome" />
+            </children>
+        </component>
+
+        <component id="room">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="grainMetalTexture" length_t="1.0" length_s="1.0"/>
+            <children>
+                <componentref id="floor" />
+                <componentref id="ceiling" />
+                <componentref id="wall1" />
+                <componentref id="wall2" />
+                <componentref id="wall3" />
+                <componentref id="wall4" />
+            </children>
+        </component>
+
+        <component id="floor">
+            <transformation>
+                <translate x="20.0" y="0.0" z="30.0" />
+                <scale x="40.0" y="1.0" z="60.0" />
+            </transformation>
+            <materials>
+                <material id="darkerPinkMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="floor" />
+            </children>
+        </component>
+
+        <component id="ceiling">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="north_triangle_ceiling" />
+                <componentref id="south_triangle_ceiling" />
+                <componentref id="west_triangle_ceiling" />
+                <componentref id="east_triangle_ceiling" />
+            </children>
+        </component>
+        <component id="north_triangle_ceiling">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="darkerPinkMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="north_triangle_ceiling" />
+            </children>
+        </component>
+        <component id="south_triangle_ceiling">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="darkerPinkMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="south_triangle_ceiling" />
+            </children>
+        </component>
+        <component id="west_triangle_ceiling">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="darkerPinkMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="west_triangle_ceiling" />
+            </children>
+        </component>
+        <component id="east_triangle_ceiling">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="darkerPinkMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="east_triangle_ceiling" />
+            </children>
+        </component>
+
+        <component id="wall1">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="top_triangle_wall1" />
+                <componentref id="bottom_triangle_wall1" />
+                <componentref id="left_triangle_wall1" />
+                <componentref id="right_triangle_wall1" />
+            </children>
+        </component>
+        <component id="top_triangle_wall1">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="darkPinkMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="top_triangle_wall1" />
+            </children>
+        </component>
+        <component id="bottom_triangle_wall1">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="darkPinkMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="bottom_triangle_wall1" />
+            </children>
+        </component>
+        <component id="left_triangle_wall1">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="darkerPinkMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="left_triangle_wall1" />
+            </children>
+        </component>
+        <component id="right_triangle_wall1">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="darkerPinkMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="right_triangle_wall1" />
+            </children>
+        </component>
+
+        <component id="wall2">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="top_triangle_wall2" />
+                <componentref id="bottom_triangle_wall2" />
+                <componentref id="left_triangle_wall2" />
+                <componentref id="right_triangle_wall2" />
+            </children>
+        </component>
+        <component id="top_triangle_wall2">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="darkerPinkMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="top_triangle_wall2" />
+            </children>
+        </component>
+        <component id="bottom_triangle_wall2">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="darkerPinkMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="bottom_triangle_wall2" />
+            </children>
+        </component>
+        <component id="left_triangle_wall2">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="darkPinkMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="left_triangle_wall2" />
+            </children>
+        </component>
+        <component id="right_triangle_wall2">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="darkPinkMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="right_triangle_wall2" />
+            </children>
+        </component>
+
+        <component id="wall3">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="top_triangle_wall3" />
+                <componentref id="bottom_triangle_wall3" />
+                <componentref id="left_triangle_wall3" />
+                <componentref id="right_triangle_wall3" />
+            </children>
+        </component>
+        <component id="top_triangle_wall3">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="darkPinkMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="top_triangle_wall3" />
+            </children>
+        </component>
+        <component id="bottom_triangle_wall3">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="darkerPinkMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="bottom_triangle_wall3" />
+            </children>
+        </component>
+        <component id="left_triangle_wall3">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="darkPinkMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="left_triangle_wall3" />
+            </children>
+        </component>
+        <component id="right_triangle_wall3">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="darkerPinkMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="right_triangle_wall3" />
+            </children>
+        </component>
+
+        <component id="wall4">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="defaultMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="top_triangle_wall4" />
+                <componentref id="bottom_triangle_wall4" />
+                <componentref id="left_triangle_wall4" />
+                <componentref id="right_triangle_wall4" />
+            </children>
+        </component>
+        <component id="top_triangle_wall4">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="darkPinkMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="top_triangle_wall4" />
+            </children>
+        </component>
+        <component id="bottom_triangle_wall4">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="darkerPinkMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="bottom_triangle_wall4" />
+            </children>
+        </component>
+        <component id="left_triangle_wall4">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="darkerPinkMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="left_triangle_wall4" />
+            </children>
+        </component>
+        <component id="right_triangle_wall4">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="darkerPinkMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="right_triangle_wall4" />
+            </children>
+        </component>
+    </components>
+</lxs>

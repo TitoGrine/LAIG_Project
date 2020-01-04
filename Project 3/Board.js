@@ -1,3 +1,10 @@
+const material_indexes = Object.freeze({
+    PIECE1: 0,
+    PIECE2: 1,
+    OUTER_TILE: 2,
+    INNER_TILE: 3,
+});
+
 /**
  * MyPlane
  * @constructor
@@ -7,9 +14,9 @@
  * @param {Number of columns} columns 
  */
 class Board extends CGFobject {
-	constructor(scene, id, x_dimensions, y_dimensions, geometry, color1, color2) {
-        super(scene);
-		this.id = id;
+	constructor(scene, id, x_dimensions, z_dimensions, geometry, materials) {
+        super(scene)
+		this.id = id
 
 		
         this.rows = 0
@@ -17,19 +24,22 @@ class Board extends CGFobject {
 		this.size = 0
 
 		this.x_dimensions = x_dimensions
-		this.y_dimensions = y_dimensions
+		this.z_dimensions = z_dimensions
 		
         this.x_scale = 0
-        this.y_scale = 0
+        this.z_scale = 0
 
-        this.geometry = geometry;
-        this.color1 = color1;
-		this.color2 = color2;
+        this.geometry = geometry
+        
+        this.piece_color1 = materials[material_indexes.PIECE1]
+        this.piece_color2 = materials[material_indexes.PIECE2]
+        this.outer_tile_color = materials[material_indexes.OUTER_TILE]
+        this.inner_tile_color = materials[material_indexes.INNER_TILE]
+
 		
-        this.square = new MyPlane(this.scene, 'square', 30, 30);
-        this.piece_holder = new MyPlane(this.scene, 'holder', 30, 30);
-        this.side = new MyPlane(this.scene, 'side', 30, 30);
-
+        this.square = new MyPlane(this.scene, 'square', 30, 30)
+        this.piece_holder = new MyPlane(this.scene, 'holder', 30, 30)
+        this.side = new MyPlane(this.scene, 'side', 30, 30)
 		this.highlight = false
 
 		this.boardInit = false
@@ -39,13 +49,17 @@ class Board extends CGFobject {
         return row * (this.columns + 2) + column;
     }
 
+    getAnimation(span) {
+        return this.geometry.getAnimation(span)
+    }
+
     /**
      * Creates the NURB surface corresponding to a plane centered in the XZ plane,
      * facing the +Y direction. It then creates a NURB Object using that surface,
      * with the given divisions in the U and V domain.
      */
     makeBoardSurface(initialBoard){
-		// this.board = [[3,1,0,1,0,3],[0,2,2,2,2,1],[1,2,2,2,2,0],[1,2,2,2,2,1],[0,2,2,2,2,1],[3,0,1,0,0,3]];
+        
 		this.board = initialBoard
 		
         this.rows = this.board.length - 2;
@@ -53,7 +67,8 @@ class Board extends CGFobject {
 
 		this.size = this.rows * this.columns;
         this.x_scale = this.x_dimensions / (this.columns + 2)
-        this.y_scale = this.y_dimensions / (this.rows + 2)
+        this.y_scale = Math.min(this.x_dimensions, this.z_dimensions) / 12.0;
+        this.z_scale = this.z_dimensions / (this.rows + 2)
 
         this.tiles = [];
 		let pos = 0
@@ -66,9 +81,9 @@ class Board extends CGFobject {
 				let objects = [];
 
                 if(state != 3){
-                    objects.push(new Tile(this.scene, pos + 1, row, column, state == 2 ? [0.03, 0.6, 0.8] : [0.0, 0.8, 1.0], null));
+                    objects.push(new Tile(this.scene, pos + 1, row, column, state == 2 ? this.inner_tile_color : this.outer_tile_color, null));
                     if(state < 2){
-						objects.push(new Piece(this.scene, pos + 1, state, row, column, this.geometry, state ? this.color2 : this.color1))
+						objects.push(new Piece(this.scene, pos + 1, state, row, column, this.geometry, state ? this.piece_color2 : this.piece_color1))
                         objects[0].addPiece(objects[1]);
                     }
 				}
@@ -189,7 +204,7 @@ class Board extends CGFobject {
 
         this.scene.pushMatrix();
 
-        this.scene.scale(this.x_scale, 1.0, this.y_scale);
+        this.scene.scale(this.x_scale, this.y_scale, this.z_scale);
 
         this.scene.pushMatrix();
         this.scene.translate(1 + this.columns/2.0, 1.0, 1 + this.rows/2.0);

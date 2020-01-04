@@ -25,8 +25,8 @@ class MainMenuController extends MenuController{
 		this.sizeMenu = new Menu(this.scene, 320, this.fontText, "   SIZE   ", options, actions, this.options_bg, this.options_fg, this.title_bg, this.title_fg)
 
 		// TODO: fazer este
-		options = [	"   Scene  1   ", "   Scene  2   ", "    <BACK>    "]
-		actions = [() => this.setTheme("scene.xml"), () => this.setTheme("board.xml"), () => this.actualMenu = this.mainMenu]
+		options = [	" 1)  Gallery  ", " 2) Vaporwave ", "    <BACK>    " ]
+		actions = [() => this.setTheme("gallery.xml"), () => this.setTheme("vaporwave.xml"), () => this.actualMenu = this.mainMenu]
 		this.sceneMenu = new Menu(this.scene, 330, this.fontText, "  SCENE:  ", options, actions, this.options_bg, this.options_fg, this.title_bg, this.title_fg)
 
 		options = [	"Human vs Human", "Human vs  Bot ", " Bot  vs Human", " Bot  vs  Bot ", "    <BACK>    "]

@@ -11,11 +11,13 @@ function getUrlVars() {
     return vars;
 }	 
 //Include additional files here
-serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.js', 'MyPrologInterface.js', 'MyComponent.js', 'KeyframeAnimation.js', 'Board.js', 'Tile.js', 'Piece.js',
-			   'pieces/Checker.js', 'MyGameMove.js', 'MyGameSequence.js', 'MyGameController.js', 'MyAnimator.js', 'Clock.js', 'RedMeansRecording.js', 'Score.js', 'MyFont.js', 
-			   'menu/Menu.js', 'menu/MenuController.js', 'menu/MenuOption.js', 'menu/Label.js', 'menu/MainMenuController.js', 'menu/SceneMenuController.js',
-               'animations/Animation.js', 'animations/BasicAnimation.js',
-               'shapes/MyRectangle.js', 'shapes/MyCylinder.js', 'shapes/MySphere.js', 'shapes/MyTriangle.js', 'shapes/MyTorus.js', 'shapes/MyPlane.js',  'shapes/MyPatch.js', 'shapes/MyNurbCylinder.js', 'shapes/MyCircle.js',
+serialInclude(['../lib/CGF.js', 
+               'XMLscene.js', 'MySceneGraph.js', 'MyInterface.js', 'MyPrologInterface.js', 'MyComponent.js', 'Board.js', 'Tile.js', 'Piece.js', 'XMLAnimation.js', 'KeyframeAnimation.js', 'MyFont.js',
+               'menu/Menu.js', 'menu/MenuController.js', 'menu/MenuOption.js', 'menu/Label.js', 'menu/MainMenuController.js', 'menu/SceneMenuController.js',
+               'pieces/Checker.js', 'pieces/Crystal.js', 
+               'animations/Animation.js', 'animations/BasicAnimation.js', 'animations/LevitationAnimation.js', 
+               'shapes/MyRectangle.js', 'shapes/MyCylinder.js', 'shapes/MySphere.js', 'shapes/MyTriangle.js', 'shapes/MyTorus.js', 'shapes/MyPlane.js',  'shapes/MyPatch.js', 'shapes/MyNurbCylinder.js', 'shapes/MyCircle.js', 'shapes/MyCrystal.js',
+               'MyGameMove.js', 'MyGameSequence.js', 'MyGameController.js', 'MyAnimator.js', 'Clock.js', 'RedMeansRecording.js', 'Score.js', 'Toggle.js',
 
 main=function()
 {
@@ -34,7 +36,7 @@ main=function()
 	// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml 
 	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor) 
 	
-    var filename=getUrlVars()['file'] || "board.xml";
+    var filename=getUrlVars()['file'] || "scene.xml";
 
 	// create and load graph, and associate it to scene. 
 	// Check console for loading errors
