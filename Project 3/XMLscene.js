@@ -46,7 +46,9 @@ class XMLscene extends CGFscene {
 		this.rotatingCamera = false;
 		this.angle = 0
 		this.elapsed_angle = 0;
-		this.angles = {'-360°': -360,'-180°': -180,'-90°': -90,'-45°': -45, '0°': 0,'45°': 45,'90°': 90,'180°': 180,'360°': 360}
+		this.povs = {'POV 0' : 0, 'POV 1' : 1, 'POV 2' : 2, 'POV 3' : 3}
+		this.pov = 0;
+		this.last_pov = 0;
 		this.curr_time = 0;
 
 
@@ -207,8 +209,15 @@ class XMLscene extends CGFscene {
 			this.gameController.restart()
 	}
 
-	calculate_angle(a, b, c){
-		return Math.acos((Math.pow(a, 2) + Math.pow(b, 2) - Math.pow(c, 2)) / (2 * a * b));
+	changePOV(){
+		console.log(this.pov)
+
+		let difference = this.pov - this.last_pov;
+
+		this.angle = ((Math.abs(difference) != 3) ? difference : -difference/3.0) * 90;
+
+		this.last_pov = this.pov;
+		this.rotatingCamera = true;
 	}
 
 	rotateCamera(elapsed_time) {
