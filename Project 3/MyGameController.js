@@ -380,7 +380,7 @@ class MyGameController {
 		this.curr_time = time
 		if(this.board.boardInit)
 			this.animator.update(elapsed_time)
-		if(ON_CLOCK)
+		if(ON_CLOCK && !this.scene.rotatingCamera)
 			this.clock.update(elapsed_time)
 	}
 

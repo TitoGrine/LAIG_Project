@@ -24,6 +24,7 @@ class MyInterface extends CGFinterface {
 		this.gui.add(this.scene, 'displayAxis').name('Axis');  
 		// CheckBox to set the lights as visible 
 		this.gui.add(this.scene, 'displayLights').name('Lights Visible').onChange(this.scene.turnOffLights.bind(this.scene));
+		this.gui.add(this.scene, 'angle', this.scene.angles).name("Camera Rotation").onChange(() => this.scene.rotatingCamera = true);
 
 		this.initKeys();
 		

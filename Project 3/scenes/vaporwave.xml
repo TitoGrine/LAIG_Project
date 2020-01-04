@@ -4,19 +4,19 @@
     <views default="POV1">
         <perspective id="POV1" near="0.2" far="600" angle="45">
             <from x="20" y="17" z="45" />
-            <to x="20" y="0" z="20" />
+            <to x="20" y="7" z="30" />
         </perspective>
         <perspective id="POV2" near="0.2" far="600" angle="45">
             <from x="35" y="17" z="30" />
-            <to x="10" y="0" z="30" />
+            <to x="20" y="7" z="30" />
         </perspective>
         <perspective id="POV3" near="0.2" far="600" angle="45">
             <from x="20" y="17" z="15" />
-            <to x="20" y="0" z="40" />
+            <to x="20" y="7" z="30" />
         </perspective>
         <perspective id="POV4" near="0.2" far="600" angle="45">
             <from x="5" y="17" z="30" />
-            <to x="30" y="0" z="30" />
+            <to x="20" y="7" z="30" />
         </perspective>
     </views>
 

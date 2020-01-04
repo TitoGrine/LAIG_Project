@@ -9,22 +9,22 @@
 
         <perspective id="FUSE Board - POV1" near="0.2" far="600" angle="45">
 			<from  x="95" y="25" z="-25"/>
-            <to  x="102" y="20" z="-25"/>
+            <to x="115.0" y="11.0" z="-25.0" />
         </perspective>
 
         <perspective id="FUSE Board - POV2" near="0.2" far="600" angle="45">
 			<from  x="115" y="25" z="-5"/>
-            <to  x="115" y="20" z="-12"/>
+            <to x="115.0" y="11.0" z="-25.0" />
         </perspective>
 
         <perspective id="FUSE Board - POV3" near="0.2" far="600" angle="45">
 			<from  x="135" y="25" z="-25"/>
-            <to  x="128" y="20" z="-25"/>
+            <to x="115.0" y="11.0" z="-25.0" />
         </perspective>
 
         <perspective id="FUSE Board - POV4" near="0.2" far="600" angle="45">
 			<from  x="115" y="25" z="-45"/>
-            <to  x="115" y="20" z="-38"/>
+            <to x="115.0" y="11.0" z="-25.0" />
         </perspective>
     </views>
 

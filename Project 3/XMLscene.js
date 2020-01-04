@@ -43,6 +43,13 @@ class XMLscene extends CGFscene {
 
 		this.displayAxis = true;
 		this.displayLights = false;
+		this.rotatingCamera = false;
+		this.angle = 0
+		this.elapsed_angle = 0;
+		this.angles = {'-360°': -360,'-180°': -180,'-90°': -90,'-45°': -45, '0°': 0,'45°': 45,'90°': 90,'180°': 180,'360°': 360}
+		this.curr_time = 0;
+
+
 
 		this.gameController = new MyGameController(this)
 
@@ -200,6 +207,29 @@ class XMLscene extends CGFscene {
 			this.gameController.restart()
 	}
 
+	calculate_angle(a, b, c){
+		return Math.acos((Math.pow(a, 2) + Math.pow(b, 2) - Math.pow(c, 2)) / (2 * a * b));
+	}
+
+	rotateCamera(elapsed_time) {
+		
+		let rotation_time = 10000 * (Math.abs(this.angle) / 360);
+		
+		let delta = Math.min(1.0, elapsed_time / rotation_time);
+		
+		let curr_angle = (this.angle * Math.PI / 180) * delta;
+		
+		this.camera.orbit(vec3.fromValues(0, 1, 0), curr_angle - this.elapsed_angle);
+		
+		this.elapsed_angle = curr_angle;
+		
+		if(elapsed_time >= rotation_time){
+			this.angle = 0;
+			this.elapsed_angle = 0;
+			this.rotatingCamera = false;
+		}
+	}
+
 	/**
 	 * Checks periodically if the M key is pressed
 	 */
@@ -215,6 +245,12 @@ class XMLscene extends CGFscene {
 
 		if(this.gameController.replaying){
 			this.replaying.setTimeFactor(t);
+		}
+
+		if(this.rotatingCamera){
+			this.rotateCamera(t - this.curr_time)
+		} else {
+			this.curr_time = t;
 		}
 	}
 
