@@ -1,13 +1,11 @@
-
-
 /**
  * Animation Abstract class to be implemented
  * @constructor
  * @param {Animation ID} id
  * 
  */
-class LevitationAnimation extends Animation{
-	constructor(scene, span = 3) {
+class PresentAnimation extends Animation{
+	constructor(scene, span = 1.5) {
         super(scene);
         this.scene = scene;
         this.span = span;
@@ -64,14 +62,14 @@ class LevitationAnimation extends Animation{
         let effective_delta = Math.min(delta, 1.0); // Stops piece from overflowing
 
         for(let i = 0; i < this.pieces.length; i++){
-
-            let animation_translation = [this.translations[i][0] * effective_delta, 2.0 * Math.sin(this.translations[i][1] * effective_delta), this.translations[i][2] * effective_delta];
+            let animation_translation = [this.translations[i][0] * effective_delta, Math.abs(Math.sin(2.0 * this.translations[i][1] * effective_delta)), this.translations[i][2] * effective_delta];
             let animation_matrix = mat4.create();
             mat4.translate(animation_matrix, animation_matrix, animation_translation);
             mat4.translate(animation_matrix, animation_matrix, [0.5, 0.0, 0.5]);
             mat4.rotate(animation_matrix, animation_matrix, 4.0 * Math.PI * effective_delta, [0.0, 1.0, 0.0]);
             mat4.translate(animation_matrix, animation_matrix, [-0.5, 0.0, -0.5]);
 
+            // console.log(animation_matrix)
 
             this.pieces[i].updateAnimation(animation_matrix);
         }
