@@ -143,7 +143,7 @@ class XMLscene extends CGFscene {
 
 		if(!this.GUI_initiated && this.interface.scene){
 			this.interface.addLightsGUI();
-			this.interface.addCamerasGUI();
+			this.interface.addPOVGUI();
 			this.GUI_initiated = true;	
 		}
 
@@ -210,8 +210,6 @@ class XMLscene extends CGFscene {
 	}
 
 	changePOV(){
-		console.log(this.pov)
-
 		let difference = this.pov - this.last_pov;
 
 		this.angle = ((Math.abs(difference) != 3) ? difference : -difference/3.0) * 90;

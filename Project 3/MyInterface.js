@@ -24,18 +24,18 @@ class MyInterface extends CGFinterface {
 		this.gui.add(this.scene, 'displayAxis').name('Axis');  
 		// CheckBox to set the lights as visible 
 		this.gui.add(this.scene, 'displayLights').name('Lights Visible').onChange(this.scene.turnOffLights.bind(this.scene));
-		this.gui.add(this.scene, 'pov', this.scene.povs).name("POV").onChange(() => this.scene.changePOV());
-
+		
 		this.initKeys();
+		this.POVController = null;
 
 		if(!this.scene.GUI_initiated && this.scene.sceneInited){
 			this.addLightsGUI();
-			this.addCamerasGUI();
+			this.interface.addPOVGUI();
 			this.scene.GUI_initiated = true;	
 		}
 		
         return true;
-    }
+	}
 
     /**
      * initKeys
@@ -116,5 +116,14 @@ class MyInterface extends CGFinterface {
 			// In case of new camera selected, changes the scene camera
 			this.scene.securityCamera = this.scene.graph.securityViews[val];	
 		});
+	}
+
+	addPOVGUI(){		
+		try{
+			this.gui.remove(this.POVController)
+		}
+		catch(error){}
+
+		this.POVController = this.gui.add(this.scene, 'pov', this.scene.povs).name("POV").onChange(() => this.scene.changePOV());
 	}
 }

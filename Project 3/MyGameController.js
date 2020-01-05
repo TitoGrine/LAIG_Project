@@ -319,7 +319,13 @@ class MyGameController {
 		this.prevState = this.currState
 		this.currState = states.MENU
 		this.clock.stop()
+
 		this.gameSequence.restart()
+		
+		this.scene.pov = 0
+		this.scene.changePOV()
+		this.scene.interface.addPOVGUI()
+		
 		this.nextState(null)
 	}
 
