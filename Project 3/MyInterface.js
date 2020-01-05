@@ -13,7 +13,7 @@ class MyInterface extends CGFinterface {
      * Initializes the interface.
      * @param {CGFapplication} application
      */
-    init(application) {
+    async init(application) {
         super.init(application);
         // init GUI. For more information on the methods, check:
         //  http://workshop.chromeexperiments.com/examples/gui
@@ -27,7 +27,7 @@ class MyInterface extends CGFinterface {
 
 		this.initKeys();
 
-		if(!this.scene.GUI_initiated && this.scene.graph){
+		if(!this.scene.GUI_initiated && this.scene.loadedOK == true){
 			this.addLightsGUI();
 			this.addCamerasGUI();
 			this.scene.GUI_initiated = true;	
