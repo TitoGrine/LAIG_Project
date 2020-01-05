@@ -46,6 +46,14 @@ class MyFont extends CGFobject{
 		this.buildString()
 	}
 
+	setColor(background, foreground){
+		if(background) this.background = background
+		if(foreground) this.foreground = foreground
+
+		this.textShader.setUniformsValues({'background': this.background, 'foreground' : this.foreground});
+
+	}
+
 	char2coords(char) {
 		switch (char) {
 			case "a":

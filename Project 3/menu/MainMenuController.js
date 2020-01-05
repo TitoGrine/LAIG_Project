@@ -51,6 +51,7 @@ class MainMenuController extends MenuController{
 		this.curr = 0
 		this.gameController.gameMode = option
 		if(option == 4){
+			this.gameController.score.highlightPlayer(4)
 			this.diffMenu.setTitle("BOT 0 DIFF")
 			this.actualMenu = this.diffMenu
 		}
@@ -58,8 +59,11 @@ class MainMenuController extends MenuController{
 			this.diffMenu.setTitle("BOT   DIFF")
 			this.actualMenu = this.diffMenu
 		}
-		else
+		else{
+			if(this.gameController.clock.getInitialTime() < 0)
+				this.gameController.clock.setInitialTime(10)
 			this.actualMenu = this.mainMenu
+		}
 		this.gameController.gameMode2array()
 	}
 
@@ -69,6 +73,8 @@ class MainMenuController extends MenuController{
 	}
 
 	setTheme(theme){
+		this.scene.GUI_initiated = false
+		this.scene.sceneInited = false
 		this.gameController.theme = new MySceneGraph(theme, this.scene)
 	}
 

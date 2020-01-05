@@ -180,7 +180,8 @@
         </transformation>
 
         <transformation id="board_transf">
-            <translate x="16.0" y="5.0" z="26.0" />
+            <translate x="16.0" y="5.0" z="34.0" />
+            <rotate axis="y" angle="90" />
         </transformation>
     </transformations>
 
