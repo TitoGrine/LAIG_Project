@@ -96,6 +96,8 @@ class MyGameController {
 		this.prevState = this.currState
 		this.currState = states.LOAD
 		this.savedBoard = this.board.saveBoard()
+		this.scene.GUI_initiated = false
+		this.scene.sceneInited = false
 		this.theme = new MySceneGraph(theme, this.scene)
 
 	}

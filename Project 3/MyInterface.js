@@ -27,7 +27,7 @@ class MyInterface extends CGFinterface {
 
 		this.initKeys();
 
-		if(!this.scene.GUI_initiated && this.scene.loadedOK == true){
+		if(!this.scene.GUI_initiated && this.scene.sceneInited){
 			this.addLightsGUI();
 			this.addCamerasGUI();
 			this.scene.GUI_initiated = true;	
@@ -71,15 +71,22 @@ class MyInterface extends CGFinterface {
 	 * Add Lights Folder to the interface
 	 */
 	addLightsGUI(){
+		try {
+			this.gui.removeFolder(this.lightsFolder)
+			
+		} catch (error) {
+			
+		}
+		
 		// Extract lights names
 		var keyNames = Object.keys(this.scene.graph.lights);
 		
 		// Create Folder
-		var lightsFolder = this.gui.addFolder('Lights');
+		this.lightsFolder = this.gui.addFolder('Lights');
 
 		// Add Lights to the folder
 		for(let i = 0; i < keyNames.length; i++)
-			lightsFolder.add(this.scene.lights[i], 'enabled').name(keyNames[i]);
+			this.lightsFolder.add(this.scene.lights[i], 'enabled').name(keyNames[i]);
 		
 	}
 
@@ -87,7 +94,12 @@ class MyInterface extends CGFinterface {
 	 * Add Cameras Dropdown to the interface
 	 */
 	addCamerasGUI(){
-		this.gui.add(this.scene.graph, 'curView', Object.keys(this.scene.graph.views)).name('View Points').onChange((val) => {
+		try{
+			this.gui.remove(this.cameraDropDown)
+		}
+		catch(error){}
+
+		this.cameraDropDown = this.gui.add(this.scene.graph, 'curView', Object.keys(this.scene.graph.views)).name('View Points').onChange((val) => {
 			// In case of new camera selected, changes the scene camera
 			this.scene.camera = this.scene.graph.views[val];
 			// and sets it as the active camera

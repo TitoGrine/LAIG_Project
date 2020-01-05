@@ -73,6 +73,8 @@ class MainMenuController extends MenuController{
 	}
 
 	setTheme(theme){
+		this.scene.GUI_initiated = false
+		this.scene.sceneInited = false
 		this.gameController.theme = new MySceneGraph(theme, this.scene)
 	}
 
