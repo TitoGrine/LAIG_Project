@@ -1,12 +1,9 @@
 /**
- * Piece
+ * Crytal
  * @constructor
  * @param {Reference to MyScene object} scene
- * @param {Board row where the tile is} row 
- * @param {Board column where the tile is} column
- * @param {RGB color of the tile} 
  */
-class Crystal extends CGFobject {
+class Crystal extends Geometry {
 
 	constructor(scene) {
         super(scene);
@@ -30,6 +27,10 @@ class Crystal extends CGFobject {
 
     }
     
+    /**
+     * 
+     * @param {Duration of the animation} span 
+     */
     getAnimation(span){
         return new LevitationAnimation(this.scene, span)
     }

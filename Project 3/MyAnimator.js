@@ -14,7 +14,7 @@ class MyAnimator {
     }
 
 	/**
-	 * Update animation fuction requires implementation
+	 * Update animation fuction with the elasped time since lat call
 	 * @param {Current time when the function is called} time 
 	 */
 	update(elapsed_time){
@@ -27,6 +27,12 @@ class MyAnimator {
         }
 	}
 
+    /**
+     * 
+     * @param {Sequence of moves of all game} game_sequence 
+     * @param {Animation used for the movement} animation 
+     * @param {Function to call once the animation is over} listener 
+     */
 	start(game_sequence, animation, listener){
         this.animation = animation;
         this.listener = listener;
@@ -39,6 +45,9 @@ class MyAnimator {
         this.animation.addMoves(gameMove.getMoves(), gameMove.getType());
     }
     
+    /**
+     * Resets MyAnimator by setting time and animation to default and calling listener.
+     */
 	reset(){
         this.animation.apply(this.game_orchestrator.board);
         
@@ -48,6 +57,9 @@ class MyAnimator {
         this.listener();
     }
 
+    /**
+     * Return whether the animation is over or not
+     */
     animationOver(){
         return this.animation == null;
     }

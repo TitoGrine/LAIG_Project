@@ -6,6 +6,13 @@ class Toggle {
         this.default_toggle = [0.12, 0.84, 0.38];
     }
 
+    /**
+     * Gives either the negative of the RGB value, or the default toggle color
+     * if the RGB value is black 0.0 or 1.0
+     * 
+     * @param {RGB value} color_value 
+     * @param {RGB index} index 
+     */
     _color_negative(color_value, index){
 
         let negative = 1.0 - color_value;
@@ -13,6 +20,11 @@ class Toggle {
         return (negative == 0.0 || negative == 1.0) ? this.default_toggle[index] : negative;
     }
 
+    /**
+     * Calculates the tone for the given RGB value
+     * 
+     * @param {RGB value} color_value 
+     */
     _color_tone(color_value){
 
         let tone = color_value * (1.0 - color_value) + (1.0 - color_value) * (color_value > 0.5 ? -1.0 : 1.0);
@@ -20,6 +32,9 @@ class Toggle {
         return (tone == 0.0 || tone == 1.0) ? color_value : tone;
     }
 
+    /**
+     * Calculates toggle color
+     */
     _calculateToggleColor(){
 
         let ambient = this.material.ambient
@@ -33,6 +48,9 @@ class Toggle {
         this.toggle_color.setShininess(this.material.shininess);
     }
 
+    /**
+     * Calculates highlight color
+     */
     _calculateHighlightColor(){
 
         let ambient = this.material.ambient
@@ -46,12 +64,18 @@ class Toggle {
         this.highlight_color.setShininess(this.material.shininess);
     }
 
+    /**
+     * Returns toggle color
+     */
     getToggleColor(){
         this._calculateToggleColor();
 
         return this.toggle_color;
     }
 
+    /**
+     * Return highlight color
+     */
     getHighlightColor(){
         this._calculateHighlightColor();
 

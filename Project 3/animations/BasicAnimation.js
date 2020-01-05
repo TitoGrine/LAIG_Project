@@ -14,6 +14,9 @@ class BasicAnimation extends Animation{
 
     }
 
+    /**
+     * Creates matrix for the animation movement
+     */
     createAnimationMatrix(){
 
         for(let i = 0; i < this.pieces.length; i++){
@@ -27,6 +30,11 @@ class BasicAnimation extends Animation{
         }
     }
     
+    /**
+	 * Adds moves and toggles the pieces off
+	 * 
+	 * @param {All movements requiring an animation} moves 
+	 */
     addMoves(moves, type){
         super.addMoves(moves);
     
@@ -45,8 +53,8 @@ class BasicAnimation extends Animation{
 	}
 
 	/**
-	 * Update animation fuction requires implementation
-	 * @param {Current time when the function is called} time 
+	 * Update animation fuction
+	 * @param {Elapsed time since the last update} time 
 	 */
 	update(elapsed_time){
         // super.update(elapsed_time);
@@ -57,6 +65,12 @@ class BasicAnimation extends Animation{
         this.updateAnimations(delta);
     }
 
+    /**
+     * Updates the animation matrix in all pieces involved in the animation, based on the elapsed time since
+     * last call.
+     * 
+     * @param {Elapsed time since last update} delta 
+     */
     updateAnimations(delta){
 
         let effective_delta = Math.min(delta, 1.0); // Stops piece from overflowing
@@ -72,18 +86,24 @@ class BasicAnimation extends Animation{
         }
     }
 
+    /**
+     * Displays all pieces involved in the animation
+     */
     displayPieces(){
         for(let i = 0; i < this.pieces.length; i++){
             this.pieces[i].display();
         }
     }
     
+    /**
+	 * Returns Animation time
+	 */
     getSpan() {
         return this.span;
     }
 
 	/**
-	 * Apply animation function requires implementation
+	 * Apply animation function.
 	 */
 	apply(board){
 

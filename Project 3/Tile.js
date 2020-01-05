@@ -29,16 +29,13 @@ class Tile extends CGFobject {
         this.toggle_color = new Toggle(scene, tile_color).getToggleColor();
 		
 		this.highlight_color = new Toggle(scene, tile_color).getHighlightColor();
-		/*
-		// TODO: refactor
-		this.highlight_color = new CGFappearance(this.scene);
-		this.highlight_color.setAmbient(1.0, 0.84, 0.0, 1);
-		this.highlight_color.setDiffuse(1.0, 0.84, 0.0, 1);
-		this.highlight_color.setSpecular(0.0, 0.84, 0.0, 1);
-		this.highlight_color.setShininess(10);
-		*/
 	}
 
+	/**
+	 * Sets the tile appearence
+	 * 
+	 * @param {Tile appearence} color 
+	 */
 	setColor(color){
 		this.color = color;		
         this.toggle_color = new Toggle(this.scene, color).getToggleColor();
@@ -50,35 +47,63 @@ class Tile extends CGFobject {
 
     }
 
+	/**
+	 * Add pointer to the given Piece object
+	 * 
+	 * @param {Piece object} piece 
+	 */
     addPiece(piece){
         this.piece = piece;
         this.piece.move(this.row, this.column, this, this.id);
     }
 
+	/**
+	 * Removes the pointer to a Piece
+	 */
     remPiece(){
         this.piece = null;
 	}
 	
+	/**
+	 * Return current highlight state
+	 */
 	isHighlight(){
 		return this.highlight
 	}
 
+	/**
+     * Toggles on the piece
+     */
 	toggle_on(){
         this.toggled = true;
     }
 
+	/**
+     * Toggles off the piece
+     */
     toggle_off(){
         this.toggled = false;
     }
 
+	/**
+     * Inverts current toggle
+     */
     toggle(){
         this.toggled = !this.toggled;
 	}
 	
+	/**
+	 * Sets highlight state to the given one
+	 * 
+	 * @param {Highlight state} bool 
+	 */
 	setHighlight(bool){
 		this.highlight = bool
 	}
 
+	/**
+     * Returns current coordinates
+     */
     getCoords(){
         return [this.column, this.row];
 	}

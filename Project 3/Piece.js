@@ -29,17 +29,23 @@ class Piece extends CGFobject {
         
         this.animation = mat4.create();
         mat4.identity(this.animation);
-
 		
-		// TODO: depois por como parametro e dar para mudar
 		this.selectable = true
-
 	}
 
+    /**
+     * Return piece type.
+     */
 	getType(){
 		return this.type
 	}
 
+    /**
+     * Sets current appearence of the piece.
+     * 
+     * @param {Piece geometry} geometry 
+     * @param {Piece material} material 
+     */
 	setAppearance(geometry, material){
 		this.geometry = geometry;
         this.material = material;
@@ -51,6 +57,14 @@ class Piece extends CGFobject {
 
     }
 
+    /**
+     * Changes current position to the given coordinates and Tile.
+     * 
+     * @param {New row} row 
+     * @param {New column} column 
+     * @param {New tile} Tile 
+     * @param {New id} id 
+     */
     move(row, column, Tile, id){
         this.row = row;
         this.column = column;
@@ -59,26 +73,46 @@ class Piece extends CGFobject {
 		this.id = id
     }
 
+    /**
+     * Toggles on the piece
+     */
     toggle_on(){
         this.toggled = true;
     }
 
+    /**
+     * Toggles off the piece
+     */
     toggle_off(){
         this.toggled = false;
     }
 
+    /**
+     * Inverts current toggle
+     */
     toggle(){
         this.toggled = !this.toggled;
     }
 
+    /**
+     * Returns current coordinates
+     */
     getCoords(){
         return [this.column, this.row];
     }
     
+    /**
+     * Updates the animation matrix
+     * 
+     * @param {animation matrix} animation 
+     */
     updateAnimation(animation){
         this.animation = animation;
     }
 
+    /**
+     * Resets position to starting position
+     */
     reset(){
         this.row = this.starting_row;
 		this.column = this.starting_column;
@@ -87,7 +121,6 @@ class Piece extends CGFobject {
     display(){
 		if (this.selectable)
 			this.scene.registerForPick(this.id, this)
-//			this.scene.registerForPick(this.id, this.toggle.bind(this))
 			
         this.scene.pushMatrix();
         (this.toggled ? this.toggle_color.apply() : this.material.apply());

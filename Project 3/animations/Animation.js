@@ -9,6 +9,11 @@ class Animation {
 		this.scene = scene;
 	}
 
+	/**
+	 * Adds moves and toggles the pieces off
+	 * 
+	 * @param {All movements requiring an animation} moves 
+	 */
 	addMoves(moves){
 		this.moves = moves;
 
@@ -17,19 +22,22 @@ class Animation {
 		}
 	}
 
+	/**
+	 * Returns Animation time
+	 */
 	getSpan() {
 		return 0;
 	}
 
 	/**
-	 * Update animation fuction requires implementation
-	 * @param {Current time when the function is called} time 
+	 * Update animation fuction
+	 * @param {Elapsed time since the last update} time 
 	 */
 	update(elapsed_time){
 	}
 
 	/**
-	 * Apply animation function requires implementation
+	 * Apply animation function.
 	 */
 	apply(){
 

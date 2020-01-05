@@ -1,12 +1,9 @@
 /**
- * Piece
+ * Checker
  * @constructor
  * @param {Reference to MyScene object} scene
- * @param {Board row where the tile is} row 
- * @param {Board column where the tile is} column
- * @param {RGB color of the tile} 
  */
-class Checker extends CGFobject {
+class Checker extends Geometry {
 
 	constructor(scene) {
         super(scene);
@@ -15,11 +12,15 @@ class Checker extends CGFobject {
         this.circle = new MyCircle(this.scene, 50, 0.35);
     }
 
-    // Doesn nothing: Texture coordinates of NURB objects can't be changed
+    // Does nothing: Texture coordinates of NURB objects can't be changed
     updateTexCoords(lengthS, lengthT){
 
     }
 
+    /**
+     * 
+     * @param {Duration of the animation} span 
+     */
     getAnimation(span){
         return new BasicAnimation(this.scene, span)
     }
