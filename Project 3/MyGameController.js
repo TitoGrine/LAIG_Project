@@ -42,7 +42,7 @@ class MyGameController {
 	
 		fontSpecs = Object.freeze({
 			x: -0.98,
-			y: -0.68,
+			y: -0.58,
 			height: 0.09,
 			width: 0.045,
 			texture: new CGFtexture(this.scene, "scenes/images/font.png"),
@@ -195,6 +195,7 @@ class MyGameController {
 				}
 				else{
 					this.misClicks++
+					this.clock.error()
 					if(this.misClicks == 3)
 						this.nextState(-1)
 				}
@@ -220,6 +221,7 @@ class MyGameController {
 				}
 				else{
 					this.misClicks++
+					this.clock.error()
 					if(this.misClicks == 3)
 						this.nextState(-1)
 				}
@@ -244,6 +246,7 @@ class MyGameController {
 	// TODO: para já
 	nextPlayer(){
 		this.currPlayer = (this.currPlayer + 1) % 2
+		this.score.highlightPlayer(this.currPlayer)
 	}
 	
 	// // TODO: para já
@@ -442,7 +445,8 @@ class MyGameController {
 				this.prevState = this.currState
 				// Default
 				await this.prologInterface.initializeBoard(this.dimensions.rows, this.dimensions.columns)
-				this.gameMode2array()				
+				this.gameMode2array()
+				this.score.highlightPlayer()	
 				break;
 			case states.CHOOSE_PIECE:
 				this.prevState = this.currState
@@ -527,6 +531,7 @@ class MyGameController {
 				break;
 			case states.END:
 				this.clock.stop()
+				this.score.highlightPlayer(3)
 				console.log("Game End")
 				// let points0 = await this.prologInterface.getPlayerPoints(0)
 				// let points1 = await this.prologInterface.getPlayerPoints(1)
@@ -569,6 +574,7 @@ class MyGameController {
 			case states.LOAD:
 				this.clock.pause()
 				if(this.prevState == states.MENU){
+					this.score.highlightPlayer(this.currPlayer)
 					this.board.makeBoardSurface(this.prologInterface.getBoard())
 					// this.savedBoard = this.board.saveBoard()
 					this.score.askForPoints()
