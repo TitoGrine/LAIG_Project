@@ -195,6 +195,7 @@ class MyGameController {
 				}
 				else{
 					this.misClicks++
+					this.clock.error()
 					if(this.misClicks == 3)
 						this.nextState(-1)
 				}
@@ -220,6 +221,7 @@ class MyGameController {
 				}
 				else{
 					this.misClicks++
+					this.clock.error()
 					if(this.misClicks == 3)
 						this.nextState(-1)
 				}

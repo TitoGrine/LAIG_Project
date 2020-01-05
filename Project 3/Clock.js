@@ -75,6 +75,15 @@ class Clock extends CGFobject{
 	updateTexCoords(lengthS, lengthT){
 
 	}
+
+	error() {
+		this.font.setColor([245/255, 66/255, 66/255, 1.0])
+
+        
+        setTimeout(() => {
+			this.font.setColor([0.0, 0.0, 0.0, 1.0])
+        }, 200);
+    }
 	
 	display(){
 		if(this.initialTime < 0)
