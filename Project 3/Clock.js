@@ -24,8 +24,12 @@ class Clock extends CGFobject{
 		this.height = font.height
 		this.width = font.width
 
-		this.font = new MyFont(scene, "TIMER: ", font.texture,this.x, this.y - 2 * this.height, this.width, this.height, true)
+		this.font = new MyFont(scene, "TIMER:    ", font.texture,this.x, this.y - 3 * this.height, this.width, this.height, true)
 
+	}
+
+	getInitialTime(){
+		return this.initialTime
 	}
 
 	getCurrTime(){
@@ -75,13 +79,15 @@ class Clock extends CGFobject{
 	display(){
 		if(this.initialTime < 0)
 			return
-		// TODO: fazer
-		this.scene.pushMatrix()
-		this.scene.translate(0, -2, 0)
-		this.font.setString("TIMER: " + this.getCurrTime())
-		this.font.display()
-		this.scene.popMatrix()
 
-		// console.log("Curr Time: " + this.getCurrTime())
+		let time = this.getCurrTime()
+		if(time < 10)
+			this.font.setString("Time Left: 0" + time)
+		else
+			this.font.setString("Time Left: " + time)
+
+
+		this.font.display()
+		
 	}
 }
