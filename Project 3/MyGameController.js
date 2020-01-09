@@ -74,6 +74,10 @@ class MyGameController {
 		this.firstTime = true
 	}
 
+
+	/**
+	 * Init game controller menus and labels
+	 */
 	init(){
 		
 		if(this.firstTime) {
@@ -90,6 +94,10 @@ class MyGameController {
 		this.nextState(null)
 	}
 
+	/**
+	 * Change theme scene
+	 * @param {scene} theme 
+	 */
 	changeTheme(theme){
 		this.clock.pause()
 		this.curr_time = 0
@@ -102,15 +110,24 @@ class MyGameController {
 
 	}
 
+	/**
+	 * Set board
+	 */
 	setBoard(){
 		// TODO: mudar
 		this.board = this.theme.components['board'].component.children[0]
 	}
 
+	/**
+	 * Get main menu
+	 */
 	getMenu(){
 		return this.theme.components['menu_controller'].component.children[0]
 	}
 
+	/**
+	 * Set Scene menu
+	 */
 	setSceneMenu(){
 		this.sceneMenus = []
 		let sceneMenu = this.theme.components['menu_scene1'].component.children[0]
@@ -126,6 +143,9 @@ class MyGameController {
 		}
 	}
 
+	/**
+	 * Set Labels
+	 */
 	setLabels(){
 		this.undoLabels = []
 		let undosChildren = this.theme.components['undos'].component.children
@@ -152,20 +172,37 @@ class MyGameController {
 		}
 	}
 
+	/**
+	 * Enable / Disable Undo Selectable
+	 * @param {} bool 
+	 */
 	setUndosSelectable(bool){
 		for(let i = 0; i < this.undoLabels.length; i++)
 			this.undoLabels[i].setSelectable(bool)
 	}
 
+	/**
+	 * Enable / Disable Scene Menu Selectable
+	 * @param {*} bool 
+	 */
 	setSceneMenuSelectable(bool){
 		for(let i = 0; i < this.sceneMenus.length; i++)
 			this.sceneMenus[i].setSelectable(bool)
 	}
 
+	/**
+	 * Calculate pos
+	 * @param {*} param0 
+	 */
 	calculatePos([column, row]){
         return row * (this.columns + 2) + column;
     }
 
+	/**
+	 * Manage Pickin
+	 * @param {*} mode 
+	 * @param {*} results 
+	 */
 	managePick(mode, results){
 		if (mode == false /* && some other game conditions */) {
 			if (results != null && results.length > 0) {
@@ -187,6 +224,7 @@ class MyGameController {
 			}
 		}
 	}
+
 
 	onObjectSelected(obj, id) {
 		if(obj instanceof Piece) {
@@ -245,13 +283,18 @@ class MyGameController {
 		}
 	}
 
-	// TODO: para já
+	/**
+	 * Next Player
+	 */
 	nextPlayer(){
 		this.currPlayer = (this.currPlayer + 1) % 2
 		this.score.highlightPlayer(this.currPlayer)
 	}
 	
-	// // TODO: para já
+	/**
+	 * Next Player procediment
+	 * @param {*} promise 
+	 */
 	async nextPlayerProc(promise){
 		if(this.currState == states.MENU){
 			this.restart()
@@ -303,6 +346,9 @@ class MyGameController {
 		}
 	}
 
+	/**
+	 * Undo last play
+	 */
 	undo(){
 		if(!this.gameSequence.isEmpty() && mode.BvB != this.gameMode){
 			this.prevState = this.currState
@@ -311,6 +357,9 @@ class MyGameController {
 		}
 	}
 
+	/**
+	 * Restart to menu
+	 */
 	restart(){
 		this.currPlayer = 0
 		this.numPasses = 0
@@ -329,6 +378,9 @@ class MyGameController {
 		this.nextState(null)
 	}
 
+	/**
+	 * Player out of time
+	 */
 	playerTimeout(){
 		this.scene.setPickEnabled(false)
 		console.log("End of turn: next player")
@@ -336,6 +388,10 @@ class MyGameController {
 		this.nextPlayerProc()
 	}
 
+	/**
+	 * Reset Highlights
+	 * @param {*} prev 
+	 */
 	resetHighlights(prev){
 		this.highlightPossible(false)
 		if ((prev ? this.prevState : this.currState)==states.CHOOSE_FINAL){
@@ -345,6 +401,10 @@ class MyGameController {
 		}
 	}
 
+	/**
+	 * Start Film
+	 * @param {S} interrupt 
+	 */
 	startFilm(interrupt = false) {
 		
 		if(this.currState == states.MOVE || this.currState == states.FILM){
@@ -366,6 +426,9 @@ class MyGameController {
 		this.nextState(null)
 	}
 	
+	/**
+	 * End Film
+	 */
 	endFilm() {
 		console.log('Queue')
 		this.replaying = false
@@ -396,6 +459,10 @@ class MyGameController {
 			this.clock.update(elapsed_time)
 	}
 
+	/**
+	 * Highlight possible moves
+	 * @param {*} set 
+	 */
 	highlightPossible(set){
 		if(!set)
 			for(let move of this.moveSet){
@@ -422,6 +489,9 @@ class MyGameController {
 		this.board.setHighlight(set)
 	}
 
+	/**
+	 * Get initial position
+	 */
 	getInitialPos(){
 		this.moveSet.clear()
 		for(let i = 0; i < this.possMoves.length; i++){
@@ -430,6 +500,9 @@ class MyGameController {
 		}
 	}
 
+	/**
+	 * Game mode to player array
+	 */
 	gameMode2array(){
 		switch (this.gameMode) {
 			case mode.PvP:
@@ -447,6 +520,10 @@ class MyGameController {
 		}
 	}
 
+	/**
+	 * Next State
+	 * @param {*} position 
+	 */
 	async nextState(position){
 
 		switch (this.currState) {
