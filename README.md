@@ -17,6 +17,6 @@ Project for LAIG (Computer Graphics - 3rd year of the Integrated Master Degree i
 
 > **Second Assignment:** 20.0 (40%)
 
-> **Third Assignment:** ? (35%)
+> **Third Assignment:** 19.3 (35%)
 
-**Project Grade:** ?
+**Project Grade:** 19.7
